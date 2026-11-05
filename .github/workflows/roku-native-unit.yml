@@ -19,7 +19,11 @@ jobs:
           node-version: 24
           cache: pnpm
 
-      - name: Install
+      - name: Install root dependencies
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Install native host dependencies
+        working-directory: roku-native
         run: corepack pnpm install --frozen-lockfile
 
       - name: Unit tests (text layout + animation)
