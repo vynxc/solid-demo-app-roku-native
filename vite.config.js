@@ -138,6 +138,42 @@ const LEGACY_POLYFILL_OPTIONS = {
 if (LEGACY_POLYFILL_OPTIONS === undefined)
   throw new Error(`LEGACY_POLYFILLS=${LEGACY_POLYFILLS}: expected narrow or native`);
 
+/**
+ * `vite --mode offline` serves the same deterministic fixtures as the native
+ * Roku build, for the web-vs-native visual parity harness. It only affects the
+ * API module and the fixture image route; normal dev/production are untouched.
+ */
+const offlineFixturePlugin = {
+  name: "solidtv-offline-fixtures",
+  enforce: "pre",
+  resolveId(source, importer) {
+    if (!importer) return null;
+    const base = path.resolve(path.dirname(importer), source);
+    const index = path.resolve(__dirname, "src/api/index.ts");
+    const candidates = [
+      base,
+      `${base}.ts`,
+      `${base}.tsx`,
+      path.join(base, "index.ts"),
+      path.join(base, "index.tsx")
+    ];
+    return candidates.includes(index) ? path.resolve(__dirname, "src/api/offline-web.ts") : null;
+  },
+  configureServer(server) {
+    const dir = path.resolve(__dirname, "roku-native/pkg/assets/offline");
+    server.middlewares.use("/offline", (req, res, next) => {
+      const rel = decodeURIComponent((req.url || "").split("?")[0]);
+      const file = path.resolve(dir, "." + rel);
+      if (!file.startsWith(dir + path.sep)) return next();
+      fs.readFile(file, (err, data) => {
+        if (err) return next();
+        res.setHeader("Content-Type", "image/png");
+        res.end(data);
+      });
+    });
+  }
+};
+
 export default defineConfig(({ mode }) => ({
   define: {
     __DEV__: mode !== "production",
@@ -145,6 +181,7 @@ export default defineConfig(({ mode }) => ({
     LIGHTNING_DOM_RENDERING: true
   },
   plugins: [
+    ...(mode === "offline" ? [offlineFixturePlugin] : []),
     hexColorTransform({
       include: ["src/**/*.{ts,tsx,js,jsx}"]
     }),

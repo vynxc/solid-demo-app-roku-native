@@ -68,9 +68,10 @@ export class SceneGraphRenderer extends Events {
       text: 'perf: waiting', contain: 'width',
     }, undefined, true);
     this.perfLabel.parent = this.perfBox;
+    const initialRoute = (globalThis as any).location?.hash || '';
     this.routeLabel = new RokuNode(this, {
       w: 320, h: 26, x: 0, y: 35, fontSize: 12, color: 0xffffffff,
-      text: 'route ?', contain: 'width',
+      text: 'route ' + (initialRoute || '?'), contain: 'width',
     }, undefined, true);
     this.routeLabel.parent = this.perfBox;
     (globalThis as any).__rokuRenderer = this;
@@ -185,7 +186,18 @@ export class SceneGraphRenderer extends Events {
     // flush() or from an animation tick. Counting only flush() made the FPS
     // panel under-report animations, which update through the ticker.
     this.frameCount++;
+    // Large scenes can produce hundreds of dirty nodes in one tick (route
+    // swaps, virtualized rows, font reflow). Never hold the UI thread for a
+    // whole frame: write for at most flushBudgetMs, then requeue the rest.
+    const budget = Math.max(1, Number(this.settings?.flushBudgetMs ?? 8));
     for (let i = 0; i < nodes.length; i++) {
+      if (i > 0 && nowMs() - start >= budget) {
+        for (let j = i; j < nodes.length; j++) {
+          if (!nodes[j].destroyed) this.dirty.add(nodes[j]);
+        }
+        this.scheduleFlush();
+        break;
+      }
       const node = nodes[i];
       if (node.destroyed) continue;
       try {

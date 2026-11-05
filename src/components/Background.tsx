@@ -37,7 +37,10 @@ export default function Background() {
       return;
     }
 
-    if (typeof img !== "string") {
+    // Solid colors are passed as numbers by some pages and as CSS strings
+    // by others (setGlobalBackground("#333")). Both mean a solid backdrop:
+    // load the color directly and hide the image-only hero mask.
+    if (typeof img !== "string" || /^#([0-9a-fA-F]{3,8})$/.test(img)) {
       bg1.color = img;
       bg1.src = "";
       bg1.alpha = 1;

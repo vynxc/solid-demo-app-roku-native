@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T12:45:58.536Z",
+  "generatedAt": "2026-11-05T18:46:39.287Z",
   "device": "<ROKU_IP>",
   "routes": [
     {
@@ -13,8 +13,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 10871,
+      "fps": 1,
+      "elapsed": 9501,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -33,8 +33,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 10098,
+      "fps": 1,
+      "elapsed": 9352,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -53,8 +53,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9941,
+      "fps": 1,
+      "elapsed": 9365,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -73,8 +73,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9909,
+      "fps": 1,
+      "elapsed": 9377,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -93,8 +93,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 7,
-      "elapsed": 10528,
+      "fps": 1,
+      "elapsed": 9456,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -119,8 +119,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 18,
-      "elapsed": 12302,
+      "fps": 1,
+      "elapsed": 10589,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -145,8 +145,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 10463,
+      "fps": 1,
+      "elapsed": 9410,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -170,8 +170,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 23,
-      "elapsed": 9536,
+      "fps": 1,
+      "elapsed": 9386,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -191,8 +191,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 30,
-      "elapsed": 10209,
+      "fps": 1,
+      "elapsed": 9465,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -211,15 +211,15 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 10011,
+      "fps": 1,
+      "elapsed": 9436,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "auto ",
         "edge ",
         "Ocean Signal 1",
-        "The Last Observatory 2",
+        "The Last\nObservatory 2",
         "Northern Lights 3",
         "Paper Planets 4",
         "Quiet Orbit 5",
@@ -231,19 +231,20 @@
       "route": "#/destroy",
       "ok": true,
       "routeSeen": true,
-      "pageLabelCount": 0,
+      "pageLabelCount": 2,
       "missing": [],
       "missingColors": [],
-      "mean": 0.0727719,
-      "std": 0.0752206,
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 16146,
+      "fps": 1,
+      "elapsed": 9378,
       "warnings": [],
       "failures": [],
-      "sampleLabels": []
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results."
+      ]
     },
     {
       "path": "/grid",
@@ -253,11 +254,11 @@
       "pageLabelCount": 24,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 7,
-      "elapsed": 10375,
+      "fps": 1,
+      "elapsed": 9373,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -279,13 +280,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.141823,
-      "std": 0.074885,
+      "mean": 0.141847,
+      "std": 0.0748581,
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 16501,
+      "fps": 1,
+      "elapsed": 11066,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -298,11 +299,11 @@
       "pageLabelCount": 6,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 10391,
+      "fps": 1,
+      "elapsed": 9337,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -325,8 +326,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9397,
+      "fps": 1,
+      "elapsed": 9369,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -341,11 +342,11 @@
       "pageLabelCount": 53,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 9987,
+      "fps": 1,
+      "elapsed": 9398,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -367,11 +368,11 @@
       "pageLabelCount": 11,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9465,
+      "fps": 1,
+      "elapsed": 9382,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -393,11 +394,11 @@
       "pageLabelCount": 9,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 9538,
+      "fps": 1,
+      "elapsed": 9391,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -422,8 +423,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 10037,
+      "fps": 1,
+      "elapsed": 9371,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -448,14 +449,14 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 43,
-      "elapsed": 9383,
+      "fps": 63,
+      "elapsed": 9372,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Countdown Timer",
         "Uses the radialProgress shader. The ring shrinks smoothly and loops every 10 seconds.",
-        "9"
+        "7"
       ]
     },
     {
@@ -469,8 +470,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9594,
+      "fps": 1,
+      "elapsed": 9386,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -491,11 +492,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 22,
-      "elapsed": 9911,
+      "fps": 29,
+      "elapsed": 9414,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -510,11 +511,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9433,
+      "fps": 1,
+      "elapsed": 9378,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -531,13 +532,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.0763529,
-      "std": 0.0774081,
+      "mean": 0.195397,
+      "std": 0.0376282,
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 16629,
+      "fps": 1,
+      "elapsed": 11087,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -550,14 +551,14 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
+      "mean": 0.213127,
+      "std": 0.171063,
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 15,
-      "elapsed": 29369,
-      "warnings": [
-        "capture unavailable: rk ETIMEDOUT"
-      ],
+      "fps": 64,
+      "elapsed": 11087,
+      "warnings": [],
       "failures": [],
       "sampleLabels": []
     },
@@ -572,8 +573,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 6,
-      "elapsed": 9464,
+      "fps": 11,
+      "elapsed": 9363,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -589,14 +590,14 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "mean": 0.169491,
+      "std": 0.0679776,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 28496,
-      "warnings": [
-        "capture unavailable: rk ETIMEDOUT"
-      ],
+      "fps": 1,
+      "elapsed": 11097,
+      "warnings": [],
       "failures": [],
       "sampleLabels": []
     },
@@ -611,8 +612,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9513,
+      "fps": 1,
+      "elapsed": 9351,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -627,14 +628,14 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
+      "mean": 0.420057,
+      "std": 0.21595,
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 28769,
-      "warnings": [
-        "capture unavailable: rk ETIMEDOUT"
-      ],
+      "fps": 1,
+      "elapsed": 11113,
+      "warnings": [],
       "failures": [],
       "sampleLabels": []
     },
@@ -649,8 +650,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 10052,
+      "fps": 1,
+      "elapsed": 9359,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -675,8 +676,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 42,
-      "elapsed": 10267,
+      "fps": 59,
+      "elapsed": 9388,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -697,14 +698,14 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
+      "mean": 0.00442692,
+      "std": 0.0284799,
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 44,
-      "elapsed": 27106,
-      "warnings": [
-        "capture unavailable: rk ETIMEDOUT"
-      ],
+      "fps": 53,
+      "elapsed": 11101,
+      "warnings": [],
       "failures": [],
       "sampleLabels": []
     },
@@ -716,11 +717,11 @@
       "pageLabelCount": 8,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 10087,
+      "fps": 1,
+      "elapsed": 9368,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -745,8 +746,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 26,
-      "elapsed": 9993,
+      "fps": 1,
+      "elapsed": 9388,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -763,11 +764,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9900,
+      "fps": 1,
+      "elapsed": 9359,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -786,7 +787,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 2,
-      "elapsed": 9456,
+      "elapsed": 9388,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -804,8 +805,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9431,
+      "fps": 1,
+      "elapsed": 9395,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -825,8 +826,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 7,
-      "elapsed": 10325,
+      "fps": 2,
+      "elapsed": 9424,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -845,19 +846,19 @@
       "route": "#/keepalive",
       "ok": true,
       "routeSeen": true,
-      "pageLabelCount": 0,
+      "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 13,
-      "elapsed": 27015,
-      "warnings": [
-        "capture unavailable: rk ETIMEDOUT"
-      ],
+      "fps": 18,
+      "elapsed": 9373,
+      "warnings": [],
       "failures": [],
-      "sampleLabels": []
+      "sampleLabels": [
+        "two"
+      ]
     },
     {
       "path": "/suspense",
@@ -870,8 +871,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 24,
-      "elapsed": 9429,
+      "fps": 1,
+      "elapsed": 9383,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -889,8 +890,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 14,
-      "elapsed": 9431,
+      "fps": 1,
+      "elapsed": 9372,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -912,11 +913,11 @@
       "pageLabelCount": 36,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 27,
-      "elapsed": 9528,
+      "fps": 1,
+      "elapsed": 9379,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -941,8 +942,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9368,
+      "fps": 1,
+      "elapsed": 9371,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -959,11 +960,11 @@
       "pageLabelCount": 12,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 10053,
+      "fps": 1,
+      "elapsed": 9382,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -988,8 +989,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 9502,
+      "fps": 1,
+      "elapsed": 9374,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1011,11 +1012,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 7,
-      "elapsed": 9928,
+      "fps": 2,
+      "elapsed": 9378,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1036,11 +1037,11 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 11003,
+      "elapsed": 10477,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loading... 0/40"
+        "Loaded in 173.66ms"
       ]
     },
     {
@@ -1051,15 +1052,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10489,
+      "elapsed": 10472,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loading... 0/4"
+        "Loaded in 143.69ms"
       ]
     },
     {
@@ -1070,15 +1071,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10481,
+      "elapsed": 10483,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loading... 0/11"
+        "Loaded in 155.33ms"
       ]
     },
     {
@@ -1089,15 +1090,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10484,
+      "elapsed": 10466,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loading... 0/25"
+        "Loaded in 169.67ms"
       ]
     },
     {
@@ -1111,8 +1112,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 10137,
+      "fps": 1,
+      "elapsed": 9452,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1137,8 +1138,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 3,
-      "elapsed": 10522,
+      "fps": 1,
+      "elapsed": 9462,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1164,7 +1165,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 0,
-      "elapsed": 11790,
+      "elapsed": 10530,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1172,9 +1173,9 @@
         "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
         "Popular Movies",
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records are not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results.",
         "The Last Observatory 2",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records are not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results.",
         "Best Comedy movies"
       ]
     },
@@ -1186,11 +1187,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9443,
+      "elapsed": 9404,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1211,9 +1212,11 @@
       "fps": 0,
       "player": {
         "state": "play",
-        "error": "false"
+        "error": "false",
+        "position": null,
+        "duration": null
       },
-      "elapsed": 10576,
+      "elapsed": 10478,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1222,8 +1225,8 @@
         "0:00",
         "LIVE",
         "Loading",
-        "7:44 am",
-        "flush 0.46ms · head 2186 · upd 1/s",
+        "1:44 pm",
+        "flush 0.43ms · head 2315 · upd 1/s",
         "route #/player/1"
       ]
     },
@@ -1235,11 +1238,11 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9706,
+      "elapsed": 9634,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -1254,7 +1257,7 @@
         "before": "Ocean Signal 1",
         "after": "Ocean Signal 1"
       },
-      "elapsed": 13173
+      "elapsed": 11993
     },
     {
       "name": "Examples portal → tile → Back",
@@ -1263,7 +1266,7 @@
       "detail": {
         "route": "#/textposter"
       },
-      "elapsed": 13932
+      "elapsed": 12458
     },
     {
       "name": "Login keyboard renders",
@@ -1272,47 +1275,95 @@
       "detail": {
         "labels": 3
       },
-      "elapsed": 9391
+      "elapsed": 8420
     },
     {
       "name": "Infinite list D-pad stress",
       "ok": true,
       "failures": [],
       "detail": {
-        "fps": 69,
-        "avg": 49,
-        "min": 2,
-        "max": 70,
+        "fps": 9,
+        "avg": 8,
+        "min": 1,
+        "max": 15,
         "memUsed": 43.55,
         "critical": 268,
         "textures": 0,
         "onScreen": 0,
-        "quads": 118
+        "quads": 94
       },
-      "elapsed": 12798
+      "elapsed": 11720
     },
     {
-      "name": "Player route / media state",
+      "name": "Browse horizontal scroll changes mounted posters",
       "ok": true,
       "failures": [],
       "detail": {
-        "state": {
+        "before": 15,
+        "after": 16,
+        "changed": true
+      },
+      "elapsed": 14553
+    },
+    {
+      "name": "Held Right auto-repeats and scrolls",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "before": 15,
+        "after": 16,
+        "changed": true
+      },
+      "elapsed": 12416
+    },
+    {
+      "name": "Player pause/play/seek state transitions",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "initial": {
           "state": "play",
-          "error": "false"
+          "error": "false",
+          "position": null,
+          "duration": null
+        },
+        "paused": {
+          "state": "pause",
+          "error": "false",
+          "position": null,
+          "duration": null
+        },
+        "playing": {
+          "state": "play",
+          "error": "false",
+          "position": null,
+          "duration": null
         },
         "after": {
           "state": "play",
-          "error": "false"
+          "error": "false",
+          "position": null,
+          "duration": null
         }
       },
-      "elapsed": 13082
+      "elapsed": 15077
+    },
+    {
+      "name": "Home exits and relaunch recovers",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "exited": true,
+        "relaunched": true
+      },
+      "elapsed": 16901
     }
   ],
   "summary": {
     "routes": 56,
     "passed": 56,
     "failed": 0,
-    "interactions": 5,
+    "interactions": 8,
     "interactionsFailed": 0
   }
 }

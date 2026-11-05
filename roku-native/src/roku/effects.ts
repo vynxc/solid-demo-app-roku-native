@@ -13,8 +13,13 @@ export function toRokuColor(value: any, fallback = '0x00000000'): string {
   if (typeof value === 'string') {
     if (value.startsWith('0x') || value.startsWith('0X')) return value;
     if (value.startsWith('#')) {
-      const hex = value.slice(1);
-      return '0x' + hex.padEnd(8, 'f').toUpperCase();
+      let hex = value.slice(1);
+      // CSS shorthand: #rgb and #rgba. Expanding here keeps every caller
+      // (color, colorTop, src-as-color) consistent.
+      if (hex.length === 3) hex = hex.split('').map((c) => c + c).join('') + 'ff';
+      else if (hex.length === 4) hex = hex.split('').map((c) => c + c).join('');
+      else hex = hex.padEnd(8, 'f');
+      return '0x' + hex.toUpperCase();
     }
     return fallback;
   }

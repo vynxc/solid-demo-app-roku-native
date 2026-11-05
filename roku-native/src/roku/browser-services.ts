@@ -46,6 +46,54 @@ class SimpleTarget {
   }
 }
 
+// Roku OS 16's JS engine does not provide Array.prototype.flat/flatMap.
+// Two shared demo pages (Infinite and TMDBGrid) build their rows with
+// `.flat()`, so without this compatibility shim their content is silently
+// missing. Implement with plain loops: the same engine also has the
+// per-iteration-binding issue that requires forEach in the framework.
+function installArrayFlat(): void {
+  const proto = Array.prototype as any;
+  if (typeof proto.flat !== 'function') {
+    Object.defineProperty(proto, 'flat', {
+      configurable: true,
+      writable: true,
+      value: function flat(depth: number = 1) {
+        const level = Math.floor(depth);
+        if (!(level > 0)) return Array.prototype.slice.call(this);
+        const out: any[] = [];
+        const walk = (source: any, remaining: number) => {
+          for (let i = 0; i < source.length; i++) {
+            const value = source[i];
+            if (remaining > 0 && Array.isArray(value)) walk(value, remaining - 1);
+            else out.push(value);
+          }
+        };
+        walk(this, level);
+        return out;
+      },
+    });
+  }
+  if (typeof proto.flatMap !== 'function') {
+    Object.defineProperty(proto, 'flatMap', {
+      configurable: true,
+      writable: true,
+      value: function flatMap(fn: (value: any, index: number, array: any[]) => any, thisArg?: any) {
+        const mapped: any[] = [];
+        for (let i = 0; i < this.length; i++) {
+          const value = fn.call(thisArg, this[i], i, this);
+          if (Array.isArray(value)) {
+            for (let j = 0; j < value.length; j++) mapped.push(value[j]);
+          } else {
+            mapped.push(value);
+          }
+        }
+        return mapped;
+      },
+    });
+  }
+}
+installArrayFlat();
+
 export class RokEvent {
   type: string;
   bubbles = false;
@@ -285,7 +333,10 @@ export function dispatchNativeKey(key: string, press: boolean): boolean {
   // The focus manager, the demo's debug label and useMouse all listen on
   // document. Dispatching once avoids double-handling.
   const doc = (globalThis as any).document;
-  lastHandled = doc.dispatchEvent(event) === true;
+  doc.dispatchEvent(event);
+  // The focus manager calls preventDefault() for keys it handled; an
+  // unhandled Back therefore returns false and reaches the Scene exit path.
+  lastHandled = event.defaultPrevented === true;
   // An unhandled Back should reach the Scene, which is configured to exit.
   return lastHandled;
 }

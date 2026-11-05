@@ -7,6 +7,22 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 
 ![native Browse with live TMDB data and the corrected FPS panel](roku-native/evidence/final-browse-panel.png)
 
+## Current verification
+
+| Suite | Result |
+|---|---|
+| Feature matrix | **56/56 routes, 8/8 interactions** (including held-key repeat, scroll, player transitions, Home recovery) |
+| Unit tests | **55/55** |
+| 100-cycle stress | **100/100**, memory 46.9–77.05 MB, textures 0–42 |
+| Navigation performance | Browse flush p95 **2.67 ms**, 57 updates/s; ComplexFlex p95 **2.31 ms** |
+| Launch | dev-channel median/p95 **~7.6 s** (release packaging is still a target) |
+| Task thread | `workerTest=1` returns **`worker: worker-ok`** on the TCL OS 16 device |
+| Visual parity | **39/39 comparable static routes pass**; 9 documented known gaps, 5 dynamic, 1 external, 2 capability |
+
+Run everything from `roku-native/` with `ROKU_DEV_CONFIG_PATH` set to the device
+store; the web half of the visual matrix needs
+`vite --host 127.0.0.1 --port 5173 --mode offline` and `CHROME_BIN`.
+
 ## What works
 
 - Browse, Movies/TV filters, Examples portal, Details, nested Text page and
@@ -24,7 +40,7 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 ## Repository layout
 
 - `src/` — the shared demo UI (pages, components, styles, theme); unchanged
-  apart from three small compatibility fixes.
+  apart from the three pre-existing working-tree fixes.
 - `roku-native/` — the native host:
   - `src/components/my-first-app.tsx` — host entry; installs browser services,
     loads fonts, sets the renderer factory, imports the shared app, wires keys.
@@ -139,6 +155,21 @@ flush 0.63ms · head 1578 · upd 29/s
 `ROKU_PERF` logs the same in builds that keep `console`. The panel is not
 panel refresh — the compositor refreshes independently.
 
+## Roku architecture and APIs
+
+The Roku-specific layer is documented in
+[`roku-native/ARCHITECTURE.md`](roku-native/ARCHITECTURE.md):
+
+- **Video:** `src/roku/video.ts` is a typed SceneGraph Video/ContentNode player
+  with play/pause/seek, media-key mapping, position/duration in seconds and
+  explicit attach/detach.
+- **Background work:** `src/roku/tasks.ts` is a priority, time-sliced
+  TypeScript queue; `WorkerTask.xml`/`.brs` plus `src/roku/worker-task.ts`
+  run a real SceneGraph Task thread for BRS/network work. TypeScript CPU work
+  cannot run inside a Task; use the cooperative queue for that.
+- **Render loop:** a dirty-driven flush with an 8 ms budget so complex screens
+  yield instead of blocking input/animation.
+
 ## Automated tests
 
 The native host exposes a test/deep-link hook: an ECP launch/input
@@ -165,15 +196,27 @@ Normal remote-driven use is unchanged.
     node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50
   ```
   Report: `evidence/stress/stress-report.{json,md}`.
+- **Visual parity matrix** (`test/visual-matrix.mjs`) — starts web in
+  `vite --mode offline` and the native fixture build, captures every route,
+  masks the FPS/perf panel and reports RMSE + changed-pixel percentage. Full
+  frames for failures are in `evidence/visual/failures/`.
+  ```sh
+  # web: vite --host 127.0.0.1 --port 5173 --mode offline
+  CHROME_BIN=... node test/visual-matrix.mjs --device <ROKU_IP>
+  ```
+- **Performance benchmark** (`test/perf-benchmark.mjs`) — launch-time median
+  and p95, navigation flush-time p95, update rate, memory and textures on
+  Browse and ComplexFlex.
+  ```sh
+  node test/perf-benchmark.mjs --device <ROKU_IP>
+  ```
+  Report: `evidence/performance/perf-report.{json,md}`.
 - **Unit tests** (`test/unit/`) — text layout (wrap, ellipsis, line-height,
   vertical alignment, letter spacing) and animation/colour interpolation.
   ```sh
   # from the repository root
   node_modules/.bin/vitest run roku-native/test/unit
   ```
-  CI runs these on every push and pull request
-  (`.github/workflows/roku-native-unit.yml`); the device matrices need a
-  reachable Roku and are run manually/on-device.
 
 Both matrix tools use the deterministic fixture build (no `src/api/key.ts`);
 add a v4 token locally for a live-data run. Screenshots are captured only for

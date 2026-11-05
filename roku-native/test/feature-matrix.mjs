@@ -208,6 +208,8 @@ async function mediaPlayer() {
     return {
       state: (xml.match(/\bstate="([^"]+)"/) || [])[1],
       error: (xml.match(/\berror="([^"]+)"/) || [])[1],
+      position: Number((xml.match(/\bposition="([\d.]+)"/) || [])[1]),
+      duration: Number((xml.match(/\bduration="([\d.]+)"/) || [])[1]),
     };
   } catch {
     return {};
@@ -217,6 +219,23 @@ async function mediaPlayer() {
 async function key(key, wait = 350) {
   await fetch(`${base}/keypress/${key}`, { method: "POST", signal: AbortSignal.timeout(5000) });
   await sleep(wait);
+}
+
+async function holdKey(key, ms = 900) {
+  await fetch(`${base}/keydown/${key}`, { method: "POST", signal: AbortSignal.timeout(5000) });
+  await sleep(ms);
+  await fetch(`${base}/keyup/${key}`, { method: "POST", signal: AbortSignal.timeout(5000) });
+  await sleep(300);
+}
+
+function posterUris(xml) {
+  const out = new Set();
+  const re = /<Poster\b[^>]*\buri="([^"]*)"/g;
+  let m;
+  while ((m = re.exec(xml))) {
+    if (m[1].startsWith("pkg:/assets/")) out.add(m[1]);
+  }
+  return out;
 }
 
 const CAPABILITY = "not available on Roku yet";
@@ -481,15 +500,74 @@ if (!NO_INTERACTIONS) {
     return stats;
   });
 
-  await interaction("Player route / media state", async (fail) => {
+  await interaction("Browse horizontal scroll changes mounted posters", async (fail) => {
+    await launch("/browse/all");
+    await waitRoute("#/browse/all");
+    await sleep(2500);
+    const before = posterUris(await http("/query/app-ui"));
+    for (let i = 0; i < 12; i++) await key("Right", 160);
+    await sleep(1200);
+    const after = posterUris(await http("/query/app-ui"));
+    const changed = [...after].some((uri) => !before.has(uri));
+    if (!changed) fail("no new poster URIs after 12 Right presses");
+    return { before: before.size, after: after.size, changed };
+  });
+
+  await interaction("Held Right auto-repeats and scrolls", async (fail) => {
+    await launch("/browse/all");
+    await waitRoute("#/browse/all");
+    await sleep(2500);
+    const before = posterUris(await http("/query/app-ui"));
+    await holdKey("Right", 1100);
+    const after = posterUris(await http("/query/app-ui"));
+    const changed = [...after].some((uri) => !before.has(uri));
+    if (!changed) fail("held Right did not change the mounted poster set");
+    return { before: before.size, after: after.size, changed };
+  });
+
+  await interaction("Player pause/play/seek state transitions", async (fail) => {
     await launch("/player/1");
     await waitRoute("#/player/1");
-    await sleep(1500);
-    const state = await mediaPlayer();
-    if (!state.state) fail("media player returned no state");
-    for (const k of ["Play", "Pause", "Fwd", "Back"]) await key(k, 600);
+    await sleep(2500);
+    const initial = await mediaPlayer();
+    if (!initial.state) fail("media player returned no state");
+    await key("Pause", 900);
+    const paused = await mediaPlayer();
+    if (initial.state === "play" && paused.state && paused.state !== "pause") {
+      fail(`Pause did not pause (${paused.state})`);
+    }
+    await key("Play", 900);
+    const playing = await mediaPlayer();
+    if (initial.state === "play" && playing.state && playing.state !== "play") {
+      fail(`Play did not resume (${playing.state})`);
+    }
+    const before = (await mediaPlayer()).position;
+    await key("Fwd", 1200);
     const after = await mediaPlayer();
-    return { state, after };
+    if (Number.isFinite(before) && Number.isFinite(after.position) && after.position <= before) {
+      fail(`Fwd did not advance (${before} -> ${after.position})`);
+    }
+    await key("Back", 900);
+    return { initial, paused, playing, after };
+  });
+
+  await interaction("Home exits and relaunch recovers", async (fail) => {
+    await launch("/browse/all");
+    await waitRoute("#/browse/all");
+    await key("Home", 1500);
+    const deadline = Date.now() + 10000;
+    let exited = false;
+    while (Date.now() < deadline) {
+      if (!(await activeApp())) {
+        exited = true;
+        break;
+      }
+      await sleep(400);
+    }
+    if (!exited) fail("Home did not leave the dev app");
+    await launch("/browse/all");
+    await waitRoute("#/browse/all");
+    return { exited, relaunched: true };
   });
 }
 

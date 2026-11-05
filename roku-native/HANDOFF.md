@@ -11,7 +11,7 @@ and native HLS playback have all run on the device.
 
 The latest build passes type checks and is deployed. The largest remaining 1:1
 deltas are now only 1–2 px (see below); the keyboard action keys, nav z-order,
-gradient backdrop, colour transitions and font reflow are fixed. The 50-cycle
+gradient backdrop, colour transitions and font reflow are fixed. The 100-cycle
 Browse → Details → Examples matrix has run without a crash.
 
 Read `VERIFICATION.md` for the evidence matrix and the exact open gaps. This file
@@ -30,38 +30,42 @@ Renderer-specific gaps must be reported, not silently hidden.
 ## Where things are
 
 - Demo app: this repository
+  - branch `feat/roku-rsg2`
   - shared UI: `src/` (pages, components, styles, theme)
-  - native host: `roku-native/`
-- Framework: `vynxc/solid`, branch `feat/roku-rsg2`, commit `d0d07e1`
-  - renderer factory seam in `src/core/lightningInit.ts`
+  - native host: `roku-native/` (untracked)
+- Framework: `vynxc/solid`
+  - branch `feat/roku-rsg2`, commit `cd9fd94`
+  - local change: renderer factory seam in `src/core/lightningInit.ts`
 - SDK: `@roku-sdk/*` 2.19.x
 - Device: TCL 50S435 / C157X, `<ROKU_IP>`, Roku OS 16.0.4, dev mode,
   FHD UI (1920x1080).
-- Device store: the file supplied via `ROKU_DEV_CONFIG_PATH` (not committed;
-  it contains the device address and credentials).
-- `rk` CLI v2.19.0. Put a local `mksquashfs` directory on `PATH` when the host
-  does not provide one.
+- Device store: the file supplied via `ROKU_DEV_CONFIG_PATH` (not committed).
+- `rk` CLI v2.19.0. Local `mksquashfs`:
+  `my-first-app/.roku/os16-test/tools/local/usr/bin/`.
 - `pnpm` via `corepack` v10.17.0 if node_modules must be reinstalled.
 
-## Shared-UI compatibility changes (committed)
+## Uncommitted work that MUST be preserved
 
-- `src/styles.ts`: first import changed to `import type` (build-compat only).
-- `src/pages/Player.tsx`: `onCleanup(() => void destroy())` so playback is
-  torn down when the route leaves.
-- `src/components/Background.tsx`: ignore the initial empty background signal
-  and load the first real backdrop directly. Without this the native app can
-  resolve data before the deferred effect runs and leave a white fallback.
-  Safe for web.
+- `solid-demo-app/src/styles.ts`: first import changed to `import type`.
+- `solid-demo-app/src/pages/Player.tsx`: `onCleanup(() => void destroy())`.
+- `solid-demo-app/src/components/Background.tsx`: ignore the initial empty
+  background signal and load the first real backdrop directly. Without this the
+  native app can resolve data before the deferred effect runs and leave a white
+  fallback. Safe for web.
+- `solid-demo-app/roku-native/` is untracked and contains the whole host app.
 - The framework-side Roku seam is committed in the public fork
   `vynxc/solid`, branch `feat/roku-rsg2` (`d0d07e1`): `setRendererFactory` in
   `src/core/lightningInit.ts` and Roku-safe `.forEach` descriptor loops in
   `src/core/elementNode.ts`. The demo still targets published
   `@solidtv/solid` 1.7.1 and applies equivalent build-time patches in
   `roku-config.ts`, so it builds without a framework checkout.
-- `src/api/key.ts` is gitignored; add one locally for live TMDB captures and
-  never commit it. A **v4 read token** is required (a 32-character v3 key is
-  rejected by Bearer auth). The matrix/stress suite otherwise runs on fixtures.
+- `src/api/index.ts` is restored to the tracked version. `src/api/key.ts` is
+  gitignored; it was used locally for the 1920×1080 live captures and has been
+  removed again. A **v4 read token** is required to recapture; the `TMDB_API_KEY`
+  in a local `.env` is a v3 key and is rejected by the app’s
+  Bearer auth. Never commit a key.
 - Do not disturb sibling Android/V8/Hermes worktrees.
+- The temporary web-baseline TMDB edits have been reverted. Do not commit credentials.
 
 ## Architecture map (native host)
 
@@ -134,7 +138,7 @@ Renderer-specific gaps must be reported, not silently hidden.
   route label, expected markers, memory/texture bounds, and captures only
   failures/visual-only pages; also runs focus restore, portal, Login, Infinite
   list and Player interactions.
-- `stress-matrix.mjs` — 50-cycle Browse → Details → Examples → Browse run with
+- `stress-matrix.mjs` — 100-cycle Browse → Details → Examples → Browse run with
   memory/FPS/texture samples.
 - `unit/` — Vitest tests for text layout and animation/colour interpolation.
   The route and perf labels under the FPS panel are the test/operator readout.
@@ -190,7 +194,7 @@ ROKU_DEV_CONFIG_PATH="/path/to/device-store.json" \
 node_modules/.bin/rk build --local
 ```
 
-Latest: **Type checks passed**, 696,512-byte JS bundle (final fixture/test build).
+Latest: **Type checks passed**, 705,354-byte JS bundle (final fixture/test build).
 
 Deploy the built bundle:
 
@@ -234,7 +238,7 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 
 ## Evidence (latest first)
 
-- `evidence/matrix/matrix-report.md` — **56/56 routes, 5/5 interactions**
+- `evidence/matrix/matrix-report.md` — **56/56 routes, 8/8 interactions**
   on the final 696,512-byte build (route label, markers, SceneGraph
   colours, memory/texture bounds, core interactions).
 - `evidence/stress/stress-report.md` — **50/50 cycles**, memory
@@ -246,7 +250,7 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 - `roku-native/test/unit` — 15 passing text-layout/animation tests.
 - `evidence/live-browse.png` — native Browse with **live TMDB** data
   (Resident Evil backdrop, real poster grid).
-- `evidence/matrix-50-cycles-live.txt` — 50-cycle matrix on the live build.
+- `evidence/matrix-50-cycles-live.txt` — earlier 50-cycle matrix on the live build (historical).
 - `evidence/matrix-50-cycles-offline.txt` — earlier 50-cycle matrix on the
   deterministic fixture build (same navigation/memory plateau).
 - `evidence/vfix-details.png`, `evidence/vfix-nav.png` — Play/Resume, HD/CC
@@ -293,7 +297,7 @@ curl -s http://<ROKU_IP>:8060/query/media-player
    linear-gradient `Effect`; Examples portal background.
 6. **Transparent layout containers** no longer paint implicit white rectangles;
    visual is inserted before children; unknown colour wrappers fall back safely.
-7. **Background first-frame fix** in shared `Background.tsx` (see the compatibility changes above).
+7. **Background first-frame fix** in shared `Background.tsx` (see uncommitted).
 8. **Memory/counters** wired through `roAppMemoryMonitor` and a visual-node walk.
 9. **Web/native flex parity.** Added `VITE_USE_NEW_FLEX=true` to the Roku
    defines. The old engine turned `padding: [0,20]` into `w="NaN0,20"` and
@@ -328,7 +332,7 @@ curl -s http://<ROKU_IP>:8060/query/media-player
     guards to accept 0. A native line underneath shows
     `flush … ms · head … · upd …/s`; `fpsUpdate`/`ROKU_PERF` carry
     `updates`, `avgFlushMs`, `maxFlushMs`, `capacityFps`.
-18. **Automated coverage.** Added the route feature matrix, 50-cycle stress
+18. **Automated coverage.** Added the route feature matrix, 100-cycle stress
     runner and unit tests. A `contentId` launch parameter drives the shared
     router; the matrix verifies 56 routes automatically and only captures
     screenshots for failures/visual-only pages.
@@ -345,15 +349,31 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 22. **Web v2 renderer.** The web baseline now uses `@solidtv/renderer` 2.0.7
     and `@solidtv/solid` 1.7.1, matching the native host; the live Browse
     capture runs at 60 FPS in the reference environment.
+23. **TTF layout metrics retained.** An MSDF advance-table experiment was
+    reverted; TTF `FontMeasure` kept the Examples portal closer to the web.
+24. **Smooth gradients.** Single-axis gradients use one alpha-ramp Poster over
+    a solid base; per-corner/diagonal cases use bands.
+25. **Texture modes + image events.** `textureOptions.resizeMode` contain/cover
+    and Poster `loaded` forwarding, with a cached-image fallback; KTX uses PNG
+    stand-ins and logs the gap.
+26. **SceneGraph Task thread.** `WorkerTask.xml/.brs` + typed
+    `postRokuTask()`; device hook returns `worker: worker-ok`.
+27. **Cooperative scheduler.** Priority, sliced, cancellable TS background
+    jobs in `src/roku/tasks.ts`, with tests.
+28. **8 ms flush budget.** Remaining dirty nodes are requeued rather than
+    blocking a frame on large scenes.
+29. **Visual parity harness.** Web `vite --mode offline` vs native screenshots
+    for every route, with FPS/perf masking and RMSE/changed-pixel reports.
 
 ## Remaining work (priority order)
 
 1. **Automated suite (done, keep running).** `test/feature-matrix.mjs` checks
-   all 56 routes + core interactions; `test/stress-matrix.mjs` runs the
-   50-cycle endurance pass; `test/unit` has 15 tests. Re-run after every
+   all 56 routes + 8 interactions; `test/stress-matrix.mjs` runs the
+   100-cycle endurance pass; `test/unit` has 55 tests; `test/visual-matrix.mjs`
+   and `test/perf-benchmark.mjs` cover parity and performance. Re-run after every
    renderer change. The web v2 dev server/captures pass at 60 FPS, and the
    production build passes (`NODE_OPTIONS=--max-old-space-size=3072`,
-   `✓ built in 3m 2s`) with a placeholder key; CI runs the unit tests and the
+   `✓ built in 30.45 s`) with a placeholder key; CI runs the unit tests and the
    production build.
 2. **Micro-offsets (1:1 target).** Current measured deltas are small:
    - Browse hero title: native 369 px vs web 370 px (1 px).
@@ -369,9 +389,17 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 4. **Web references** now exist for Browse, Examples, Details and Login.
    `web-player-1920.png` is black because headless Chrome (like ECP) has no
    hardware video plane; compare the Player overlay on the TV directly.
-5. **Optional route coverage:** every sub-example page, Firebolt/RendererVersions
-   (intentionally stubbed), device reboot/recovery, live TMDB native data,
-   on-device hardware keyboard text entry.
+5. **Startup performance.** Dev-channel launch is ~7.6 s (release packaging,
+   bundle splitting and font/import overlap are the next targets).
+6. **Task/video APIs.** `WorkerTask` + `postRokuTask()` is verified on device;
+   the BRS command set currently covers echo/sleep/json/fetch. The typed video
+   adapter and cooperative task queue are in `src/roku/`.
+7. **Known visual gaps** (classified by `test/visual-matrix.mjs`): per-corner/
+   diagonal gradients, KTX (PNG fallback), shadows, flex shrink/overflow on
+   ComplexFlex, focus-driven scroll state on Flex/FlexGrow, and the Layout
+   border/margin offset.
+8. **Device matrix:** one TCL 50S435 / OS 16.0.4; 4K/HDR, older OS versions,
+   hardware keyboard text entry and device reboot/recovery remain untested.
 
 ## Known renderer gaps (report, do not hide)
 
@@ -381,8 +409,9 @@ curl -s http://<ROKU_IP>:8060/query/media-player
   is honoured by the native Effect border.
 - Non-circular radial-gradient radii are approximated per axis.
 - A Roku `Label` cannot take an `Effect`; shader text is not drawn.
-- Per-corner colours use a two-stop approximation; combined vertical+horizontal
-  gradients are unsupported.
+- Single-axis gradients use a smooth alpha-ramp Poster; per-corner/diagonal
+  gradients use a banded approximation. The native `Effect` gradient is
+  ignored on this firmware.
 - `SubTexture` crop is implemented for `icons_white.png` / `icons.png`; unknown
   sheets log `ROKU_TEXTURE_GAP` and fall back to scaled.
 - `letterSpacing` is measured but the native Label does not draw extra advance.
@@ -416,7 +445,7 @@ curl -s http://<ROKU_IP>:8060/query/media-player
   every route).
 - Automated suite commands (from `roku-native/`):
   `ROKU_DEV_CONFIG_PATH=... node test/feature-matrix.mjs --device <ROKU_IP>`
-  and `... node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50`.
+  and `... node test/stress-matrix.mjs --device <ROKU_IP> --cycles 100`.
   The reports land in `evidence/matrix/` and `evidence/stress/`.
 - Group transform/clipping/opacity must be written to `dom`, not to the visual
   child; visual-specific props go on the child.
@@ -441,9 +470,9 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 - 50+ cycle matrix with memory/FPS samples, no crash/leak: **passed**
   (`evidence/matrix-50-cycles-live.txt` and
   `matrix-50-cycles-offline.txt`; memory plateaus, textures 49–65).
-- Automated feature matrix across all 56 routes + core interactions: **passed**
-  (`evidence/matrix/matrix-report.md`: 56/56 routes, 5/5 interactions).
-- 50-cycle stress runner + unit tests: **passed**
-  (`evidence/stress/stress-report.md`: 50/50; `roku-native/test/unit`: 15/15).
+- Automated feature matrix across all 56 routes + interactions: **passed**
+  (`evidence/matrix/matrix-report.md`: 56/56 routes, 8/8 interactions).
+- 100-cycle stress runner + unit tests: **passed**
+  (`evidence/stress/stress-report.md`: 100/100, memory 46.9–77.05 MB; `roku-native/test/unit`: 55/55).
 - `VERIFICATION.md` reflects the real result; failed items stay failed until
   they pass.

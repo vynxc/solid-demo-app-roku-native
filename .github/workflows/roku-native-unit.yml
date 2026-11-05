@@ -27,7 +27,7 @@ jobs:
         run: corepack pnpm install --frozen-lockfile
 
       - name: Unit tests (text layout + animation)
-        run: corepack pnpm exec vitest run roku-native/test/unit
+        run: corepack pnpm exec vitest run roku-native/test/unit --pool=threads --maxWorkers=1
 
   web-build:
     runs-on: ubuntu-latest

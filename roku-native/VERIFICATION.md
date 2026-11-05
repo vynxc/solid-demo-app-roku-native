@@ -11,7 +11,7 @@ Web references: 1920x1080 Chrome captures with live data.
 
 - `node_modules/.bin/tsc --noEmit -p tsconfig.json` → **0 host errors**.
 - `rk build --local` (type checks enabled) → **Type checks passed**,
-  696,512-byte program bundle (final fixture/test build).
+  705,354-byte program bundle (final fixture/test build).
 - Deploy: `rk dev --local --no-build --sideload --bump-build --out-dir dist-build`.
 - The Roku build now defines `import.meta.env.VITE_USE_NEW_FLEX = 'true'`, so
   native uses **the same flex engine as the web app** (`flexLayout.ts`, not the
@@ -43,13 +43,16 @@ Web references: 1920x1080 Chrome captures with live data.
 | Playback | ECP `/query/media-player` | HLS `state=play`, position advances, duration 634567 ms |
 | Pause / seek / exit | ECP after Play/Fwd/Back | `pause`, position moved, `close`, details visible |
 | FPS semantics | `evidence/final-browse-panel.png`, `evidence/now-fresh.png` | panel shows actual produced updates (29/s active, MIN 1 idle); native line `flush 0.63ms · head 1578 · upd 29/s` |
-| 50-cycle matrix | `evidence/matrix-50-cycles-live.txt` (live) and `matrix-50-cycles-offline.txt` (fixtures) | no crash; memory plateau; textures 49–65 |
-| Automated feature matrix | `evidence/matrix/matrix-report.md` | **56/56 routes, 5/5 interactions** on the final 696,512-byte build |
+| 100-cycle stress | `evidence/stress/stress-report.md` | **100/100 cycles**, memory 46.9–77.05 MB (plateau), textures 0–42 |
+| Automated feature matrix | `evidence/matrix/matrix-report.md` | **56/56 routes, 8/8 interactions** on the final build |
 | Suspicious visual-only pages | `evidence/suspicious-*.png` | 8 pages whose automated captures timed out were spot-checked: gradients, matrix, focus basics, transitions, focus handling, viewport, keep alive, destroy |
-| Long-run stress | `evidence/stress/stress-report.md` | **50/50 cycles**, memory 46.9–80.4 MB (plateau), textures 0–27 |
-| Unit tests | `roku-native/test/unit` | 15 tests: text layout / line height / letter spacing; animation/colour loops/retarget |
+
+| Unit tests | `roku-native/test/unit` | **55 tests**: text layout, animation, fixtures/error injection, colours, key bridge, video, task queue, WorkerTask |
+| Visual parity matrix | `evidence/visual/visual-report.md` | **39/39 comparable static routes pass**; 9 known gaps, 5 dynamic, 1 external, 2 capability |
+| Performance benchmark | `evidence/performance/perf-report.md` | Browse flush p95 **2.67 ms** / 57 updates/s; ComplexFlex **2.31 ms**; startup p95 **~7.7 s** (dev channel) |
+| Task thread | `workerTest=1` hook | **`worker: worker-ok`** from the scene graph Task thread |
 | Web v2 renderer | `evidence/web-browse-1920-live.png` | `@solidtv/renderer` 2.0.7 / `@solidtv/solid` 1.7.1; live Browse 60 FPS |
-| Web v2 production build | `evidence/web-build-v2.txt` | **pass**, `✓ built in 3m 2s` (placeholder key, 3 GB heap) |
+| Web v2 production build | `evidence/web-build-v2.txt` | **pass**, `✓ built in 30.45 s` (placeholder key, 3 GB heap) |
 | Gap reporting | console `ROKU_EFFECT_GAP shadow`, `ROKU_TEXTURE_GAP`, `ROKU_TEXT_GAP`, `ROKU_COLOR_GAP` | explicit, not silent |
 
 ## 2026-11-05 renderer fixes
@@ -108,10 +111,27 @@ Web references: 1920x1080 Chrome captures with live data.
 13. **Automated coverage.** A `contentId` launch parameter drives the shared
     hash router. `test/feature-matrix.mjs` verifies every route, markers,
     memory bounds and core interactions; `test/stress-matrix.mjs` runs the
-    50-cycle endurance pass; `test/unit` covers text layout and animation.
+    100-cycle endurance pass; `test/unit` covers text layout, animation, fixtures,
+    colours, key bridge, video, task queue and WorkerTask.
 14. **Web v2 renderer.** The web baseline uses `@solidtv/renderer` 2.0.7 and
     `@solidtv/solid` 1.7.1, matching the native host; live Browse runs at
     60 FPS in the reference environment.
+15. **TTF layout metrics retained.** An MSDF advance-table experiment was
+    evaluated and reverted; TTF `FontMeasure` kept the Examples portal closer
+    to the web and the text pages within their allowances.
+16. **Smooth single-axis gradients.** One alpha-ramp Poster over a solid base
+    replaces hundreds of band rectangles; per-corner/diagonal cases remain
+    banded approximations.
+17. **Texture modes and image events.** `textureOptions.resizeMode`
+    contain/cover is honored; Poster load status is forwarded as the shared
+    `loaded` event, with a bounded fallback for cached images. KTX uses PNG
+    stand-ins and reports the gap.
+18. **True background Task.** `WorkerTask.xml/.brs` plus
+    `src/roku/worker-task.ts` run BrightScript on a SceneGraph Task thread;
+    device hook returns `worker: worker-ok`. `src/roku/tasks.ts` is the
+    cooperative TS scheduler (priority, 8 ms slicing, cancellation).
+19. **8 ms flush budget.** Large screens requeue remaining dirty nodes instead
+    of blocking input/animation for a full frame.
 
 ## Current 1:1 deltas
 
@@ -139,7 +159,7 @@ Web references: 1920x1080 Chrome captures with live data.
 - Web v2 dev server and live 1920 captures pass (`web-browse-1920-live.png`,
   `web-details-1920.png`, 60 FPS). Production `pnpm build` passes with a
   placeholder `src/api/key.ts` and `NODE_OPTIONS=--max-old-space-size=3072`
-  (`✓ built in 3m 2s`); no key is committed.
+  (`✓ built in 30.45 s`); no key is committed.
 - **Offline data only** for the deterministic native matrix; live TMDB works
   on device when `src/api/key.ts` is present.
 - **Explicit renderer gaps** (logged, not silently faked):
@@ -154,7 +174,21 @@ Web references: 1920x1080 Chrome captures with live data.
     `icons_white.png`/`icons.png`; unknown sheets still log a gap;
   - `letterSpacing` is measured but the native Label does not draw it;
   - rotated clipping uses the unrotated rect;
-  - combined vertical+horizontal/per-corner masks are not implemented.
+  - combined vertical+horizontal/per-corner masks are not implemented;
+  - KTX textures are not decoded by Poster; the texture-compression page uses
+    PNG stand-ins and reports `ROKU_TEXTURE_GAP`;
+  - single-axis gradients are smooth via an alpha-ramp Poster; per-corner and
+    diagonal gradients remain banded approximations;
+  - soft shadows (custom buttons) have no native equivalent;
+  - complex flex grids show a shrink/overflow difference from the web build;
+  - focus-driven scroll state on Flex/FlexGrow differs in the headless-web
+    comparison;
+  - the Layout demo has a small border/margin offset.
+- Create/destroy fades on preload resources are bypassed on native; content
+  appears immediately (the animator/preload interaction is the next framework
+  fix).
+- Dev-channel launch is ~7.6 s; release packaging/code-splitting is still a
+  performance target.
 - `memoryInfo()` thresholds are approximate (80%/64% of the foreground limit);
   channel limits and percent-used are real.
 - Web references now exist for Browse, Examples, Details and Login. The live

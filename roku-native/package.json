@@ -10,7 +10,9 @@
     "type-check": "rk gen-types && tsc --noEmit",
     "test:feature": "node test/feature-matrix.mjs",
     "test:stress": "node test/stress-matrix.mjs",
-    "test:unit": "../node_modules/.bin/vitest run test/unit"
+    "test:unit": "../node_modules/.bin/vitest run test/unit",
+    "test:visual": "node test/visual-matrix.mjs",
+    "test:perf": "node test/perf-benchmark.mjs"
   },
   "dependencies": {
     "@roku-sdk/components": "2.19.0",

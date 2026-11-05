@@ -292,6 +292,8 @@ export default {
   load,
   play,
   pause,
+  seek,
+  handleMediaKey,
   getCurrentTime,
   getVideoDuration,
   getTimeFormat,

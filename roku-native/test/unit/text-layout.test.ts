@@ -78,3 +78,73 @@ describe("layoutText", () => {
     expect(spaced.width).toBe(plain.width + 3 * 5);
   });
 });
+
+describe("layoutText edge cases", () => {
+  it("breaks long words when wordBreak is break-all", () => {
+    const out = layoutText({
+      ...base,
+      text: "abcdef",
+      maxWidth: 30,
+      contain: "width",
+      wordBreak: "break-all",
+    });
+    expect(out.lines.map((l) => l.text)).toEqual(["abc", "def"]);
+  });
+
+  it("lets an unbreakable word overflow when wordBreak is overflow", () => {
+    const out = layoutText({
+      ...base,
+      text: "abcdefgh",
+      maxWidth: 30,
+      contain: "width",
+      wordBreak: "overflow",
+    });
+    expect(out.lines[0].text).toBe("abcdefgh");
+    expect(out.lines[0].width).toBe(80);
+  });
+
+  it("derives maxLines from maxHeight when contain is height", () => {
+    const out = layoutText({
+      ...base,
+      text: "aaaa bbbb cccc dddd",
+      maxWidth: 50,
+      maxHeight: 76.8,
+      contain: "both",
+    });
+    expect(out.effectiveMaxLines).toBe(2);
+    expect(out.lines).toHaveLength(2);
+    expect(out.truncated).toBe(true);
+  });
+
+  it("bottom-aligns, then applies offsetY", () => {
+    const out = layoutText({
+      ...base,
+      text: "one line",
+      maxHeight: 100,
+      contain: "both",
+      verticalAlign: "bottom",
+      offsetY: 7,
+    });
+    expect(out.boxY).toBeCloseTo(100 - out.height + 7);
+  });
+
+  it("mirrors left/right alignment for RTL text", () => {
+    const ltr = layoutText({
+      ...base,
+      text: "abc",
+      maxWidth: 100,
+      contain: "width",
+      textAlign: "left",
+    });
+    const rtl = layoutText({
+      ...base,
+      text: "abc",
+      maxWidth: 100,
+      contain: "width",
+      textAlign: "left",
+      rtl: true,
+    });
+    expect(ltr.boxX).toBe(0);
+    expect(rtl.boxX).toBe(70);
+  });
+});

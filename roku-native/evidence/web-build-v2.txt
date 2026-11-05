@@ -3,14 +3,18 @@ Web v2 production build — 2026-11-05
 Renderer: @solidtv/renderer 2.0.7 / @solidtv/solid 1.7.1
 Command:  pnpm build
 Env:      NODE_OPTIONS=--max-old-space-size=3072 LEGACY_MINIFY=full
-Result:   pass — ✓ built in 3m 2s (308 modules transformed)
+Result:   pass — ✓ built in 30.45 s (308 modules transformed)
 
 Largest chunks:
   Player       764.34 kB │ gzip: 244.21 kB
   render       255.76 kB │ gzip:  81.88 kB
-  index         73.23 kB │ gzip:  26.63 kB
+  index         72.89 kB │ gzip:  26.54 kB
 
 The build used a placeholder src/api/key.ts so the shared API module
 resolves. It verifies compilation/bundling only; no credential is stored.
 Live-data web captures (evidence/web-browse-1920-live.png,
 evidence/web-details-1920.png) were taken with a local token.
+
+The earlier 3m02s build and the OOM-kill were measured while the visual
+matrix, Vite, Chrome and device captures were competing for the same 14 GB
+host. With those stopped the same build completes in 30 s.

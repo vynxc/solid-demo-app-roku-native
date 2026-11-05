@@ -1,6 +1,6 @@
 import { type IntrinsicNodeProps, type NodeProps, Dynamic } from "@solidtv/solid";
 import { Column, Row, VirtualRow, Image, useMouse } from "@solidtv/solid/primitives";
-import { createEffect, createSignal, For, Index, Show } from "solid-js";
+import { createEffect, For, Index, Show } from "solid-js";
 import styles, { buttonStyles } from "../styles";
 import { type Tile } from "../api/formatters/ItemFormatter";
 
@@ -318,11 +318,10 @@ export function Hero(
     };
   }
 ) {
-  const [hasFocus, setHasFocus] = createSignal(false);
   return (
-    <view {...props} src={props.item.backdrop} style={heroStyles} onFocusChanged={setHasFocus} forwardStates>
-      <view transition={{ alpha: heroTransition }} alpha={hasFocus() ? 1 : 0}>
-        <view width={185} height={278} x={54} y={220} src={props.item.src} />
+    <view {...props} src={props.item.backdrop} style={heroStyles} forwardStates>
+      <view>
+        <view width={185} height={278} x={54} y={220} src={props.item.src} alpha={1} />
         <text y={520} x={54} fontSize={64} width={1000} maxLines={1} style={heroTextStyles}>
           {props.item.title}
         </text>

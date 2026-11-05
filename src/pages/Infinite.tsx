@@ -1,8 +1,7 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import { ElementNode } from "@solidtv/solid";
 import { Poster } from "../components";
 import { setGlobalBackground } from "../state";
-import { List } from "@solid-primitives/list";
 
 const Loops = (props) => {
   const [allItems, setAllItems] = createSignal<any[]>([]);
@@ -78,7 +77,7 @@ const Loops = (props) => {
     lineHeight: 32
   };
 
-  const withTransition = { x: { duration: 250 }, alpha: { duration: 250 } };
+  const withTransition = { x: { duration: 250 } };
 
   return (
     <>
@@ -113,8 +112,6 @@ const Loops = (props) => {
         <Show when={resetCounter()} keyed>
           <view
             autofocus={allItems()}
-            onDestroy={animateOut}
-            onCreate={animateIn}
             onFocus={(elm) => elm.children[1]?.setFocus()}
             onLeft={shiftLeft}
             onRight={shiftRight}
@@ -122,20 +119,20 @@ const Loops = (props) => {
             onDown={reset}
             y={55}
           >
-            <List each={displayedItems()}>
+            <For each={displayedItems()}>
               {(item, index) => {
                 const isEdgeItem = () =>
                   index() === 0 || index() === displayedItems().length - 1;
                 return (
                   <Poster
-                    {...item()}
+                    {...item}
                     x={index() * 210 - 210}
-                    alpha={isEdgeItem() ? 0 : 1}
+                    alpha={1}
                     transition={withTransition}
                   />
                 );
               }}
-            </List>
+            </For>
           </view>
         </Show>
       </view>
