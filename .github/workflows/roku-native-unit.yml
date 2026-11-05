@@ -1,0 +1,53 @@
+name: roku-native-unit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Unit tests (text layout + animation)
+        run: corepack pnpm exec vitest run roku-native/test/unit
+
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Use a placeholder credential for the build
+        # The shared API imports src/api/key.ts. This verifies the production
+        # bundle compiles; it is not a live-data build and no key is stored.
+        run: cp src/api/key.example.ts src/api/key.ts
+
+      - name: Production build (v2 renderer)
+        run: corepack pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=3072
+          LEGACY_MINIFY: full

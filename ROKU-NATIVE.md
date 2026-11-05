@@ -24,7 +24,7 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 ## Repository layout
 
 - `src/` — the shared demo UI (pages, components, styles, theme); unchanged
-  apart from the three pre-existing working-tree fixes.
+  apart from three small compatibility fixes.
 - `roku-native/` — the native host:
   - `src/components/my-first-app.tsx` — host entry; installs browser services,
     loads fonts, sets the renderer factory, imports the shared app, wires keys.
@@ -171,11 +171,16 @@ Normal remote-driven use is unchanged.
   # from the repository root
   node_modules/.bin/vitest run roku-native/test/unit
   ```
+  CI runs these on every push and pull request
+  (`.github/workflows/roku-native-unit.yml`); the device matrices need a
+  reachable Roku and are run manually/on-device.
 
 Both matrix tools use the deterministic fixture build (no `src/api/key.ts`);
 add a v4 token locally for a live-data run. Screenshots are captured only for
 failures and visual-only pages by default, so the automated pass is fast and
-the operator only inspects suspicious results.
+the operator only inspects suspicious results. Visual-only pages are also
+checked against expected SceneGraph colours (for example the viewport ball),
+so an intentionally black page is not mistaken for a blank one.
 
 ## Known renderer gaps
 

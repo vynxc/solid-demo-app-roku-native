@@ -235,7 +235,8 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 ## Evidence (latest first)
 
 - `evidence/matrix/matrix-report.md` — **56/56 routes, 5/5 interactions**
-  (route label, markers, memory/texture bounds, core interactions).
+  on the final 696,512-byte build (route label, markers, SceneGraph
+  colours, memory/texture bounds, core interactions).
 - `evidence/stress/stress-report.md` — **50/50 cycles**, memory
   46.9–80.4 MB plateau, textures 0–27.
 - `evidence/suspicious-*.png` — manual spot-check of the 8 visual-only pages
@@ -350,9 +351,10 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 1. **Automated suite (done, keep running).** `test/feature-matrix.mjs` checks
    all 56 routes + core interactions; `test/stress-matrix.mjs` runs the
    50-cycle endurance pass; `test/unit` has 15 tests. Re-run after every
-   renderer change. The web v2 dev server/captures pass at 60 FPS; the web
-   production build was OOM-killed in this 14 GB/swap-full workspace, so retry
-   it in CI or on a larger-memory runner.
+   renderer change. The web v2 dev server/captures pass at 60 FPS, and the
+   production build passes (`NODE_OPTIONS=--max-old-space-size=3072`,
+   `✓ built in 3m 2s`) with a placeholder key; CI runs the unit tests and the
+   production build.
 2. **Micro-offsets (1:1 target).** Current measured deltas are small:
    - Browse hero title: native 369 px vs web 370 px (1 px).
    - Examples “Core Concepts”: native 175 px vs web 173 px (2 px); card

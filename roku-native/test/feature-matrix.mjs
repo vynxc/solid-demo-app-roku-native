@@ -74,6 +74,14 @@ function labelsFrom(xml) {
   return out;
 }
 
+function colorsFrom(xml) {
+  const out = new Set();
+  const re = /\bcolor="(#[0-9a-fA-F]+)"/g;
+  let m;
+  while ((m = re.exec(xml))) out.add(m[1].toLowerCase());
+  return out;
+}
+
 function pageLabels(labels) {
   const fps = labels.indexOf("FPS:");
   const before = fps >= 0 ? labels.slice(0, fps) : labels;
@@ -137,6 +145,7 @@ async function launch(route) {
 async function waitForRoute(expectRoute, settle = 700) {
   const deadline = Date.now() + TIMEOUT_MS;
   let last = [];
+  let lastXml = "";
   while (Date.now() < deadline) {
     await sleep(500);
     if (!(await activeApp())) continue;
@@ -147,6 +156,7 @@ async function waitForRoute(expectRoute, settle = 700) {
       continue;
     }
     last = labelsFrom(xml);
+    lastXml = xml;
     const routeLine = last.find((t) => t.startsWith("route "));
     const route = routeLine ? routeLine.slice("route ".length) : "";
     if (route === expectRoute) {
@@ -154,11 +164,12 @@ async function waitForRoute(expectRoute, settle = 700) {
       try {
         xml = await http("/query/app-ui");
         last = labelsFrom(xml);
+        lastXml = xml;
       } catch {}
-      return { ok: true, labels: last };
+      return { ok: true, labels: last, xml: lastXml };
     }
   }
-  return { ok: false, labels: last };
+  return { ok: false, labels: last, xml: lastXml };
 }
 
 async function capture(route) {
@@ -241,7 +252,9 @@ const ROUTES = [
   { path: "/gradients", route: "#/gradients" },
   { path: "/flex", route: "#/flex" },
   { path: "/create", route: "#/create" },
-  { path: "/viewport", route: "#/viewport" },
+  // Intentionally black page; the animated ball is the only content. Check
+  // its colour in the UI tree rather than the frame mean.
+  { path: "/viewport", route: "#/viewport", dark: true, colors: ["#4287f5ff"] },
   { path: "/flexsize", route: "#/flexsize" },
   { path: "/flexmenu", route: "#/flexmenu" },
   { path: "/flexcolumnsize", route: "#/flexcolumnsize" },
@@ -279,10 +292,12 @@ for (const entry of ROUTES) {
   const fail = [];
   let routeSeen = false;
   let labels = [];
+  let xml = "";
   try {
     await launch(entry.path);
     const waited = await waitForRoute(entry.route, entry.settle || 700);
     labels = waited.labels;
+    xml = waited.xml;
     routeSeen = waited.ok;
     if (!routeSeen) fail.push(`route not reached (want ${entry.route})`);
   } catch (e) {
@@ -291,6 +306,9 @@ for (const entry of ROUTES) {
   const pages = pageLabels(labels);
   const missing = (entry.markers || []).filter((m) => !labels.some((t) => t.includes(m)));
   if (missing.length) fail.push(`missing: ${missing.join(", ")}`);
+  const colors = colorsFrom(xml);
+  const missingColors = (entry.colors || []).filter((c) => !colors.has(c.toLowerCase()));
+  if (missingColors.length) fail.push(`missing colors: ${missingColors.join(", ")}`);
 
   const stats = readStats(labels);
   if (stats.memUsed !== undefined && stats.critical !== undefined && stats.memUsed > stats.critical) {
@@ -310,7 +328,14 @@ for (const entry of ROUTES) {
     if (shot.error) {
       warnings.push(`capture unavailable: ${shot.error}`);
     } else if (visualOnly || SCREENS === false && fail.length > 0) {
-      if (shot.mean < 0.006 || shot.std < 0.012) {
+      if (entry.dark) {
+        // A dark page can legitimately have a near-zero mean. Only a truly
+        // uniform frame is a failure; its content (e.g. the viewport ball)
+        // is checked by its colour marker above.
+        if (shot.std < 0.012) {
+          fail.push(`blank screen (mean ${shot.mean.toFixed(3)} std ${shot.std.toFixed(3)})`);
+        }
+      } else if (shot.mean < 0.006 || shot.std < 0.012) {
         fail.push(`blank/uniform screen (mean ${shot.mean.toFixed(3)} std ${shot.std.toFixed(3)})`);
       }
     }
@@ -333,6 +358,7 @@ for (const entry of ROUTES) {
     routeSeen,
     pageLabelCount: pages.length,
     missing,
+    missingColors,
     mean: shot.mean,
     std: shot.std,
     memUsed: stats.memUsed,

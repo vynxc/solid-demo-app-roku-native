@@ -44,11 +44,12 @@ Web references: 1920x1080 Chrome captures with live data.
 | Pause / seek / exit | ECP after Play/Fwd/Back | `pause`, position moved, `close`, details visible |
 | FPS semantics | `evidence/final-browse-panel.png`, `evidence/now-fresh.png` | panel shows actual produced updates (29/s active, MIN 1 idle); native line `flush 0.63ms · head 1578 · upd 29/s` |
 | 50-cycle matrix | `evidence/matrix-50-cycles-live.txt` (live) and `matrix-50-cycles-offline.txt` (fixtures) | no crash; memory plateau; textures 49–65 |
-| Automated feature matrix | `evidence/matrix/matrix-report.md` | **56/56 routes, 5/5 interactions** |
+| Automated feature matrix | `evidence/matrix/matrix-report.md` | **56/56 routes, 5/5 interactions** on the final 696,512-byte build |
 | Suspicious visual-only pages | `evidence/suspicious-*.png` | 8 pages whose automated captures timed out were spot-checked: gradients, matrix, focus basics, transitions, focus handling, viewport, keep alive, destroy |
 | Long-run stress | `evidence/stress/stress-report.md` | **50/50 cycles**, memory 46.9–80.4 MB (plateau), textures 0–27 |
 | Unit tests | `roku-native/test/unit` | 15 tests: text layout / line height / letter spacing; animation/colour loops/retarget |
 | Web v2 renderer | `evidence/web-browse-1920-live.png` | `@solidtv/renderer` 2.0.7 / `@solidtv/solid` 1.7.1; live Browse 60 FPS |
+| Web v2 production build | `evidence/web-build-v2.txt` | **pass**, `✓ built in 3m 2s` (placeholder key, 3 GB heap) |
 | Gap reporting | console `ROKU_EFFECT_GAP shadow`, `ROKU_TEXTURE_GAP`, `ROKU_TEXT_GAP`, `ROKU_COLOR_GAP` | explicit, not silent |
 
 ## 2026-11-05 renderer fixes
@@ -136,9 +137,9 @@ Web references: 1920x1080 Chrome captures with live data.
 ## Known gaps / not yet verified
 
 - Web v2 dev server and live 1920 captures pass (`web-browse-1920-live.png`,
-  `web-details-1920.png`, 60 FPS). The production `pnpm build` was OOM-killed
-  in this 14 GB workspace with swap exhausted; it is an environment limit, not
-  a reported code/type error. Re-run in CI or a larger-memory runner.
+  `web-details-1920.png`, 60 FPS). Production `pnpm build` passes with a
+  placeholder `src/api/key.ts` and `NODE_OPTIONS=--max-old-space-size=3072`
+  (`✓ built in 3m 2s`); no key is committed.
 - **Offline data only** for the deterministic native matrix; live TMDB works
   on device when `src/api/key.ts` is present.
 - **Explicit renderer gaps** (logged, not silently faked):
