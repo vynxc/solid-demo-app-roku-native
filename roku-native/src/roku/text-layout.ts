@@ -99,7 +99,12 @@ const breakLongWord = (word: string, maxWidth: number, measure: (s: string) => n
 };
 
 export function layoutText(input: TextLayoutInput): TextLayoutResult {
-  const measure = input.measure;
+  const measureBase = input.measure;
+  // Letter spacing is part of the measured advance in CSS. Add it once here so
+  // wrapping, maxLines and the reported box width all agree with the renderer
+  // contract (the native Label itself still cannot draw the extra advance).
+  const measure = (text: string) =>
+    measureBase(text) + Math.max(0, text.length - 1) * (input.letterSpacing || 0);
   const natural = input.naturalLineHeight > 0 ? input.naturalLineHeight : input.lineHeight > 3 ? input.lineHeight : 16;
   // The web baseline uses CSS line-height, whose unitless multipliers are
   // relative to the font size. Multiplying the *natural* line box instead

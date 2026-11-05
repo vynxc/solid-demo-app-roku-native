@@ -329,9 +329,12 @@ export class RokuNode extends Events {
       insertNode(value.dom, this.dom);
       // zIndex is normally set before the node is parented. Sorting here (not
       // only when zIndex changes later) is what puts nav/FPS/page/background
-      // in the order the shared UI expects.
-      value._orderDirty = true;
-      value.renderer.markDirty(value);
+      // in the order the shared UI expects. All-zero-zIndex grids/lists keep
+      // insertion order, so skip the reorder for the common case.
+      if (this._zIndex !== 0 || value._children.some((child) => child._zIndex !== 0)) {
+        value._orderDirty = true;
+        value.renderer.markDirty(value);
+      }
       value.markTransform();
     }
   }
@@ -348,8 +351,10 @@ export class RokuNode extends Events {
     if (at < 0) this._children.push(child);
     else this._children.splice(at, 0, child);
     insertNode(this.dom, child.dom, before ? before.dom : undefined);
-    this._orderDirty = true;
-    this.renderer.markDirty(this);
+    if (child._zIndex !== 0 || this._children.some((c) => c._zIndex !== 0)) {
+      this._orderDirty = true;
+      this.renderer.markDirty(this);
+    }
   }
 
   sortChildren() {

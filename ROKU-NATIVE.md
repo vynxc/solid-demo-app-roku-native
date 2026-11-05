@@ -18,6 +18,8 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
   v4 read token is present; otherwise deterministic offline fixtures.
 - The FPS/memory panel (memory limits and usage are live; frame telemetry is
   described below).
+- Web baseline uses the v2 renderer (`@solidtv/renderer` 2.0.7 /
+  `@solidtv/solid` 1.7.1), the same versions the native host targets.
 
 ## Repository layout
 
@@ -136,6 +138,44 @@ flush 0.63ms · head 1578 · upd 29/s
 `fpsUpdate` carries `updates`, `avgFlushMs`, `maxFlushMs` and `capacityFps`;
 `ROKU_PERF` logs the same in builds that keep `console`. The panel is not
 panel refresh — the compositor refreshes independently.
+
+## Automated tests
+
+The native host exposes a test/deep-link hook: an ECP launch/input
+`contentId` such as `{"contentId":"/examples"}` drives the shared hash router.
+Normal remote-driven use is unchanged.
+
+- **Feature matrix** (`test/feature-matrix.mjs`) — launches every route,
+  verifies the active route label, expected page markers, memory/texture
+  bounds and (for failures or visual-only pages) a screenshot. It also runs
+  Browse → Details → Back, Examples → tile → Back, Login rendering, Infinite
+  list D-pad stress and Player media-state checks.
+  ```sh
+  ROKU_DEV_CONFIG_PATH=/path/to/device-store.json \
+    node test/feature-matrix.mjs --device <ROKU_IP>
+  # add --screens to capture every route, --only <substr> for one route
+  ```
+  Reports: `evidence/matrix/matrix-report.{json,md}`; failing captures are in
+  `evidence/matrix/failures/`.
+- **Long-run stress** (`test/stress-matrix.mjs`) — 50 cycles of
+  Browse → Details → Examples → Browse on one app instance, sampling
+  memory/FPS/textures.
+  ```sh
+  ROKU_DEV_CONFIG_PATH=/path/to/device-store.json \
+    node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50
+  ```
+  Report: `evidence/stress/stress-report.{json,md}`.
+- **Unit tests** (`test/unit/`) — text layout (wrap, ellipsis, line-height,
+  vertical alignment, letter spacing) and animation/colour interpolation.
+  ```sh
+  # from the repository root
+  node_modules/.bin/vitest run roku-native/test/unit
+  ```
+
+Both matrix tools use the deterministic fixture build (no `src/api/key.ts`);
+add a v4 token locally for a live-data run. Screenshots are captured only for
+failures and visual-only pages by default, so the automated pass is fast and
+the operator only inspects suspicious results.
 
 ## Known renderer gaps
 

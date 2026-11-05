@@ -220,7 +220,7 @@ const KEY_TABLE: { [name: string]: RokuKeySpec } = {
   fwd: { key: 'FastForward', keyCode: 417 },
   fastforward: { key: 'FastForward', keyCode: 417 },
   instantreplay: { key: 'InstantReplay', keyCode: 10232 },
-  info: { key: 'i', keyCode: 73 },
+  info: { key: 'm', keyCode: 77 },
   options: { key: 'm', keyCode: 77 },
   home: { key: 'Home', keyCode: 36 },
   stop: { key: 'Stop', keyCode: 413 },
@@ -369,7 +369,10 @@ export function installBrowserServices(): void {
 
   // Hash router state. The demo always runs from the app package root, so
   // pathname stays "/" and every route lives in the hash.
-  let hash = '#/browse/all';
+  // Test/deep-link route hook: a launch/input parameter such as
+  // {"contentId":"/examples"} navigates the shared hash router. The matrix
+  // runner uses this to reach every page without a D-pad sequence.
+  let hash = (g.__solidtvInitialRoute as string) || '#/browse/all';
   const location: any = {
     protocol: 'https:',
     origin: 'https://roku.local',
@@ -397,6 +400,9 @@ export function installBrowserServices(): void {
     reload() {},
   };
   g.location = location;
+  g.__solidtvSetRoute = (route: string) => {
+    location.hash = String(route);
+  };
 
   const stack: string[] = [hash];
   let position = 0;

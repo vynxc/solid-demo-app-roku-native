@@ -1,17 +1,17 @@
 # Native Roku verification — 2026-11-05
 
 Device: TCL 50S435 / C157X, Roku OS 16.0.4, FHD UI, `<ROKU_IP>`.
-Native data: **live TMDB** in the latest deployed build, using a v4 read token
-kept only in the gitignored `src/api/key.ts`. The offline fixtures
-(`offline-api.ts` + `fixtures.mjs`) remain available for deterministic runs and
-were used for the earlier matrix evidence.
-Web references: 1920x1080 Chrome captures with the same live API.
+Native data: live TMDB was verified on device with a v4 read token kept only
+in the gitignored `src/api/key.ts` (never committed). The automated matrix and
+stress runs use the deterministic offline fixtures (`offline-api.ts` +
+`fixtures.mjs`), so they need no credentials.
+Web references: 1920x1080 Chrome captures with live data.
 
 ## Build / typecheck
 
 - `node_modules/.bin/tsc --noEmit -p tsconfig.json` → **0 host errors**.
 - `rk build --local` (type checks enabled) → **Type checks passed**,
-  695,552-byte program bundle (live-TMDB build).
+  696,512-byte program bundle (final fixture/test build).
 - Deploy: `rk dev --local --no-build --sideload --bump-build --out-dir dist-build`.
 - The Roku build now defines `import.meta.env.VITE_USE_NEW_FLEX = 'true'`, so
   native uses **the same flex engine as the web app** (`flexLayout.ts`, not the
@@ -44,6 +44,11 @@ Web references: 1920x1080 Chrome captures with the same live API.
 | Pause / seek / exit | ECP after Play/Fwd/Back | `pause`, position moved, `close`, details visible |
 | FPS semantics | `evidence/final-browse-panel.png`, `evidence/now-fresh.png` | panel shows actual produced updates (29/s active, MIN 1 idle); native line `flush 0.63ms · head 1578 · upd 29/s` |
 | 50-cycle matrix | `evidence/matrix-50-cycles-live.txt` (live) and `matrix-50-cycles-offline.txt` (fixtures) | no crash; memory plateau; textures 49–65 |
+| Automated feature matrix | `evidence/matrix/matrix-report.md` | **56/56 routes, 5/5 interactions** |
+| Suspicious visual-only pages | `evidence/suspicious-*.png` | 8 pages whose automated captures timed out were spot-checked: gradients, matrix, focus basics, transitions, focus handling, viewport, keep alive, destroy |
+| Long-run stress | `evidence/stress/stress-report.md` | **50/50 cycles**, memory 46.9–80.4 MB (plateau), textures 0–27 |
+| Unit tests | `roku-native/test/unit` | 15 tests: text layout / line height / letter spacing; animation/colour loops/retarget |
+| Web v2 renderer | `evidence/web-browse-1920-live.png` | `@solidtv/renderer` 2.0.7 / `@solidtv/solid` 1.7.1; live Browse 60 FPS |
 | Gap reporting | console `ROKU_EFFECT_GAP shadow`, `ROKU_TEXTURE_GAP`, `ROKU_TEXT_GAP`, `ROKU_COLOR_GAP` | explicit, not silent |
 
 ## 2026-11-05 renderer fixes
@@ -89,6 +94,23 @@ Web references: 1920x1080 Chrome captures with the same live API.
    shows `flush … ms · head … · upd …/s`. The shared FPSCounter is patched at
    build time to accept 0, so idle shows the real one-update-per-second
    diagnostic rate instead of retaining an old number.
+10. **Loop/repeat animation reset.** A looping animation restarted from the
+    value it had just reached, pinning it at the target. It now resets to the
+    initial value (and emits the reset frame); unit-tested.
+11. **Letter spacing in layout.** `layoutText` adds
+    `(length - 1) * letterSpacing` to every advance, matching the renderer
+    measurement contract. The native Label still cannot draw the extra
+    advance (documented gap).
+12. **Hot-path performance.** `flushDirty` reuses a dirty-node array instead
+    of allocating with `Array.from` per frame; z-order re-sorting is skipped
+    for the common all-zero-zIndex grid/list insertion case.
+13. **Automated coverage.** A `contentId` launch parameter drives the shared
+    hash router. `test/feature-matrix.mjs` verifies every route, markers,
+    memory bounds and core interactions; `test/stress-matrix.mjs` runs the
+    50-cycle endurance pass; `test/unit` covers text layout and animation.
+14. **Web v2 renderer.** The web baseline uses `@solidtv/renderer` 2.0.7 and
+    `@solidtv/solid` 1.7.1, matching the native host; live Browse runs at
+    60 FPS in the reference environment.
 
 ## Current 1:1 deltas
 
@@ -113,8 +135,12 @@ Web references: 1920x1080 Chrome captures with the same live API.
 
 ## Known gaps / not yet verified
 
-- **Offline data only** for the native app; fixtures are synthetic and labelled
-  on screen.
+- Web v2 dev server and live 1920 captures pass (`web-browse-1920-live.png`,
+  `web-details-1920.png`, 60 FPS). The production `pnpm build` was OOM-killed
+  in this 14 GB workspace with swap exhausted; it is an environment limit, not
+  a reported code/type error. Re-run in CI or a larger-memory runner.
+- **Offline data only** for the deterministic native matrix; live TMDB works
+  on device when `src/api/key.ts` is present.
 - **Explicit renderer gaps** (logged, not silently faked):
   - shadows have no native `Effect` equivalent;
   - `holePunch` / `radialProgress` need other primitives;
@@ -140,10 +166,10 @@ Web references: 1920x1080 Chrome captures with the same live API.
 ## Reproduce
 
 ```bash
-cd <workspace>/solid-demo-app/roku-native
+cd roku-native
 node_modules/.bin/tsc --noEmit -p tsconfig.json
-PATH="<workspace>/my-first-app/.roku/os16-test/tools/local/usr/bin:$PATH" \
-ROKU_DEV_CONFIG_PATH="<workspace>/my-first-app/.roku/guide-device-config.json" \
+PATH="<mksquashfs-bin>:$PATH" \
+ROKU_DEV_CONFIG_PATH="/path/to/device-store.json" \
 node_modules/.bin/rk build --local
 # deploy:
 PATH=... ROKU_DEV_CONFIG_PATH=... node_modules/.bin/rk dev --local --no-build --sideload --bump-build --out-dir dist-build
@@ -151,7 +177,18 @@ PATH=... ROKU_DEV_CONFIG_PATH=... node_modules/.bin/rk dev --local --no-build --
 ROKU_DEV_CONFIG_PATH=... node_modules/.bin/rk ecp capture-screen --device <ROKU_IP> -o evidence/x.png
 # media state:
 curl -s http://<ROKU_IP>:8060/query/media-player
+# automated feature matrix (fixture build; no key needed):
+ROKU_DEV_CONFIG_PATH=... node test/feature-matrix.mjs --device <ROKU_IP>
+# 50-cycle endurance pass:
+ROKU_DEV_CONFIG_PATH=... node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50
+# unit tests (from the repository root):
+node_modules/.bin/vitest run roku-native/test/unit
 ```
+
+The feature matrix launches routes through the `contentId` launch parameter,
+checks the route label and page markers via `query/app-ui`, samples
+memory/textures, and captures screenshots only for failures or visual-only
+pages. Add `--screens` for a full contact sheet.
 
 Note: ECP screenshots do not include the hardware video plane; player captures
 are black by design. Verify playback with `/query/media-player` (`state`,

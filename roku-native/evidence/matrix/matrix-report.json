@@ -1,0 +1,1262 @@
+{
+  "generatedAt": "2026-11-05T11:53:31.248Z",
+  "device": "<ROKU_IP>",
+  "routes": [
+    {
+      "path": "/",
+      "route": "#/browse/all",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 50.25,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 11279,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+      ]
+    },
+    {
+      "path": "/browse/all",
+      "route": "#/browse/all",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 9903,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+      ]
+    },
+    {
+      "path": "/browse/movie",
+      "route": "#/browse/movie",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 10136,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+      ]
+    },
+    {
+      "path": "/browse/tv",
+      "route": "#/browse/tv",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 10004,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+      ]
+    },
+    {
+      "path": "/examples",
+      "route": "#/examples",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 131,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 7,
+      "elapsed": 10288,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Examples",
+        "0",
+        "Focus Basics",
+        "Quick guide on Focus",
+        "1",
+        "Key Handling",
+        "Understanding Key\nHandling",
+        "2"
+      ]
+    },
+    {
+      "path": "/examples/tmdb",
+      "route": "#/examples/tmdb",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 168,
+      "missing": [],
+      "memUsed": 50.25,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 17,
+      "elapsed": 12169,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Examples",
+        "0",
+        "Focus Basics",
+        "Quick guide on Focus",
+        "1",
+        "Key Handling",
+        "Understanding Key\nHandling",
+        "2"
+      ]
+    },
+    {
+      "path": "/loops",
+      "route": "#/loops",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 7,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 10030,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "For Loop",
+        "Map Loop",
+        "Index Loop",
+        "Lazy Row Loop",
+        "List Loop",
+        "Built With:",
+        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+      ]
+    },
+    {
+      "path": "/infinite",
+      "route": "#/infinite",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 23,
+      "elapsed": 9510,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Infinite Item List",
+        "Built With:",
+        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+      ]
+    },
+    {
+      "path": "/tmdbgrid",
+      "route": "#/tmdbgrid",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 30,
+      "elapsed": 10324,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Built with",
+        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+      ]
+    },
+    {
+      "path": "/virtual",
+      "route": "#/virtual",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 37,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 10277,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "auto ",
+        "edge ",
+        "Ocean Signal 1",
+        "The Last Observatory 2",
+        "Northern Lights 3",
+        "Paper Planets 4",
+        "Quiet Orbit 5",
+        "Parallel Roads 6"
+      ]
+    },
+    {
+      "path": "/destroy",
+      "route": "#/destroy",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 27955,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/grid",
+      "route": "#/grid",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 24,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 9,
+      "elapsed": 9488,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "1",
+        "Essence Mascara Lash Princess",
+        "9.99",
+        "2",
+        "Eyeshadow Palette with Mirror",
+        "19.99",
+        "3",
+        "Powder Canister"
+      ]
+    },
+    {
+      "path": "/matrix",
+      "route": "#/matrix",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 70659,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/text",
+      "route": "#/text",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 6,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 9699,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Title of the Page",
+        "Tag line for the page",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel tempor tellus.\nSed eu leo purus. Vestibulum sollicitudin eget tellus a varius. Phasellus est turpis,\nvolutpat sed blandit sit amet, rutrum sit amet mauris. In dignissim elit orci, a\nsollicitudin ipsum faucibus et. Quisque vel quam rutrum, faucibus augue sed,\nscelerisque nunc.",
+        "Subline Text",
+        "More Text",
+        "Flex Grow"
+      ]
+    },
+    {
+      "path": "/firebolt",
+      "route": "#/firebolt",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9429,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "This platform-specific example is not available on Roku yet."
+      ]
+    },
+    {
+      "path": "/login",
+      "route": "#/login",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 53,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 9724,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Username",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "path": "/nested",
+      "route": "#/nested",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 11,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 9467,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Button 1A",
+        "Button 1B",
+        "Button 1C",
+        "Button 1D",
+        "Button 1E",
+        "Button 1F",
+        "Button 1G",
+        "Button 1H"
+      ]
+    },
+    {
+      "path": "/textposter",
+      "route": "#/textposter",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 9,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 9679,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Movie Name",
+        "Release Date :",
+        "10/10/2022",
+        "Genre :",
+        " Action",
+        "Plot :",
+        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\ndiam nonumy eirmod tempor invidunt ut labore et dolore magna\naliquyam erat, sed diam voluptua. At vero eos et accusam et\njusto duo dolores et ea rebum. Stet clita kasd gubergren, no sea\ntakimata Lorem ipsum dolor sit amet, consetetur sadipscing\nelitr, sed diam nonumy eirmod tempor invidunt ut labore et\ndolore magna aliquyam erat, sed diam voluptua. At vero eos et\naccusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata Cast : Tom cruise, ma3ti\nbenabdelkader, oussama ramzi",
+        "Play"
+      ]
+    },
+    {
+      "path": "/textcentering",
+      "route": "#/textcentering",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 32,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 10074,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Text Centering",
+        "1. Per-line anchor: textBaselineMode",
+        "Global renderer setting. Default is 'optical'. Reload with ?textBaseline=optical | cap | x | linebox to compare.",
+        "Button",
+        "'optical' (active)",
+        "reload to view",
+        "'cap'",
+        "reload to view"
+      ]
+    },
+    {
+      "path": "/countdown",
+      "route": "#/countdown",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 44,
+      "elapsed": 9535,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Countdown Timer",
+        "Uses the radialProgress shader. The ring shrinks smoothly and loops every 10 seconds.",
+        "9"
+      ]
+    },
+    {
+      "path": "/custombuttons",
+      "route": "#/custombuttons",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 7,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 10018,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Custom Interactive Buttons",
+        "A premium grid of custom styled buttons featuring distinct icons, rich brand colors, smooth focus states, and micro-animations.",
+        "Lab Experiments",
+        "Trending Now",
+        "Live TV Shows",
+        "Featured Movie",
+        "System Perf"
+      ]
+    },
+    {
+      "path": "/positioning",
+      "route": "#/positioning",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 23,
+      "elapsed": 9481,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "SolidTV!"
+      ]
+    },
+    {
+      "path": "/layout",
+      "route": "#/layout",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 9595,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Hello World",
+        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex\nea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse\ncillum dolore eu.",
+        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex\nea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse\ncillum dolore eu."
+      ]
+    },
+    {
+      "path": "/focusbasics",
+      "route": "#/focusbasics",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 26779,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/transitions",
+      "route": "#/transitions",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 16,
+      "elapsed": 26782,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/components",
+      "route": "#/components",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 2,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 8,
+      "elapsed": 9629,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Dynamic Components",
+        "Button"
+      ]
+    },
+    {
+      "path": "/focushandling",
+      "route": "#/focushandling",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 26605,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/keyhandling",
+      "route": "#/keyhandling",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 9650,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Move the block with the arrow keys, enter to change color,\nenterHold to reset color. Open inspector to see console log\nmessages. Use M to test release."
+      ]
+    },
+    {
+      "path": "/gradients",
+      "route": "#/gradients",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 26796,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/flex",
+      "route": "#/flex",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 8,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9641,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Flex Start",
+        "Flex Start - Margin Left",
+        "Flex End",
+        "Flex End - Margin Right",
+        "Center",
+        "Space Between",
+        "Space Evenly",
+        "Flex Wrap"
+      ]
+    },
+    {
+      "path": "/create",
+      "route": "#/create",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 7,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 42,
+      "elapsed": 9608,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Title of the Page",
+        "Sub - Inserted - Text",
+        "More Text",
+        "Child Test",
+        "Right",
+        "Bottom",
+        "BR"
+      ]
+    },
+    {
+      "path": "/viewport",
+      "route": "#/viewport",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 43,
+      "elapsed": 27729,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/flexsize",
+      "route": "#/flexsize",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 8,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9712,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Flex Start - AlignItems: center",
+        "Flex Start - Margin Left - AlignItems: flexStart",
+        "Flex End - AlignItems: flexEnd",
+        "Flex End - Margin Right",
+        "Center - No Margin Support",
+        "Space Between - No Margin Support",
+        "Space Evenly - No Margin Support",
+        "Space Around - No Margin Support"
+      ]
+    },
+    {
+      "path": "/flexmenu",
+      "route": "#/flexmenu",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 26,
+      "elapsed": 9700,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Text element",
+        "Text element",
+        "Text element"
+      ]
+    },
+    {
+      "path": "/flexcolumnsize",
+      "route": "#/flexcolumnsize",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9507,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Start, MarginTop, End, MarginBottom, Center, Between, Evenly"
+      ]
+    },
+    {
+      "path": "/flexcolumn",
+      "route": "#/flexcolumn",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9593,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Start, MarginTop, End, MarginBottom, Center, Between, Evenly"
+      ]
+    },
+    {
+      "path": "/flexgrow",
+      "route": "#/flexgrow",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9544,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Flex Start RTL",
+        "Flex End with Flex Grow",
+        "Space Between with Flex Grow"
+      ]
+    },
+    {
+      "path": "/flexjustifywidth",
+      "route": "#/flexjustifywidth",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 45,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 7,
+      "elapsed": 10353,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Flex justifyContent without a width - PR #51",
+        "solid-tv/solid#51 - a no-width flex row seeds w=0 today, so every justify mode except flexStart has no free space to distribute",
+        "NOW - @solidtv/solid 1.5.2",
+        "AFTER - PR #51",
+        "justifyContent=\"center\"",
+        "The row you actually\nwanted centered.",
+        "w 0 -> w 700",
+        "width 700   |   child x  199, 305, 411"
+      ]
+    },
+    {
+      "path": "/keepalive",
+      "route": "#/keepalive",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 13,
+      "elapsed": 26798,
+      "warnings": [
+        "capture unavailable: rk ETIMEDOUT"
+      ],
+      "failures": [],
+      "sampleLabels": []
+    },
+    {
+      "path": "/suspense",
+      "route": "#/suspense",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 23,
+      "elapsed": 9541,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Hello World! (Press Enter to refetch)"
+      ]
+    },
+    {
+      "path": "/superflex",
+      "route": "#/superflex",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 24,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 14,
+      "elapsed": 9569,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Mary Add Text",
+        "had Add Text",
+        "a Add Text",
+        "little Add Text",
+        "lamb Add Text",
+        "her Add Text",
+        "fleece Add Text",
+        "was Add Text"
+      ]
+    },
+    {
+      "path": "/tags",
+      "route": "#/tags",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 36,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 27,
+      "elapsed": 9792,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Tags Page",
+        "Comedy",
+        "Drama",
+        "Action",
+        "New Episode",
+        "Comedy",
+        "Drama",
+        "Action"
+      ]
+    },
+    {
+      "path": "/buttonsmaterial",
+      "route": "#/buttonsmaterial",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 2,
+      "elapsed": 9599,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Focused",
+        "Normal",
+        "Disabled"
+      ]
+    },
+    {
+      "path": "/entity/movie/1",
+      "route": "#/entity/movie/1",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 12,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 9701,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Ocean Signal 1",
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "120 reviews",
+        "1h 40min   01/01/2026",
+        "HD",
+        "CC"
+      ]
+    },
+    {
+      "path": "/entity/tv/2",
+      "route": "#/entity/tv/2",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 12,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 9686,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "The Last Observatory 2",
+        "The Last Observatory 2",
+        "The Last Observatory 2",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "120 reviews",
+        "2025 - 2026",
+        "HD",
+        "CC"
+      ]
+    },
+    {
+      "path": "/entity/people/1",
+      "route": "#/entity/people/1",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 3,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 7,
+      "elapsed": 9606,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Credits",
+        "Demo Person 1",
+        "A synthetic person used to exercise the native details and credits routes."
+      ]
+    },
+    {
+      "path": "/image-performance",
+      "route": "#/image-performance",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 10649,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Loading... 0/40"
+      ]
+    },
+    {
+      "path": "/large-image-performance",
+      "route": "#/large-image-performance",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 10599,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Loading... 0/4"
+      ]
+    },
+    {
+      "path": "/mixed-image-performance",
+      "route": "#/mixed-image-performance",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 10535,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Loading... 0/11"
+      ]
+    },
+    {
+      "path": "/texture-compression-performance",
+      "route": "#/texture-compression-performance",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 10525,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Loading... 0/25"
+      ]
+    },
+    {
+      "path": "/complexflex",
+      "route": "#/complexflex",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 129,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 10187,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Complex Flex Layout",
+        "Item 0",
+        "Button",
+        "Item 1",
+        "Button",
+        "Item 2",
+        "Button",
+        "Item 3"
+      ]
+    },
+    {
+      "path": "/complexflexcaps",
+      "route": "#/complexflexcaps",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 113,
+      "missing": [],
+      "memUsed": 46.9,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 3,
+      "elapsed": 10161,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Complex Flex Layout Capped View",
+        "Item 0",
+        "Button",
+        "Item 1",
+        "Button",
+        "Item 2",
+        "Button",
+        "Item 3"
+      ]
+    },
+    {
+      "path": "/benchmark",
+      "route": "#/benchmark",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 94,
+      "missing": [],
+      "memUsed": 0,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 0,
+      "elapsed": 11761,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "Popular Movies",
+        "Ocean Signal 1",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records are not live TMDB results.",
+        "The Last Observatory 2",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records are not live TMDB results.",
+        "Best Comedy movies"
+      ]
+    },
+    {
+      "path": "/versions",
+      "route": "#/versions",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 1,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 9385,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "This platform-specific example is not available on Roku yet."
+      ]
+    },
+    {
+      "path": "/player/1",
+      "route": "#/player/1",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 8,
+      "missing": [],
+      "memUsed": 0,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 0,
+      "player": {
+        "state": "play",
+        "error": "false"
+      },
+      "elapsed": 10611,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": [
+        "Retrieving",
+        "0:00",
+        "0:00",
+        "LIVE",
+        "Loading",
+        "6:52\u00a0am",
+        "flush 0.42ms \u00b7 head 2359 \u00b7 upd 1/s",
+        "route #/player/1"
+      ]
+    },
+    {
+      "path": "/no-such-route",
+      "route": "#/no-such-route",
+      "ok": true,
+      "routeSeen": true,
+      "pageLabelCount": 0,
+      "missing": [],
+      "memUsed": 43.55,
+      "textures": 0,
+      "onScreen": 0,
+      "fps": 1,
+      "elapsed": 9701,
+      "warnings": [],
+      "failures": [],
+      "sampleLabels": []
+    }
+  ],
+  "interactions": [
+    {
+      "name": "Browse \u2192 Details \u2192 Back (focus/screen restore)",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "before": "Ocean Signal 1",
+        "after": "Ocean Signal 1"
+      },
+      "elapsed": 12697
+    },
+    {
+      "name": "Examples portal \u2192 tile \u2192 Back",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "route": "#/textposter"
+      },
+      "elapsed": 13480
+    },
+    {
+      "name": "Login keyboard renders",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "labels": 3
+      },
+      "elapsed": 8990
+    },
+    {
+      "name": "Infinite list D-pad stress",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "fps": 69,
+        "avg": 49,
+        "min": 2,
+        "max": 71,
+        "memUsed": 43.55,
+        "critical": 268,
+        "textures": 0,
+        "onScreen": 0,
+        "quads": 110
+      },
+      "elapsed": 12608
+    },
+    {
+      "name": "Player route / media state",
+      "ok": true,
+      "failures": [],
+      "detail": {
+        "state": {
+          "state": "play",
+          "error": "false"
+        },
+        "after": {
+          "state": "buffer",
+          "error": "false"
+        }
+      },
+      "elapsed": 12803
+    }
+  ],
+  "summary": {
+    "routes": 56,
+    "passed": 56,
+    "failed": 0,
+    "interactions": 5,
+    "interactionsFailed": 0
+  }
+}

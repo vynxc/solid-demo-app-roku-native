@@ -1,6 +1,8 @@
 import { defineAnchorNode } from '@roku-sdk/rsg-ts';
+import { useLaunchConfig } from '@roku-sdk/rsg-ts/runtime';
 import { KeyHandler } from '@roku-sdk/components';
 import { createElement, setProp, insertNode, onMount, onCleanup } from '@roku-sdk/solid';
+import { createEffect } from 'solid-js';
 import { SceneGraphRenderer } from '../roku/renderer';
 import { installBrowserServices, dispatchNativeKey } from '../roku/browser-services';
 import { loadBundledFonts } from '../roku/fonts';
@@ -28,6 +30,20 @@ export default defineAnchorNode(
     const nativeRoot = createElement('group');
     (globalThis as any).__solidtvNativeRoot = nativeRoot;
     (globalThis as any).__SolidTVRokuRenderer = SceneGraphRenderer;
+
+    // Test/deep-link navigation: {"contentId":"/examples"} from an ECP input
+    // or launch parameter drives the shared hash router. No effect on normal
+    // remote-driven use.
+    const { launchParams } = useLaunchConfig<{ contentId?: string }>();
+    createEffect(() => {
+      const raw = launchParams()?.contentId;
+      if (!raw) return;
+      const value = String(raw);
+      const route = value.charAt(0) === '#' ? value : '#/' + value.replace(/^\/+/, '');
+      const g = globalThis as any;
+      if (typeof g.__solidtvSetRoute === 'function') g.__solidtvSetRoute(route);
+      else g.__solidtvInitialRoute = route;
+    });
 
     onMount(async () => {
       console.log('SOLIDTV_DEMO onMount');

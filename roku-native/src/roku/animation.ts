@@ -224,7 +224,13 @@ export class Animation extends Events {
         if (!this.loop) this.repeat--;
         this.t = 0;
         this.wait = this.repeatDelay;
-        this.startValue = this.value;
+        // A loop/repeat starts over from the animation's initial value, not
+        // from the value it just reached (which would leave it pinned at the
+        // target forever). Reset immediately so the repeat delay does not
+        // hold the final frame.
+        this.startValue = this.initialValue;
+        this.value = this.initialValue;
+        if (this.onUpdate) this.onUpdate(this.value);
         this.emit('loop');
         return true;
       }

@@ -43,6 +43,8 @@ export class SceneGraphRenderer extends Events {
   private lastStats = { visuals: 0, textures: 0, visibleTextures: 0 };
   private perfBox: RokuNode | null = null;
   private perfLabel: RokuNode | null = null;
+  private routeLabel: RokuNode | null = null;
+  private dirtyList: RokuNode[] = [];
 
   constructor(settings: any = {}, rootId: any = 'app') {
     super();
@@ -59,13 +61,18 @@ export class SceneGraphRenderer extends Events {
     // Native-only diagnostics under the shared FPS panel. The panel itself
     // reports the actual dirty-update rate; this line reports the frame-time
     // capacity separately so the two cannot be confused.
-    this.perfBox = new RokuNode(this, { w: 330, h: 38, x: 1580, y: 266, zIndex: 10001, color: 0x000000ff }, undefined, false);
+    this.perfBox = new RokuNode(this, { w: 330, h: 66, x: 1580, y: 266, zIndex: 10001, color: 0x000000ff }, undefined, false);
     this.perfBox.parent = this.root;
     this.perfLabel = new RokuNode(this, {
-      w: 320, h: 32, x: 0, y: 3, fontSize: 14, color: 0xffffffff,
+      w: 320, h: 30, x: 0, y: 3, fontSize: 14, color: 0xffffffff,
       text: 'perf: waiting', contain: 'width',
     }, undefined, true);
     this.perfLabel.parent = this.perfBox;
+    this.routeLabel = new RokuNode(this, {
+      w: 320, h: 26, x: 0, y: 35, fontSize: 12, color: 0xffffffff,
+      text: 'route ?', contain: 'width',
+    }, undefined, true);
+    this.routeLabel.parent = this.perfBox;
     (globalThis as any).__rokuRenderer = this;
     this.fpsTimer = setInterval(() => {
       const updates = this.frameCount;
@@ -81,6 +88,10 @@ export class SceneGraphRenderer extends Events {
         this.perfLabel.text = updates > 0
           ? 'flush ' + avgMs.toFixed(2) + 'ms · head ' + capacityFps + ' · upd ' + updates + '/s'
           : 'idle · upd 0/s';
+      }
+      if (this.routeLabel) {
+        const route = (globalThis as any).location?.hash || '?';
+        this.routeLabel.text = 'route ' + route;
       }
       // The panel's FPS is the number of dirty frames actually produced this
       // second (0 is valid); frame-time headroom is carried separately.
@@ -163,7 +174,11 @@ export class SceneGraphRenderer extends Events {
 
   private flushDirty() {
     if (this.dirty.size === 0) return;
-    const nodes = Array.from(this.dirty);
+    // Reuse the array: this runs on every frame, and Array.from allocated a
+    // fresh array for each batch.
+    const nodes = this.dirtyList;
+    nodes.length = 0;
+    this.dirty.forEach((node) => nodes.push(node));
     this.dirty.clear();
     const start = nowMs();
     // One frame = one batch of node writes, whether it came from the batched

@@ -7,7 +7,10 @@
   "scripts": {
     "build": "rk build",
     "dev": "rk dev",
-    "type-check": "rk gen-types && tsc --noEmit"
+    "type-check": "rk gen-types && tsc --noEmit",
+    "test:feature": "node test/feature-matrix.mjs",
+    "test:stress": "node test/stress-matrix.mjs",
+    "test:unit": "../node_modules/.bin/vitest run test/unit"
   },
   "dependencies": {
     "@roku-sdk/components": "2.19.0",
