@@ -5,7 +5,7 @@ SceneGraph 2.0. There is **no WebView, DOM canvas or Roku-specific redesign**:
 the same SolidJS + `@solidtv/solid` pages, components, styles and theme are
 rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 
-![native Browse](roku-native/evidence/live-browse.png)
+![native Browse with live TMDB data and the corrected FPS panel](roku-native/evidence/final-browse-panel.png)
 
 ## What works
 

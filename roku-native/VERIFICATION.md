@@ -23,7 +23,7 @@ Web references: 1920x1080 Chrome captures with live data.
 | Area | Evidence | Result |
 |---|---|---|
 | Build + renderer boot | console `ROKU_FONTS ... ready`, `ROKU_RENDERER ready 1920x1080` | pass |
-| Browse layout | `evidence/live-browse.png`, `evidence/matrix-50.png`, `evidence/fps-fix-idle.png` | live TMDB backdrop/posters, nav, hero, grid, focus ring |
+| Browse layout | `evidence/final-browse-panel.png`, `evidence/live-browse.png`, `evidence/matrix-50.png`, `evidence/fps-fix-idle.png` | live TMDB backdrop/posters, nav, hero, grid, focus ring |
 | Live TMDB native data | `evidence/live-browse.png` | real Resident Evil backdrop/poster grid via firmware `fetch` + `Request` Bearer header |
 | Web Browse 1920 reference | `evidence/web-browse-1920-live.png` | live TMDB 1920x1080 capture |
 | Web Login reference | `evidence/web-login-1920.png` | exact 1920x1080, offline-independent |
