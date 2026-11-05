@@ -54,7 +54,12 @@ Renderer-specific gaps must be reported, not silently hidden.
   native app can resolve data before the deferred effect runs and leave a white
   fallback. Safe for web.
 - `solid-demo-app/roku-native/` is untracked and contains the whole host app.
-- `solid/src/core/lightningInit.ts` renderer factory seam is uncommitted.
+- The framework-side Roku seam is committed in the public fork
+  `vynxc/solid`, branch `feat/roku-rsg2` (`d0d07e1`): `setRendererFactory` in
+  `src/core/lightningInit.ts` and Roku-safe `.forEach` descriptor loops in
+  `src/core/elementNode.ts`. The demo still targets published
+  `@solidtv/solid` 1.7.1 and applies equivalent build-time patches in
+  `roku-config.ts`, so it builds without a framework checkout.
 - `src/api/index.ts` is restored to the tracked version. `src/api/key.ts` is
   gitignored; it was used locally for the 1920×1080 live captures and has been
   removed again. A **v4 read token** is required to recapture; the `TMDB_API_KEY`

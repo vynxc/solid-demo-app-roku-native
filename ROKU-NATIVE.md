@@ -38,6 +38,24 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
   - `HANDOFF.md`, `VERIFICATION.md`, `evidence/` — working log, acceptance
     matrix and selected captures.
 
+## Framework support
+
+The framework-side Roku support is in the public fork
+[`vynxc/solid`](https://github.com/vynxc/solid), branch `feat/roku-rsg2`:
+
+- `src/core/lightningInit.ts` — the `setRendererFactory` / `getRendererFactory`
+  seam that lets a host install a native backend instead of `RendererMain`.
+- `src/core/elementNode.ts` — descriptor property loops use `.forEach`
+  instead of `for…of`; Roku’s JS engine does not give every `for…of` iteration
+  its own binding, which otherwise collapsed every width/height/x/y write into
+  `wordWrap`.
+
+The demo targets the published `@solidtv/solid` 1.7.1. Because that release
+predates the seam, `roku-native/roku-config.ts` applies equivalent build-time
+patches (renderer boundary, descriptor loops, FPSCounter idle handling), so the
+demo builds without a framework checkout. Use the fork branch for a clean,
+no-patch framework build.
+
 ## Prerequisites
 
 - Node 24+, pnpm via corepack.
