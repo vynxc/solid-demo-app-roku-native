@@ -106,12 +106,18 @@ not give each iteration its own binding) and substitutes the renderer boundary.
 
 ### FPS / frame-time metrics
 
-The panel reports **frame-time capacity** (`capacityFps = 1000 / avgFlushMs`),
-so it measures render headroom rather than the number of dirty updates in the
-last second. The renderer is dirty-driven; the actual update count is emitted
-as `updates` and logged in `ROKU_PERF` (`updates`, `avgFlushMs`, `maxFlushMs`,
-`capacityFps`) in builds that keep `console`. Capacity is not panel refresh —
-the compositor refreshes independently.
+The shared panel shows the **actual produced dirty-update rate**: 29/s while
+navigating and 1/s at idle (the panel/perf line itself produces one update).
+Frame-time headroom is shown separately in the native diagnostics line under
+the panel:
+
+```text
+flush 0.63ms · head 1578 · upd 29/s
+```
+
+`fpsUpdate` carries `updates`, `avgFlushMs`, `maxFlushMs` and `capacityFps`;
+`ROKU_PERF` logs the same in builds that keep `console`. The panel is not
+panel refresh — the compositor refreshes independently.
 
 ## Known renderer gaps
 

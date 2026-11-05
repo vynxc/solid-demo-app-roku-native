@@ -41,6 +41,8 @@ export class SceneGraphRenderer extends Events {
   private flushSamples = 0;
   private memMonitor: any = null;
   private lastStats = { visuals: 0, textures: 0, visibleTextures: 0 };
+  private perfBox: RokuNode | null = null;
+  private perfLabel: RokuNode | null = null;
 
   constructor(settings: any = {}, rootId: any = 'app') {
     super();
@@ -54,25 +56,38 @@ export class SceneGraphRenderer extends Events {
     // scene (usually inside a Scene with a solid background).
     this.root = new RokuNode(this, { w: APP_W, h: APP_H }, this.nativeRoot || undefined, false);
     this.root.parent = null;
+    // Native-only diagnostics under the shared FPS panel. The panel itself
+    // reports the actual dirty-update rate; this line reports the frame-time
+    // capacity separately so the two cannot be confused.
+    this.perfBox = new RokuNode(this, { w: 330, h: 38, x: 1580, y: 266, zIndex: 10001, color: 0x000000ff }, undefined, false);
+    this.perfBox.parent = this.root;
+    this.perfLabel = new RokuNode(this, {
+      w: 320, h: 32, x: 0, y: 3, fontSize: 14, color: 0xffffffff,
+      text: 'perf: waiting', contain: 'width',
+    }, undefined, true);
+    this.perfLabel.parent = this.perfBox;
     (globalThis as any).__rokuRenderer = this;
     this.fpsTimer = setInterval(() => {
       const updates = this.frameCount;
       const samples = this.flushSamples;
       const avgMs = samples > 0 ? this.flushMsSum / samples : 0;
       const maxMs = this.flushMsMax;
-      // The panel is a performance meter. Report the frame-time capacity
-      // (1000 / avg render cost), not the dirty update count: a dirty-driven
-      // renderer may update only 9 times in an idle second while still having
-      // plenty of headroom. The actual update count is kept in `updates`.
       const capacityFps = samples > 0 ? Math.max(1, Math.round(1000 / Math.max(0.1, avgMs))) : 0;
       this.frameCount = 0;
       this.flushMsSum = 0;
       this.flushMsMax = 0;
       this.flushSamples = 0;
-      if (updates > 0 && capacityFps > 0) {
+      if (this.perfLabel) {
+        this.perfLabel.text = updates > 0
+          ? 'flush ' + avgMs.toFixed(2) + 'ms · head ' + capacityFps + ' · upd ' + updates + '/s'
+          : 'idle · upd 0/s';
+      }
+      // The panel's FPS is the number of dirty frames actually produced this
+      // second (0 is valid); frame-time headroom is carried separately.
+      this.emit('fpsUpdate', { fps: updates, updates, avgFlushMs: avgMs, maxFlushMs: maxMs, capacityFps });
+      if (updates > 0) {
         const stats = this.collectStats();
         this.lastStats = stats;
-        this.emit('fpsUpdate', { fps: capacityFps, updates, avgFlushMs: avgMs, maxFlushMs: maxMs, capacityFps });
         this.emit('renderUpdate', { quads: stats.visuals, renderOps: stats.visuals });
         console.log(
           'ROKU_PERF updates=' + updates +

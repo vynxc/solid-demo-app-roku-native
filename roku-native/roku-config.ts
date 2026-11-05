@@ -64,6 +64,14 @@ const plugin={name:'solidtv-scenegraph-host',setup(build:any){
   if(args.path===path.join(shared,'fonts.ts'))return {contents:'export default [];',loader:'js'};
   if(!args.path.startsWith(shared+'/')&&!args.path.includes('/@solidtv/solid/'))return;
   let source=await readFile(args.path,'utf8');
+  if(args.path.endsWith('/primitives/FPSCounter.tsx')||args.path.endsWith('/primitives/FPSCounter.jsx')){
+   // The shared panel was written for WebGL, where idle still draws. The
+   // native renderer is dirty-driven, so allow 0 and show the real produced
+   // update rate instead of retaining the last non-zero value. The published
+   // package resolves to FPSCounter.jsx; the source checkout uses .tsx.
+   source=source.replace(/if \(fps > 5\) \{/,'if (fps >= 0) {').replace(/if \(!fps\)\s*return;?/,'if (typeof fps !== "number") return;');
+   if(!source.includes('if (fps >= 0) {')||!source.includes('typeof fps !== "number"'))throw Error('Could not patch FPSCounter for native idle 0');
+  }
   if(args.path===path.join(shared,'pages/Player.tsx')){
    const from='https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
    const to='https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';

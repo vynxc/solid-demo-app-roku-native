@@ -77,9 +77,9 @@ Renderer-specific gaps must be reported, not silently hidden.
   `registerShaderType`, `measureText`, `getCapabilities`, `memoryInfo`,
   event emitter, `requestRender`, `defer`, `pause/resume`, `destroy`.
 - Batched `flush()` loop; animation ticker at 16 ms; 1 s FPS timer.
-- The FPS number is **frame-time capacity** (`1000 / avgFlushMs`), not the
-  dirty-update count and not panel refresh. The actual update count is
-  `updates`; `ROKU_PERF` logs updates/avg/max/capacity.
+- The FPS panel shows the **actual produced dirty-update rate** (29/s while
+  navigating, 1/s at idle). Frame-time headroom is the separate native line
+  (`flush … ms · head … · upd …/s`) and `ROKU_PERF`, not the panel FPS.
 - `memoryInfo()` now uses `getAppMemoryMonitor()` from
   `@roku-sdk/rsg-ts/runtime` and reports live channel limits/percent-used plus
   texture/visual counts. Thresholds are approximate (80%/64% of limit).
@@ -177,7 +177,7 @@ ROKU_DEV_CONFIG_PATH="<workspace>/my-first-app/.roku/guide-device-config.json" \
 node_modules/.bin/rk build --local
 ```
 
-Latest: **Type checks passed**, 695,122-byte JS bundle (live-TMDB build).
+Latest: **Type checks passed**, 695,552-byte JS bundle (live-TMDB build).
 
 Deploy the built bundle:
 
@@ -300,10 +300,11 @@ curl -s http://<ROKU_IP>:8060/query/media-player
     browser-services layer converts the shared API's `(url, { headers })` call
     into a `Request`; the Bearer token reaches TMDB and real backdrops/posters
     load. The fixture API remains for deterministic runs.
-17. **Frame-time telemetry / FPS panel.** `flushDirty()` batches are timed; the
-    1 s timer reports `capacityFps = 1000 / avgFlushMs` to the shared panel and
-    carries `updates`, `avgFlushMs`, `maxFlushMs` and `capacityFps` on
-    `fpsUpdate`. `ROKU_PERF` logs the same in console-preserving builds.
+17. **FPS panel and frame-time telemetry.** The shared panel now shows the
+    actual produced dirty-update rate; the build patches its `fps > 5`/`!fps`
+    guards to accept 0. A native line underneath shows
+    `flush … ms · head … · upd …/s`; `fpsUpdate`/`ROKU_PERF` carry
+    `updates`, `avgFlushMs`, `maxFlushMs`, `capacityFps`.
 
 ## Remaining work (priority order)
 
@@ -314,10 +315,10 @@ curl -s http://<ROKU_IP>:8060/query/media-player
    - Login: Username 2 px lower, action-key labels 2 px higher than web.
    - Details: title top 271 px on both; buttons/recommendations aligned.
    Fix only with equal 1:1 crops; do not shift all text blindly.
-2. **FPS panel semantics.** It now reports frame-time capacity
-   (`1000 / avgFlushMs`); the actual dirty-update count is `updates` in the
-   payload/`ROKU_PERF`. This is render headroom, not panel refresh. The idle
-   case emits no sample and retains the last capacity.
+2. **FPS panel semantics.** It now shows the actual produced dirty-update
+   rate (0/1 at idle, ~29 while navigating); the native line under it shows
+   frame-time headroom (`flush … ms · head … · upd …/s`). The panel is not
+   panel refresh.
 3. **Web references** now exist for Browse, Examples, Details and Login.
    `web-player-1920.png` is black because headless Chrome (like ECP) has no
    hardware video plane; compare the Player overlay on the TV directly.

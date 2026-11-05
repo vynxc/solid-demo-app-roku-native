@@ -11,7 +11,7 @@ Web references: 1920x1080 Chrome captures with the same live API.
 
 - `node_modules/.bin/tsc --noEmit -p tsconfig.json` → **0 host errors**.
 - `rk build --local` (type checks enabled) → **Type checks passed**,
-  695,122-byte program bundle (live-TMDB build).
+  695,552-byte program bundle (live-TMDB build).
 - Deploy: `rk dev --local --no-build --sideload --bump-build --out-dir dist-build`.
 - The Roku build now defines `import.meta.env.VITE_USE_NEW_FLEX = 'true'`, so
   native uses **the same flex engine as the web app** (`flexLayout.ts`, not the
@@ -42,7 +42,7 @@ Web references: 1920x1080 Chrome captures with the same live API.
 | Keyboard interaction | `evidence/login-newflex.png`, `login-final-prod.png` | keys render; typing/backspace path unchanged |
 | Playback | ECP `/query/media-player` | HLS `state=play`, position advances, duration 634567 ms |
 | Pause / seek / exit | ECP after Play/Fwd/Back | `pause`, position moved, `close`, details visible |
-| FPS semantics | `evidence/fps-idle-trace.txt`, `evidence/cap-browse2.png` | idle 0 updates; panel shows frame-time capacity (e.g. 1557); `updates` remains in payload/log |
+| FPS semantics | `evidence/final-browse-panel.png`, `evidence/now-fresh.png` | panel shows actual produced updates (29/s active, MIN 1 idle); native line `flush 0.63ms · head 1578 · upd 29/s` |
 | 50-cycle matrix | `evidence/matrix-50-cycles-live.txt` (live) and `matrix-50-cycles-offline.txt` (fixtures) | no crash; memory plateau; textures 49–65 |
 | Gap reporting | console `ROKU_EFFECT_GAP shadow`, `ROKU_TEXTURE_GAP`, `ROKU_TEXT_GAP`, `ROKU_COLOR_GAP` | explicit, not silent |
 
@@ -69,10 +69,10 @@ Web references: 1920x1080 Chrome captures with the same live API.
    Label actually uses, retries transient failures, and a font-version hook
    dirties all text nodes so a face that becomes measurable after first paint
    reflows the UI.
-6. **FPS panel now reports frame-time capacity.** It uses
-   `1000 / avgFlushMs`, not the dirty-update count; the actual update count is
-   in `updates` and `ROKU_PERF`. Idle emits no sample, so the last capacity is
-   retained.
+6. **FPS panel now reports the produced update rate.** The shared panel gets
+   `fps: updates` (0/1 while idle, 29 while navigating). Frame-time capacity is
+   shown separately in the native diagnostics line (`flush … ms · head … ·
+   upd …/s`) and carried on `fpsUpdate`/`ROKU_PERF`.
 7. **CSS half-leading for native labels.** Roku paints the first line at the
    top of its line box. Labels now translate by `(lineHeight − naturalLineHeight)
    / 2`, matching CSS. This centers Play/Resume button text, HD/CC badges and
@@ -83,11 +83,12 @@ Web references: 1920x1080 Chrome captures with the same live API.
    browser-services layer wraps the shared web call’s `(url, {headers})` into a
    `Request`; the Bearer token is now actually sent. Real backdrops, posters,
    titles and metadata load on device.
-9. **Frame-time telemetry.** Each `flushDirty()` batch is timed; the 1 s timer
-   emits `avgFlushMs`, `maxFlushMs` and `capacityFps` on `fpsUpdate` and logs
-   `ROKU_PERF updates=… avgFlushMs=… maxFlushMs=… capacityFps=…` in builds that
-   keep console. This separates render cost/headroom from the actual update
-   rate shown by the shared panel.
+9. **Frame-time telemetry and a separate native line.** Each `flushDirty()`
+   batch is timed; the 1 s timer emits `updates`, `avgFlushMs`, `maxFlushMs`
+   and `capacityFps` on `fpsUpdate`, and a native-only line under the panel
+   shows `flush … ms · head … · upd …/s`. The shared FPSCounter is patched at
+   build time to accept 0, so idle shows the real one-update-per-second
+   diagnostic rate instead of retaining an old number.
 
 ## Current 1:1 deltas
 
@@ -100,12 +101,12 @@ Web references: 1920x1080 Chrome captures with the same live API.
   overview’s line count (content-dependent).
 - **Login keyboard:** Username 2 px lower, action-key labels 2 px higher than
   web; key width/fill/labels now match.
-- **FPS panel:** the displayed FPS is now **frame-time capacity**
-  (`capacityFps = 1000 / avgFlushMs`), so it reflects render headroom rather
-  than the number of dirty updates in the last second. The actual update count
-  is still emitted as `updates` and logged in `ROKU_PERF`. The panel is not
-  panel refresh; the compositor refreshes independently. A slow first frame
-  shows as a low `MIN` while `MAX`/`AVG` show the capacity once warm.
+- **FPS panel:** the displayed FPS is the **actual number of dirty update
+  frames produced** in the last second (29 while navigating, 1 at idle because
+  the panel/perf line itself updates once). It is not panel refresh; the
+  compositor refreshes independently. Frame-time headroom is the separate
+  native line (`flush 0.63 ms · head 1578 · upd 29/s`) and the `ROKU_PERF`
+  payload, not the shared FPS number.
 - **Player:** ECP captures omit the hardware video plane. Web player capture
   is also black because headless Chrome has no video plane. Verify playback via
   `/query/media-player`.
