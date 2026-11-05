@@ -1,0 +1,8 @@
+Examples focus-color transition (sampled from SceneGraph Rectangle colors every ~50 ms,
+rapid Left/Right focus changes). After the per-channel interpolation fix, intermediate
+colors are smooth and keep alpha FF:
+
+#5c6a7bff  #bbc0c8ff  #5e6b7dff  #b9bfc6ff  #cdd1d7ff  #4a596cff  #d2d5daff  #455569ff
+
+Before the fix the same sampling produced random colours with varying alpha, e.g.
+#655a1fa7 #b2d12556 #877333fd #90b81100 #ac94cd71 #f47be9f0.

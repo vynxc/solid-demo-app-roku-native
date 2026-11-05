@@ -1,0 +1,52 @@
+import { IntrinsicNodeStyleProps } from "@solidtv/solid";
+import theme from "theme";
+
+export default {
+  Column: {
+    flexDirection: "column",
+    display: "flex",
+    width: 140,
+    height: 600,
+    y: 300,
+    gap: 20,
+    zIndex: 101,
+    transition: {
+      x: {
+        duration: 250,
+        easing: "ease-in-out"
+      }
+    },
+    x: 24,
+    $focus: {
+      width: 500,
+      // x: theme.layout.marginX
+    }
+  } satisfies IntrinsicNodeStyleProps,
+  Gradient: {
+    zIndex: 99,
+    color: "#000000",
+    src: "./assets/sidenav.png",
+    alpha: 0,
+    width: 200,
+    height: 1080,
+    $focus: {
+      alpha: 1,
+      width: 1600
+    },
+    transition: { alpha: true, width: true }
+  } satisfies IntrinsicNodeStyleProps,
+  NavButton: {
+    zIndex: 102,
+    height: 70,
+    width: 100,
+    borderRadius: 0,
+    color: 0,
+    $focus: {
+      color: theme.primaryLight,
+      borderRadius: 8,
+    },
+    $active: {
+      width: 328
+    }
+  } satisfies IntrinsicNodeStyleProps
+};

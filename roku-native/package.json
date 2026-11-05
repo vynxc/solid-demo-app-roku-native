@@ -1,0 +1,45 @@
+{
+  "name": "solidtv-roku-native",
+  "version": "1.0.0",
+  "description": "Native Roku SceneGraph host for the shared SolidTV demo UI",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rk build",
+    "dev": "rk dev",
+    "type-check": "rk gen-types && tsc --noEmit"
+  },
+  "dependencies": {
+    "@roku-sdk/components": "2.19.0",
+    "@roku-sdk/interfaces": "2.19.0",
+    "@roku-sdk/rsg-ts": "2.19.0",
+    "@roku-sdk/solid": "2.19.0",
+    "@roku-sdk/testing-library": "2.19.0",
+    "@roku-sdk/tooling": "2.19.0",
+    "@solidtv/solid": "1.7.1",
+    "@solidtv/renderer": "2.0.7",
+    "solid-js": "1.9.9",
+    "@solidjs/router": "0.16.1",
+    "@solid-primitives/list": "0.1.2",
+    "@solid-primitives/scheduled": "1.5.2"
+  },
+  "devDependencies": {
+    "@roku-sdk/dev-tools": "2.19.0",
+    "@types/jest": "^30.0.0",
+    "eslint": "^9.39.2",
+    "jest": "^30.4.1",
+    "typescript": "^5.9.3",
+    "@babel/core": "7.28.4",
+    "@babel/preset-typescript": "7.27.1",
+    "babel-preset-solid": "1.9.9",
+    "@babel/plugin-transform-classes": "7.28.4",
+    "@babel/plugin-transform-class-properties": "7.27.1"
+  },
+  "engines": {
+    "npm": ">=8.5.0",
+    "node": ">=24.0.0"
+  },
+  "author": "Roku SDK Team",
+  "license": "MIT",
+  "prettier": "@roku-sdk/dev-tools/linter-config/.prettierrc.json"
+}

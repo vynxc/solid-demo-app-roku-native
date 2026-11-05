@@ -1,0 +1,25 @@
+Renderer FPS tracing (development build, animation/update-frame semantics)
+[Device] [TS]: ROKU_FPS frames=2 tracks=3
+[Device] [TS]: ROKU_FPS frames=28 tracks=0
+[Device] [TS]: ROKU_FPS frames=1 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0
+[Device] [TS]: ROKU_FPS frames=0 tracks=0

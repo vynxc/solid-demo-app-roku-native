@@ -1,0 +1,154 @@
+import { useMatch, useNavigate } from "@solidjs/router";
+import { IntrinsicNodeProps, ElementNode } from "@solidtv/solid";
+import { Column } from "@solidtv/solid/primitives";
+import styles from "./NavDrawer.styles";
+import { createMemo } from "solid-js";
+import Icon from "../Icon";
+import theme from "theme";
+
+interface NavButtonProps extends IntrinsicNodeProps {
+  icon: string;
+  iconColor: string;
+  children: string;
+}
+
+const NavButtonTextStyles = {
+  x: 112,
+  fontSize: 38,
+  lineHeight: 70,
+  alpha: 0,
+  color: theme.textPrimary,
+  $active: {
+    alpha: 1
+  }
+} as const;
+
+function NavButton(props: NavButtonProps) {
+  return (
+    <view {...props} forwardStates style={styles.NavButton}>
+      <view y={-16}>
+        <Icon color={props.iconColor} scale={0.5} name={props.icon} />
+      </view>
+      <text style={NavButtonTextStyles}>{props.children}</text>
+    </view>
+  );
+}
+
+export default function NavDrawer(props) {
+  let backdrop: ElementNode | undefined;
+  const navigate = useNavigate();
+  function onFocus(this: ElementNode) {
+    backdrop!.states.add("$focus");
+    this.children.forEach((c) => c.states!.add("$active"));
+    this.children[this.selected || 0].setFocus();
+  }
+
+  function onBlur(this: ElementNode) {
+    backdrop!.states.remove("$focus");
+    this.selected = 0;
+    this.children.forEach((c) => c.states!.remove("$active"));
+  }
+
+  function handleNavigate(page: string) {
+    const isOnPage = useMatch(() => page);
+    if (isOnPage()) {
+      return props.focusPage();
+    }
+
+    navigate(page);
+  }
+
+  const selectedButton = createMemo(() => {
+    if (useMatch(() => "/browse/all")()) return 308;
+    if (useMatch(() => "/browse/movie")()) return 398;
+    if (useMatch(() => "/browse/tv")()) return 488;
+    if (useMatch(() => "/examples")()) return 578;
+    if (useMatch(() => "/benchmark")()) return 668;
+    if (useMatch(() => "/versions")()) return 758;
+    return 308;
+  });
+
+  return (
+    <>
+      <view
+        id="NavDrawer"
+        flexItem={false}
+        width={300}
+        height={150}
+        x={30}
+        y={15}
+        zIndex={105}
+        alpha={props.showWidgets ? 1 : 0}
+      >
+        <text y={8} x={80} fontSize={28} color={theme.textSecondary}>
+          Built With:
+        </text>
+        <view
+          y={10}
+          src="./assets/solidWord.png"
+          width={280}
+          height={52}
+          textureOptions={{
+          }}
+        />
+
+        <view
+          x={0}
+          y={100}
+          src="./assets/tmdb.png"
+          width={80}
+          height={41}
+          textureOptions={{
+          }}
+        />
+        <text x={90} y={104} contain="width" width={160} fontSize={12} color={theme.textSecondary}>
+          This product uses the TMDB API but is not endorsed or certified by TMDB.
+        </text>
+      </view>
+      <Column {...props} onFocus={onFocus} onBlur={onBlur} style={styles.Column} announce={"Main Menu"} scroll="none">
+        <NavButton
+          onEnter={() => handleNavigate("/browse/all")}
+          iconColor={"#fff"}
+          announce={["Trending Browse", "button"]}
+          icon="trending"
+        >
+          Trending
+        </NavButton>
+        <NavButton
+          icon="movie"
+          iconColor={"#fff"}
+          announce={["Movies Browse", "button"]}
+          onEnter={() => handleNavigate("/browse/movie")}
+        >
+          Movies
+        </NavButton>
+        <NavButton
+          icon="tv"
+          iconColor={"#fff"}
+          announce={["TV Browse", "button"]}
+          onEnter={() => handleNavigate("/browse/tv")}
+        >
+          TV
+        </NavButton>
+        <NavButton
+          icon="experiment"
+          iconColor={"#fff"}
+          announce={["Examples", "button"]}
+          onEnter={() => handleNavigate("/examples")}
+        >
+          Examples
+        </NavButton>
+        <NavButton
+          icon="perf"
+          iconColor={"#fff"}
+          announce={["Benchmark", "button"]}
+          onEnter={() => handleNavigate("/versions")}
+        >
+          Benchmark
+        </NavButton>
+      </Column>
+      <view skipFocus ref={backdrop} style={styles.Gradient} />
+      <view width={4} height={56} color={"#FFF"} x={22} y={selectedButton()} zIndex={100} />
+    </>
+  );
+}

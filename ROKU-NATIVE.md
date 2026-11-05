@@ -1,0 +1,132 @@
+# SolidTV demo — native Roku SceneGraph port
+
+The shared SolidTV demo UI in [`src/`](src/) runs natively on Roku through
+SceneGraph 2.0. There is **no WebView, DOM canvas or Roku-specific redesign**:
+the same SolidJS + `@solidtv/solid` pages, components, styles and theme are
+rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
+
+![native Browse](roku-native/evidence/live-browse.png)
+
+## What works
+
+- Browse, Movies/TV filters, Examples portal, Details, nested Text page and
+  the custom keyboard.
+- D-pad and held-key navigation, focus restore, back navigation, scrolling
+  and long lists.
+- Native HLS playback, pause, seek and exit.
+- Live TMDB data (backdrops, posters, titles, metadata) on device when a local
+  v4 read token is present; otherwise deterministic offline fixtures.
+- The FPS/memory panel (memory limits and usage are live; frame telemetry is
+  described below).
+
+## Repository layout
+
+- `src/` — the shared demo UI (pages, components, styles, theme); unchanged
+  apart from the three pre-existing working-tree fixes.
+- `roku-native/` — the native host:
+  - `src/components/my-first-app.tsx` — host entry; installs browser services,
+    loads fonts, sets the renderer factory, imports the shared app, wires keys.
+  - `src/roku/renderer.ts` — `SceneGraphRenderer`: node creation, dirty-flush
+    loop, animation ticker, FPS/frame-time metrics, memory info.
+  - `src/roku/node.ts` — `RokuNode`: Group + visual, z-order, clipping,
+    transforms, CSS half-leading, text layout, posters/SubTexture.
+  - `src/roku/fonts.ts`, `text-layout.ts` — font faces, measurement, wrapping.
+  - `src/roku/browser-services.ts` — browser-compatible surface, Roku key
+    bridge, and the firmware `fetch` → `Request` wrapper.
+  - `src/roku/video.ts`, `animation.ts`, `effects.ts`, `events.ts`.
+  - `roku-config.ts` — build wiring and the published-framework patches.
+  - `HANDOFF.md`, `VERIFICATION.md`, `evidence/` — working log, acceptance
+    matrix and selected captures.
+
+## Prerequisites
+
+- Node 24+, pnpm via corepack.
+- A Roku in developer mode with the `rk` CLI (2.19+).
+- `mksquashfs` on `PATH` (Debian bookworm squashfs-tools 4.5.1 works).
+- A device store JSON for `rk` (see the `rk` documentation), exported as
+  `ROKU_DEV_CONFIG_PATH`.
+
+## Setup
+
+```sh
+pnpm install
+cd roku-native
+pnpm install
+```
+
+### Live TMDB (optional)
+
+The shared API expects a **v4 read access token** (the long JWT starting
+`eyJ...`), not the 32-character v3 API key. Create the gitignored key file:
+
+```sh
+cp src/api/key.example.ts src/api/key.ts
+# edit src/api/key.ts and replace the placeholder
+```
+
+`src/api/key.ts` is in `.gitignore`. Never commit it. The Roku build uses live
+TMDB when that file exists; without it, `roku-config.ts` substitutes the
+deterministic fixture API (`roku-native/src/offline-api.ts`) automatically.
+
+The web demo (`pnpm start`) requires the key file as well, because
+`src/api/index.ts` imports it directly.
+
+## Build / typecheck / deploy
+
+```sh
+cd roku-native
+node_modules/.bin/tsc --noEmit -p tsconfig.json
+
+PATH="…/usr/bin:$PATH" \
+ROKU_DEV_CONFIG_PATH="/path/to/device-store.json" \
+node_modules/.bin/rk build --local
+
+PATH="…/usr/bin:$PATH" \
+ROKU_DEV_CONFIG_PATH="/path/to/device-store.json" \
+node_modules/.bin/rk dev --local --no-build --sideload --bump-build --out-dir dist-build
+```
+
+`--out-dir dist-build` is required; without it `rk dev` sideloads the older
+`dist-dev` bundle. The build patches the published `@solidtv/solid` copy:
+it rewrites the descriptor `for…of` loops to `forEach` (Roku’s JS engine does
+not give each iteration its own binding) and substitutes the renderer boundary.
+
+## Verification snapshot
+
+- Typecheck: 0 errors; `rk build --local` reports “Type checks passed”.
+- Live TMDB Browse on device: real backdrop, posters and metadata.
+- 50-cycle Browse → Details → Examples matrix on the live build and on the
+  fixture build: no crash; memory plateaus; textures stay bounded.
+- Web reference captures at 1920×1080 for Browse, Examples, Details and Login.
+- Keyboard action keys render at full width with labels; Play/Resume, HD/CC
+  badges and sidebar labels are vertically centred.
+- Evidence: [`roku-native/evidence/`](roku-native/evidence/) and the matrix
+  logs [`matrix-50-cycles-live.txt`](roku-native/evidence/matrix-50-cycles-live.txt)
+  / [`matrix-50-cycles-offline.txt`](roku-native/evidence/matrix-50-cycles-offline.txt).
+
+### FPS / frame-time metrics
+
+The panel reports **frame-time capacity** (`capacityFps = 1000 / avgFlushMs`),
+so it measures render headroom rather than the number of dirty updates in the
+last second. The renderer is dirty-driven; the actual update count is emitted
+as `updates` and logged in `ROKU_PERF` (`updates`, `avgFlushMs`, `maxFlushMs`,
+`capacityFps`) in builds that keep `console`. Capacity is not panel refresh —
+the compositor refreshes independently.
+
+## Known renderer gaps
+
+Reported, not silently faked: shadows have no native `Effect` equivalent;
+`holePunch`/`radialProgress` need other primitives; per-side border widths
+collapse to the widest side; non-circular radial-gradient radii are
+approximated per axis; a Label cannot take an `Effect`; per-corner colours use
+a two-stop approximation; unknown `SubTexture` sheets log a gap and fall back;
+`letterSpacing` is measured but not drawn; rotated clipping uses the unrotated
+rect. `memoryInfo()` thresholds are approximate (channel limits are real).
+Player video-plane captures are black by design (ECP and headless Chrome);
+verify with `/query/media-player`.
+
+## Credits
+
+Shared demo and SolidTV runtime: the SolidTV project and contributors.
+Roku SceneGraph host: the native port in `roku-native/`. License: MIT (see
+[`LICENSE`](LICENSE)).

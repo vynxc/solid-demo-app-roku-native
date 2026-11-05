@@ -1,0 +1,16 @@
+matrix start 2026-11-05T07:49:16+00:00
+app_alive=1
+cycle= 0 fps= 26 avg= 26 min= 26 max= 26 memUsed=  46.90 Mb tex= 26 onScreen= 25 quads= 103 draws= 103
+cycle= 5 fps= 20 avg= 26 min= 13 max= 44 memUsed=  53.60 Mb tex= 49 onScreen= 48 quads= 125 draws= 125
+cycle=10 fps= 31 avg= 26 min= 13 max= 44 memUsed=  60.30 Mb tex= 65 onScreen= 64 quads= 125 draws= 125
+cycle=15 fps= 23 avg= 26 min= 10 max= 44 memUsed=  67.00 Mb tex= 63 onScreen= 63 quads= 122 draws= 122
+cycle=20 fps= 21 avg= 26 min=  8 max= 44 memUsed=  77.05 Mb tex= 65 onScreen= 65 quads= 125 draws= 125
+cycle=25 fps= 21 avg= 26 min=  8 max= 44 memUsed=  80.40 Mb tex= 65 onScreen= 64 quads= 125 draws= 125
+cycle=30 fps= 32 avg= 26 min=  8 max= 44 memUsed=  80.40 Mb tex= 65 onScreen= 64 quads= 125 draws= 125
+cycle=35 fps= 34 avg= 26 min=  8 max= 44 memUsed=  80.40 Mb tex= 63 onScreen= 62 quads= 122 draws= 122
+cycle=40 fps= 21 avg= 26 min=  6 max= 44 memUsed=  80.40 Mb tex= 65 onScreen= 65 quads= 125 draws= 125
+cycle=45 fps= 21 avg= 26 min=  6 max= 44 memUsed=  77.05 Mb tex= 65 onScreen= 64 quads= 125 draws= 125
+cycle=50 fps= 20 avg= 26 min=  6 max= 44 memUsed=  77.05 Mb tex= 65 onScreen= 65 quads= 125 draws= 125
+matrix end 2026-11-05T07:55:32+00:00
+app_alive=1
+cycle=50 fps= 20 avg= 26 min=  6 max= 44 memUsed=  77.05 Mb tex= 65 onScreen= 65 quads= 125 draws= 125
