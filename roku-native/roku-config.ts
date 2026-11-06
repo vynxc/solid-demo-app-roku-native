@@ -82,4 +82,4 @@ const plugin={name:'solidtv-scenegraph-host',setup(build:any){
   return {contents:result?.code||source,loader:'js',resolveDir:path.dirname(args.path)};
  });
 }};
-export default {app:{entryPoint:'src/index.ts',staticAssetsDir:'./pkg',manifestEntries:{title:'SolidTV Demo — Roku prototype',major_version:1,minor_version:0,build_version:1,ui_resolutions:'fhd',rsg_version:'2.0',splash_color:'0x101826FF'}},pipeline:{startDev:{plugins:[{position:{before:'solid'},plugin}]},build:{plugins:[{position:{before:'solid'},plugin}]}}} satisfies RokuConfig;
+export default {app:{entryPoint:'src/index.ts',staticAssetsDir:'./pkg',manifestEntries:{title:'SolidTV Demo — Roku prototype',major_version:1,minor_version:0,build_version:1,ui_resolutions:'fhd',rsg_version:'2.0',splash_color:'0x101826FF',splash_min_time:1}},pipeline:{startDev:{plugins:[{position:{before:'solid'},plugin}]},build:{plugins:[{position:{before:'solid'},plugin}]}}} satisfies RokuConfig;

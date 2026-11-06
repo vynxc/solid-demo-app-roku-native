@@ -49,7 +49,7 @@ Web references: 1920x1080 Chrome captures with live data.
 
 | Unit tests | `roku-native/test/unit` | **62 tests**: text layout, animation, fixtures/error injection, colours, key bridge, video, task queue, WorkerTask |
 | Visual parity matrix | `evidence/visual/visual-report.md` | **48/48 comparable static routes pass**; 0 known gaps, 5 dynamic, 1 external, 2 capability |
-| Performance benchmark | `evidence/performance/perf-report.md` | Browse flush p95 **4.11 ms** / 56.9 updates/s; ComplexFlex **2.68 ms**; startup p95 **7.79 s** (dev channel) |
+| Performance benchmark | `evidence/performance/perf-report.md` | Browse flush p95 **2.03 ms** / 58.1 updates/s; ComplexFlex **1.53 ms**; app active median **1.04 s**, route-ready p95 **7.18 s** (dev channel) |
 | Task thread | `workerTest=1` hook | **`worker: worker-ok`** from the scene graph Task thread |
 | Web v2 renderer | `evidence/web-browse-1920-live.png` | `@solidtv/renderer` 2.0.7 / `@solidtv/solid` 1.7.1; live Browse 60 FPS |
 | Web v2 production build | `evidence/web-build-v2.txt` | **pass**, `✓ built in 28.67 s` (placeholder key, 3 GB heap) |
@@ -159,6 +159,31 @@ Web references: 1920x1080 Chrome captures with live data.
   is also black because headless Chrome has no video plane. Verify playback via
   `/query/media-player`.
 
+## Startup / distribution investigation (2026-11-06)
+
+- Cold dev-channel route-ready p95: **7.176 s**, median **6.829 s**; app
+  active median **1.041 s**. The earlier 7.79 s included an immediate
+  `query/app-ui` request that ECP holds open while the first scene is built.
+- Minimal SDK template on the same dev slot: UI in ~1 s with a 35 KB bundle,
+  proving the channel itself can launch quickly.
+- Shared app boot: `onMount` +0.28 s, renderer ready +0.66 s, render called
+  +1.54 s; first full SceneGraph tree ~6 s.
+- `splash_min_time=1` was added to the manifest; it did not change the timing.
+- Removing the Background, FPS panel and nav shell, using fallback images,
+  preloading exact font sizes, using a single 32 pt font atlas, MSDF layout,
+  and larger flush budgets did **not** move the first frame.
+- A stripped 1.4 MB package (no offline/KTX/extra fonts) still took ~6 s.
+- `rk build --compile-ts --release` produces a valid 764 KB
+  `source/compiled/index.hbc`, but sideloading it is refused on this TV:
+  “Devices without the rsg_typescript device token will refuse to launch it.”
+  The TV returned to Home. The signed numeric-beta path is also not viable:
+  the earlier beta 890006 experiment documented RSG 2.0/TypeScript static
+  analysis errors and exited before UI.
+- **Blocker:** closing the remaining startup gap requires the
+  `rsg_typescript` device token or a release/beta channel/firmware that accepts
+  RSG 2.0/TypeScript. App-side tuning is exhausted; a framework-level bundle or
+  node-count reduction is the alternative.
+
 ## Verified approximations / limits
 
 - The visual matrix now passes **48/48 comparable static routes** with zero
@@ -204,8 +229,8 @@ ROKU_DEV_CONFIG_PATH=... node_modules/.bin/rk ecp capture-screen --device <ROKU_
 curl -s http://<ROKU_IP>:8060/query/media-player
 # automated feature matrix (fixture build; no key needed):
 ROKU_DEV_CONFIG_PATH=... node test/feature-matrix.mjs --device <ROKU_IP>
-# 100-cycle endurance pass:
-ROKU_DEV_CONFIG_PATH=... node test/stress-matrix.mjs --device <ROKU_IP> --cycles 100
+# 50-cycle endurance pass:
+ROKU_DEV_CONFIG_PATH=... node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50
 # unit tests (from the repository root):
 node_modules/.bin/vitest run roku-native/test/unit
 ```

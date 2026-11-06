@@ -389,8 +389,14 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 4. **Web references** now exist for Browse, Examples, Details and Login.
    `web-player-1920.png` is black because headless Chrome (like ECP) has no
    hardware video plane; compare the Player overlay on the TV directly.
-5. **Startup performance.** Dev-channel launch is ~7.7 s (release packaging,
-   bundle splitting and font/import overlap are the next targets).
+5. **Startup performance.** App active median **1.04 s**; dev-channel
+   route-ready p95 **7.18 s**. Bytecode/release packaging is blocked on this TV:
+   `--compile-ts` produces `index.hbc`, but sideload is refused without the
+   `rsg_typescript` device token. The signed numeric-beta path is also not
+   viable for RSG 2.0/TypeScript on this firmware. App-side tuning (Background,
+   FPS/nav shell, images, fonts, MSDF, flush budgets) did not move the ~6 s
+   first frame; see `VERIFICATION.md`. Needs an owner-provided token or a
+   release channel/firmware that accepts RSG 2.0/TypeScript.
 6. **Task/video APIs.** `WorkerTask` + `postRokuTask()` is verified on device;
    the BRS command set currently covers echo/sleep/json/fetch. The typed video
    adapter and cooperative task queue are in `src/roku/`.

@@ -95,7 +95,29 @@ function readPerf(ls) {
     draws: number(get("Draws:")),
   };
 }
+async function activeApp() {
+  try {
+    const xml = await http("/query/active-app");
+    return (xml.match(/<app id="([^"]+)"/) || [])[1] || "";
+  } catch {
+    return "";
+  }
+}
+async function ensureHome() {
+  await fetch(`${base}/keypress/Home`, {
+    method: "POST",
+    signal: AbortSignal.timeout(5000),
+  }).catch(() => {});
+  // A cold launch is the startup users see. Wait for Home so the next
+  // measurement does not accidentally observe the previous app's UI tree.
+  const deadline = Date.now() + 4000;
+  while (Date.now() < deadline) {
+    await sleep(150);
+    if ((await activeApp()) !== "dev") return;
+  }
+}
 async function launch(route) {
+  await ensureHome();
   const started = Date.now();
   await fetch(`${base}/launch/dev?contentId=${encodeURIComponent(route)}`, {
     method: "POST",
@@ -103,7 +125,21 @@ async function launch(route) {
   });
   return started;
 }
+async function waitActive(started) {
+  const deadline = Date.now() + TIMEOUT_MS;
+  while (Date.now() < deadline) {
+    await sleep(100);
+    if ((await activeApp()) === "dev") return Date.now() - started;
+  }
+  throw new Error("dev app did not become active");
+}
 async function waitRoute(expect, started) {
+  const activeMs = await waitActive(started);
+  // Give the SceneGraph scene its first commits before the first app-ui
+  // request. Polling immediately makes ECP hold the request open while the
+  // initial tree is built, which inflated the old startup metric by seconds;
+  // this waits for app readiness rather than ECP serialization.
+  await sleep(1000);
   const deadline = Date.now() + TIMEOUT_MS;
   while (Date.now() < deadline) {
     await sleep(150);
@@ -111,7 +147,7 @@ async function waitRoute(expect, started) {
       const ls = labels(await http("/query/app-ui"));
       const line = ls.find((t) => t.startsWith("route "));
       if (line && line.slice("route ".length) === expect) {
-        return { ms: Date.now() - started, labels: ls };
+        return { ms: Date.now() - started, activeMs, labels: ls };
       }
     } catch {}
   }
@@ -144,6 +180,7 @@ console.log(`perf: ${STARTUP_RUNS} launches, ${RUNS} navigation samples`);
 
 // ---- startup -------------------------------------------------------------
 const startupTimes = [];
+const startupActive = [];
 const startupMemory = [];
 for (let i = 0; i < STARTUP_RUNS; i++) {
   const started = await launch("/browse/all");
@@ -151,14 +188,17 @@ for (let i = 0; i < STARTUP_RUNS; i++) {
   await sleep(700);
   const perf = await sample();
   startupTimes.push(result.ms);
+  startupActive.push(result.activeMs);
   startupMemory.push(perf.memUsed);
   console.log(
-    `start ${String(i + 1).padStart(2)}/${STARTUP_RUNS} ${result.ms}ms mem=${perf.memUsed ?? "?"} tex=${perf.textures ?? "?"}`,
+    `start ${String(i + 1).padStart(2)}/${STARTUP_RUNS} active=${result.activeMs}ms route=${result.ms}ms mem=${perf.memUsed ?? "?"} tex=${perf.textures ?? "?"}`,
   );
 }
 report.startup = {
   runs: STARTUP_RUNS,
   ms: startupTimes,
+  activeMs: startupActive,
+  activeMedianMs: pct(startupActive, 50),
   medianMs: pct(startupTimes, 50),
   p95Ms: pct(startupTimes, 95),
   memoryMB: startupMemory.filter((v) => v !== undefined),
@@ -238,7 +278,8 @@ const md = [
   "## Launch",
   "",
   `Runs: ${STARTUP_RUNS}`,
-  `Median: **${report.startup.medianMs} ms** · p95: **${report.startup.p95Ms} ms**`,
+  `App active (median): **${report.startup.activeMedianMs} ms**`,
+  `Route ready from launch: median **${report.startup.medianMs} ms** · p95: **${report.startup.p95Ms} ms**`,
   `Memory after launch: ${report.startup.memoryMB.join(", ")} MB`,
   "",
   "## Navigation",

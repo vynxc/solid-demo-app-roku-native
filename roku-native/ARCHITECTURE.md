@@ -179,6 +179,9 @@ when the Task thread returns (verified on the TCL OS 16 device).
   workaround.
 - Device matrix is one TCL 50S435 on OS 16.0.4; 4K/HDR and older OS versions
   are untested.
-- Dev-channel launch is ~7.6 s; release packaging/code-splitting is the next
-  performance target. The SceneGraph Task bridge is shipped; its BRS command
-  set is deliberately small.
+- Dev-channel route-ready p95 is **7.18 s** (app active median **1.04 s**).
+  `--compile-ts` bytecode is refused by this TV without the `rsg_typescript`
+  device token; the signed numeric-beta path is not viable for RSG 2.0/TS on
+  this firmware. App-side startup tuning is exhausted; see `VERIFICATION.md`.
+  The SceneGraph Task bridge is shipped; its BRS command set is deliberately
+  small.

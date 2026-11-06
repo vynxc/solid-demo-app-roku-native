@@ -14,8 +14,8 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 | Feature matrix | **56/56 routes, 8/8 interactions** (including held-key repeat, scroll, player transitions, Home recovery) |
 | Unit tests | **62/62** |
 | 100-cycle stress | **100/100**, memory 53.6–80.4 MB, textures 0–42 |
-| Navigation performance | Browse flush p95 **4.11 ms**, 56.9 updates/s; ComplexFlex p95 **2.68 ms** |
-| Launch | dev-channel median/p95 **7.66 / 7.79 s** (release packaging is still a target) |
+| Navigation performance | Browse flush p95 **2.03 ms**, 58.1 updates/s; ComplexFlex p95 **1.53 ms** |
+| Launch | dev-channel route-ready median/p95 **6.83 / 7.18 s**; app active median **1.04 s** (bytecode/release path blocked by the missing `rsg_typescript` device token) |
 | Task thread | `workerTest=1` returns **`worker: worker-ok`** on the TCL OS 16 device |
 | Visual parity | **48/48 comparable static routes pass**; 0 known gaps, 5 dynamic, 1 external, 2 capability |
 
@@ -227,6 +227,30 @@ failures and visual-only pages by default, so the automated pass is fast and
 the operator only inspects suspicious results. Visual-only pages are also
 checked against expected SceneGraph colours (for example the viewport ball),
 so an intentionally black page is not mistaken for a blank one.
+
+## Startup / distribution status
+
+The app reaches the active state in **~1.04 s**, but the first full SceneGraph
+frame/route tree takes **~6.8 s** on the dev channel. The minimal SDK template
+on the same slot shows its UI in ~1 s, so the channel can launch fast; the
+remaining cost is the shared app's TypeScript/RSG 2.0 bundle and first
+SceneGraph commit.
+
+A release bytecode build is available (`rk build --compile-ts` produces a
+764 KB `index.hbc`), but this TV refuses it without the `rsg_typescript`
+device token. The signed numeric-beta path is also not viable on this firmware:
+the earlier beta 890006 experiment documented RSG 2.0/TypeScript static
+analysis errors and exited before showing UI.
+
+App-side tuning did not move the first frame: `splash_min_time=1`, removing the
+Background/FPS/nav shell, replacing images with fallbacks, preloading/merging
+font sizes, MSDF layout, and changing flush budgets all leave it at ~6 s. A
+stripped 1.4 MB package also stayed at ~6 s.
+
+**To close the startup gap**, enable the `rsg_typescript` device token on this
+TV or provide a release/beta channel that accepts RSG 2.0/TypeScript; otherwise
+the dev-channel startup floor remains. The corrected benchmark is reported in
+`roku-native/evidence/performance/perf-report.md`.
 
 ## Renderer approximations
 
