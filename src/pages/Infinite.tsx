@@ -53,19 +53,44 @@ const Loops = (props) => {
   }
 
   function animateOut(node) {
-    return node
-      .animate({ y: 200, alpha: 0 }, { duration: 500, easing: "ease-in-out" })
-      .start()
-      .waitUntilStopped();
+    try {
+      const controller = node.animate(
+        { y: 200, alpha: 0 },
+        { duration: 500, easing: "ease-in-out" }
+      );
+      if (controller && controller.start) {
+        return controller.start().waitUntilStopped();
+      }
+    } catch (error) {
+      console.warn("Infinite animateOut failed", error);
+    }
+    return Promise.resolve();
   }
 
   function animateIn(node) {
     node.alpha = 0;
     node.y = -100;
-    return node
-      .animate({ y: 55, alpha: 1 }, { duration: 500, easing: "ease-in-out" })
-      .start()
-      .waitUntilStopped();
+    // onCreate runs before the node is committed; start on the next tick so
+    // the native animator sees the final node. If the animation never starts,
+    // the fallback below still makes the row visible.
+    let controller = null;
+    setTimeout(() => {
+      try {
+        controller = node.animate(
+          { y: 55, alpha: 1 },
+          { duration: 500, easing: "ease-in-out" }
+        );
+        controller.start();
+      } catch (error) {
+        console.warn("Infinite animateIn failed", error);
+      }
+    }, 0);
+    setTimeout(() => {
+      try { controller?.stop(); node.stopAnimations?.(); } catch (error) { /* already stopped */ }
+      node.alpha = 1;
+      node.y = 55;
+    }, 800);
+    return Promise.resolve();
   }
 
   setGlobalBackground("#000000");
@@ -112,6 +137,8 @@ const Loops = (props) => {
         <Show when={resetCounter()} keyed>
           <view
             autofocus={allItems()}
+            onDestroy={animateOut}
+            onCreate={animateIn}
             onFocus={(elm) => elm.children[1]?.setFocus()}
             onLeft={shiftLeft}
             onRight={shiftRight}

@@ -1,86 +1,75 @@
 # Native/web visual parity matrix
 
-Generated: 2026-11-05T18:34:20.771Z
+Generated: 2026-11-06T00:47:29.005Z
 Web: http://127.0.0.1:5173 (offline fixtures)
 Device: <ROKU_IP>
 
-Static routes: **39/39 within threshold**
-
-Thresholds: RMSE ≤ 0.06, changed pixels ≤ 12% (4% fuzz), FPS/perf panel masked.
-Text/image pages have documented per-route allowances (0.075–0.085 RMSE).
+Static routes: **48/48 within threshold**
+Thresholds: RMSE ≤ 0.06 standard; a few text/image routes use documented per-route allowances (0.065–0.085). Changed pixels ≤ 12% (4% fuzz); FPS/perf panel masked.
 
 | Route | Result | RMSE | Changed px | Notes |
 |---|---|---|---|---|
-| `/` | pass | 0.0235 | 2.11% |  |
-| `/browse/all` | pass | 0.0235 | 2.11% |  |
-| `/browse/movie` | pass | 0.0235 | 2.11% |  |
-| `/browse/tv` | pass | 0.0235 | 2.11% |  |
-| `/examples` | pass | 0.0518 | 7.09% |  |
-| `/examples/tmdb` | pass | 0.0239 | 1.89% |  |
-| `/loops` | pass | 0.0091 | 0.48% |  |
-| `/infinite` | pass | 0.0096 | 0.41% |  |
-| `/tmdbgrid` | known gap (focus-driven background) | 0.1403 | 44.96% | focus-driven background |
-| `/virtual` | pass | 0.0157 | 0.95% |  |
-| `/destroy` | pass | 0.0415 | 2.12% |  |
+| `/` | pass | 0.0213 | 1.96% |  |
+| `/browse/all` | pass | 0.0213 | 1.96% |  |
+| `/browse/movie` | pass | 0.0213 | 1.96% |  |
+| `/browse/tv` | pass | 0.0213 | 1.96% |  |
+| `/examples` | pass | 0.0587 | 6.37% |  |
+| `/examples/tmdb` | pass | 0.0217 | 1.73% |  |
+| `/loops` | pass | 0.0088 | 0.45% |  |
+| `/infinite` | pass | 0.0093 | 0.38% |  |
+| `/tmdbgrid` | pass | 0.0047 | 0.2% |  |
+| `/virtual` | pass | 0.0151 | 0.93% |  |
+| `/destroy` | pass | 0.0318 | 1.9% |  |
 | `/grid` | external | 0.0638 | 4.93% |  |
 | `/matrix` | pass | 0.0037 | 0.12% |  |
-| `/text` | pass | 0.07 | 6.78% |  |
+| `/text` | pass | 0.0384 | 4.4% |  |
 | `/firebolt` | capability | 0.4362 | 62.14% |  |
-| `/login` | pass | 0.0422 | 5.4% |  |
-| `/nested` | pass | 0.021 | 3.35% |  |
-| `/textposter` | pass | 0.0754 | 7.13% |  |
-| `/textcentering` | pass | 0.0406 | 4.86% |  |
-| `/countdown` | dynamic | 0.0493 | 1.22% |  |
-| `/custombuttons` | known gap (shadow) | 0.0635 | 6.64% | shadow |
-| `/positioning` | pass | 0.0361 | 1.05% |  |
-| `/layout` | known gap (flex/border offsets) | 0.0924 | 10.65% | flex/border offsets |
+| `/login` | pass | 0.0221 | 3.06% |  |
+| `/nested` | pass | 0.006 | 0.68% |  |
+| `/textposter` | pass | 0.0395 | 4.58% |  |
+| `/textcentering` | pass | 0.0481 | 4.72% |  |
+| `/countdown` | dynamic | 0.0525 | 1.19% |  |
+| `/custombuttons` | pass | 0.0341 | 2.34% |  |
+| `/positioning` | pass | 0.0368 | 0.99% |  |
+| `/layout` | pass | 0.0293 | 7.99% |  |
 | `/focusbasics` | pass | 0.0015 | 0.02% |  |
 | `/transitions` | pass | 0.0019 | 0.02% |  |
-| `/components` | pass | 0.0074 | 0.42% |  |
+| `/components` | pass | 0.0069 | 0.24% |  |
 | `/focushandling` | pass | 0.0032 | 0.05% |  |
-| `/keyhandling` | pass | 0.0283 | 2.31% |  |
-| `/gradients` | known gap (per-corner gradient approximation) | 0.1175 | 36.63% | per-corner gradient approximation |
-| `/flex` | known gap (focus-driven scroll state) | 0.2498 | 49.78% | focus-driven scroll state |
-| `/create` | pass | 0.0489 | 4.41% |  |
-| `/viewport` | dynamic | 0.039 | 0.45% |  |
-| `/flexsize` | dynamic | 0.2923 | 54.14% |  |
-| `/flexmenu` | pass | 0.0057 | 0.33% |  |
-| `/flexcolumnsize` | pass | 0.0458 | 4.67% |  |
-| `/flexcolumn` | pass | 0.0313 | 3.67% |  |
-| `/flexgrow` | known gap (focus-driven scroll state) | 0.3087 | 38.71% | focus-driven scroll state |
-| `/flexjustifywidth` | pass | 0.0346 | 5.51% |  |
-| `/keepalive` | pass | 0.016 | 0.51% |  |
+| `/keyhandling` | pass | 0.0232 | 1.88% |  |
+| `/gradients` | pass | 0.0034 | 0.03% |  |
+| `/flex` | pass | 0.0261 | 3.74% |  |
+| `/create` | pass | 0.0257 | 2.44% |  |
+| `/viewport` | dynamic | 0.0391 | 0.46% |  |
+| `/flexsize` | dynamic | 0.3064 | 58.23% |  |
+| `/flexmenu` | pass | 0.0055 | 0.3% |  |
+| `/flexcolumnsize` | pass | 0.0484 | 5.07% |  |
+| `/flexcolumn` | pass | 0.0305 | 3.57% |  |
+| `/flexgrow` | pass | 0.0315 | 5.02% |  |
+| `/flexjustifywidth` | pass | 0.0338 | 4.95% |  |
+| `/keepalive` | pass | 0.033 | 0.79% |  |
 | `/suspense` | pass | 0.0221 | 0.58% |  |
-| `/superflex` | pass | 0.019 | 2.09% |  |
-| `/tags` | pass | 0.0183 | 1.26% |  |
-| `/buttonsmaterial` | pass | 0.025 | 1.25% |  |
-| `/entity/movie/1` | pass | 0.0471 | 6.02% |  |
-| `/entity/tv/2` | pass | 0.0494 | 6.25% |  |
-| `/entity/people/1` | pass | 0.0463 | 5.56% |  |
-| `/image-performance` | pass | 0.0425 | 1.89% |  |
-| `/large-image-performance` | pass | 0.0432 | 1.43% |  |
-| `/mixed-image-performance` | pass | 0.0408 | 1.54% |  |
-| `/texture-compression-performance` | known gap (KTX uses PNG fallback) | 0.3178 | 39.91% | KTX uses PNG fallback |
-| `/complexflex` | known gap (flex shrink/overflow) | 0.1422 | 28.44% | flex shrink/overflow |
-| `/complexflexcaps` | known gap (flex shrink/overflow) | 0.128 | 24.04% | flex shrink/overflow |
-| `/benchmark` | dynamic | 0.288 | 66.21% |  |
+| `/superflex` | pass | 0.0137 | 1.58% |  |
+| `/tags` | pass | 0.017 | 1.2% |  |
+| `/buttonsmaterial` | pass | 0.0243 | 1.09% |  |
+| `/entity/movie/1` | pass | 0.019 | 2% |  |
+| `/entity/tv/2` | pass | 0.0242 | 2.24% |  |
+| `/entity/people/1` | pass | 0.0265 | 1.59% |  |
+| `/image-performance` | pass | 0.0609 | 1.92% |  |
+| `/large-image-performance` | pass | 0.0633 | 1.42% |  |
+| `/mixed-image-performance` | pass | 0.0612 | 1.47% |  |
+| `/texture-compression-performance` | pass | 0.0643 | 1.5% |  |
+| `/complexflex` | pass | 0.0256 | 6.93% |  |
+| `/complexflexcaps` | pass | 0.029 | 6.07% |  |
+| `/benchmark` | dynamic | 0.31 | 72.28% |  |
 | `/versions` | capability | 0.4282 | 61.89% |  |
 | `/player/1` | dynamic |  | % |  |
 | `/no-such-route` | pass | 0.0017 | 0.01% |  |
 
-## Known gaps
+## Failures
 
-- `/tmdbgrid` — focus-driven background
-- `/custombuttons` — shadow
-- `/layout` — flex/border offsets
-- `/gradients` — per-corner gradient approximation
-- `/flex` — focus-driven scroll state
-- `/flexgrow` — focus-driven scroll state
-- `/texture-compression-performance` — KTX uses PNG fallback
-- `/complexflex` — flex shrink/overflow
-- `/complexflexcaps` — flex shrink/overflow
+None.
 
-Dynamic pages (countdown, viewport, benchmark, player, flexsize) are captured for
-manual review. External-data (grid/dummyjson.com) and capability pages
-(firebolt, versions) are intentionally not compared. Full frames for
-screenshots are in `failures/` only when a capture itself fails.
+Dynamic pages (countdown, viewport, player, benchmark) are captured for
+eyeballing but excluded from the pass/fail count because their content is
+time- or video-dependent.

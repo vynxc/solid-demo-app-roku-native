@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T18:46:39.287Z",
+  "generatedAt": "2026-11-06T01:00:54.605Z",
   "device": "<ROKU_IP>",
   "routes": [
     {
@@ -14,12 +14,12 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9501,
+      "elapsed": 9500,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results."
       ]
     },
     {
@@ -34,12 +34,12 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9352,
+      "elapsed": 9402,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results."
       ]
     },
     {
@@ -50,16 +50,16 @@
       "pageLabelCount": 2,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 50.25,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9365,
+      "elapsed": 9388,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results."
       ]
     },
     {
@@ -74,12 +74,12 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9377,
+      "elapsed": 9376,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results."
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results."
       ]
     },
     {
@@ -90,11 +90,11 @@
       "pageLabelCount": 131,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 50.25,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9456,
+      "fps": 2,
+      "elapsed": 9459,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -116,11 +116,11 @@
       "pageLabelCount": 168,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 50.25,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 10589,
+      "fps": 68,
+      "elapsed": 10608,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -145,8 +145,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9410,
+      "fps": 2,
+      "elapsed": 9452,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -156,7 +156,7 @@
         "Lazy Row Loop",
         "List Loop",
         "Built With:",
-        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+        "This product uses the TMDB\nAPI but is not endorsed or\ncertified by TMDB."
       ]
     },
     {
@@ -170,14 +170,14 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9386,
+      "fps": 2,
+      "elapsed": 9378,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Infinite Item List",
         "Built With:",
-        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+        "This product uses the TMDB\nAPI but is not endorsed or\ncertified by TMDB."
       ]
     },
     {
@@ -192,12 +192,12 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9465,
+      "elapsed": 9418,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Built with",
-        "This product uses the TMDB API\nbut is not endorsed or certified by\nTMDB."
+        "This product uses the TMDB\nAPI but is not endorsed or\ncertified by TMDB."
       ]
     },
     {
@@ -211,8 +211,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9436,
+      "fps": 2,
+      "elapsed": 9419,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -220,7 +220,7 @@
         "edge ",
         "Ocean Signal 1",
         "The Last\nObservatory 2",
-        "Northern Lights 3",
+        "Northern Lights\n3",
         "Paper Planets 4",
         "Quiet Orbit 5",
         "Parallel Roads 6"
@@ -234,16 +234,16 @@
       "pageLabelCount": 2,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9378,
+      "elapsed": 9406,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results."
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These\nrecords are not live TMDB results."
       ]
     },
     {
@@ -257,8 +257,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9373,
+      "fps": 37,
+      "elapsed": 9495,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -280,13 +280,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.141847,
-      "std": 0.0748581,
+      "mean": 0.141851,
+      "std": 0.0748705,
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 11066,
+      "elapsed": 11169,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -299,17 +299,17 @@
       "pageLabelCount": 6,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9337,
+      "elapsed": 9348,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Title of the Page",
         "Tag line for the page",
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel tempor tellus.\nSed eu leo purus. Vestibulum sollicitudin eget tellus a varius. Phasellus est turpis,\nvolutpat sed blandit sit amet, rutrum sit amet mauris. In dignissim elit orci, a\nsollicitudin ipsum faucibus et. Quisque vel quam rutrum, faucibus augue sed,\nscelerisque nunc.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel tempor\ntellus. Sed eu leo purus. Vestibulum sollicitudin eget tellus a varius. Phasellus\nest turpis, volutpat sed blandit sit amet, rutrum sit amet mauris. In dignissim\nelit orci, a sollicitudin ipsum faucibus et. Quisque vel quam rutrum, faucibus\naugue sed, scelerisque nunc.",
         "Subline Text",
         "More Text",
         "Flex Grow"
@@ -327,7 +327,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9369,
+      "elapsed": 9365,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -342,11 +342,11 @@
       "pageLabelCount": 53,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9398,
+      "elapsed": 9403,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -368,11 +368,11 @@
       "pageLabelCount": 11,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9382,
+      "fps": 2,
+      "elapsed": 9396,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -398,7 +398,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9391,
+      "elapsed": 9379,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -408,7 +408,7 @@
         "Genre :",
         " Action",
         "Plot :",
-        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\ndiam nonumy eirmod tempor invidunt ut labore et dolore magna\naliquyam erat, sed diam voluptua. At vero eos et accusam et\njusto duo dolores et ea rebum. Stet clita kasd gubergren, no sea\ntakimata Lorem ipsum dolor sit amet, consetetur sadipscing\nelitr, sed diam nonumy eirmod tempor invidunt ut labore et\ndolore magna aliquyam erat, sed diam voluptua. At vero eos et\naccusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata Cast : Tom cruise, ma3ti\nbenabdelkader, oussama ramzi",
+        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\ndiam nonumy eirmod tempor invidunt ut labore et dolore\nmagna aliquyam erat, sed diam voluptua. At vero eos et\naccusam et justo duo dolores et ea rebum. Stet clita kasd\ngubergren, no sea takimata Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sed diam nonumy eirmod tempor\ninvidunt ut labore et dolore magna aliquyam erat, sed diam\nvoluptua. At vero eos et accusam et justo duo dolores et ea\nrebum. Stet clita kasd gubergren, no sea takimata Cast : Tom\ncruise, ma3ti benabdelkader, oussama ramzi",
         "Play"
       ]
     },
@@ -420,11 +420,11 @@
       "pageLabelCount": 32,
       "missing": [],
       "missingColors": [],
-      "memUsed": 46.9,
+      "memUsed": 50.25,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9371,
+      "elapsed": 9385,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -446,11 +446,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 63,
-      "elapsed": 9372,
+      "elapsed": 9359,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -467,16 +467,16 @@
       "pageLabelCount": 7,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9386,
+      "fps": 2,
+      "elapsed": 9397,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Custom Interactive Buttons",
-        "A premium grid of custom styled buttons featuring distinct icons, rich brand colors, smooth focus states, and micro-animations.",
+        "A premium grid of custom styled buttons featuring distinct icons, rich brand colors, smooth focus states, and\nmicro-animations.",
         "Lab Experiments",
         "Trending Now",
         "Live TV Shows",
@@ -492,11 +492,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 29,
-      "elapsed": 9414,
+      "fps": 31,
+      "elapsed": 9390,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -511,17 +511,17 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9378,
+      "elapsed": 9369,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Hello World",
-        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex\nea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse\ncillum dolore eu.",
-        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud\nexercitation ullamco laboris nisi ut aliquip ex\nea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse\ncillum dolore eu."
+        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna\naliqua. Ut enim ad minim veniam, quis\nnostrud exercitation ullamco laboris nisi\nut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in\nvoluptate velit esse cillum dolore eu.",
+        "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit, sed do eiusmod tempor\nincididunt ut labore et dolore magna\naliqua. Ut enim ad minim veniam, quis\nnostrud exercitation ullamco laboris nisi\nut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in\nvoluptate velit esse cillum dolore eu."
       ]
     },
     {
@@ -532,13 +532,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.195397,
-      "std": 0.0376282,
-      "memUsed": 43.55,
+      "mean": 0.195409,
+      "std": 0.0376491,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 11087,
+      "elapsed": 11136,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -551,13 +551,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.213127,
-      "std": 0.171063,
-      "memUsed": 43.55,
+      "mean": 0.213167,
+      "std": 0.171062,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 64,
-      "elapsed": 11087,
+      "elapsed": 11139,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -570,11 +570,11 @@
       "pageLabelCount": 2,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 11,
-      "elapsed": 9363,
+      "fps": 13,
+      "elapsed": 9375,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -590,13 +590,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.169491,
-      "std": 0.0679776,
-      "memUsed": 43.55,
+      "mean": 0.169499,
+      "std": 0.0679911,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 11097,
+      "elapsed": 11212,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -609,11 +609,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9351,
+      "elapsed": 9413,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -628,13 +628,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.420057,
-      "std": 0.21595,
-      "memUsed": 43.55,
+      "mean": 0.494872,
+      "std": 0.186585,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 11113,
+      "elapsed": 11152,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -650,8 +650,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9359,
+      "fps": 2,
+      "elapsed": 9355,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -676,8 +676,8 @@
       "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 59,
-      "elapsed": 9388,
+      "fps": 56,
+      "elapsed": 9398,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -698,13 +698,13 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "mean": 0.00442692,
-      "std": 0.0284799,
-      "memUsed": 43.55,
+      "mean": 0.00649108,
+      "std": 0.0402169,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 53,
-      "elapsed": 11101,
+      "fps": 63,
+      "elapsed": 11123,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -721,7 +721,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9368,
+      "elapsed": 9330,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -743,11 +743,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9388,
+      "elapsed": 9389,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -764,11 +764,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9359,
+      "fps": 2,
+      "elapsed": 9383,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -786,8 +786,8 @@
       "memUsed": 43.55,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9388,
+      "fps": 1,
+      "elapsed": 9607,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -802,11 +802,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9395,
+      "elapsed": 9390,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -849,11 +849,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 18,
-      "elapsed": 9373,
+      "elapsed": 9364,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -868,11 +868,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9383,
+      "elapsed": 9403,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -891,7 +891,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9372,
+      "elapsed": 9403,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -913,11 +913,11 @@
       "pageLabelCount": 36,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9379,
+      "elapsed": 9403,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -939,11 +939,11 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9371,
+      "elapsed": 9370,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -960,18 +960,18 @@
       "pageLabelCount": 12,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9382,
+      "elapsed": 9385,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
         "Ocean Signal 1",
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results.",
         "120 reviews",
         "1h 40min   01/01/2026",
         "HD",
@@ -990,14 +990,14 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9374,
+      "elapsed": 9384,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "The Last Observatory 2",
         "The Last Observatory 2",
         "The Last Observatory 2",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results.",
         "120 reviews",
         "2025 - 2026",
         "HD",
@@ -1012,17 +1012,17 @@
       "pageLabelCount": 3,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 2,
-      "elapsed": 9378,
+      "fps": 1,
+      "elapsed": 9434,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Credits",
         "Demo Person 1",
-        "A synthetic person used to exercise the native details and credits routes."
+        "A synthetic person used to exercise the native details and credits\nroutes."
       ]
     },
     {
@@ -1033,15 +1033,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10477,
+      "elapsed": 10566,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loaded in 173.66ms"
+        "Loaded in 204.82ms"
       ]
     },
     {
@@ -1052,15 +1052,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10472,
+      "elapsed": 10509,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loaded in 143.69ms"
+        "Loaded in 167.67ms"
       ]
     },
     {
@@ -1071,15 +1071,15 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10483,
+      "elapsed": 10470,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loaded in 155.33ms"
+        "Loaded in 181.33ms"
       ]
     },
     {
@@ -1094,11 +1094,11 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 10466,
+      "elapsed": 10524,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
-        "Loaded in 169.67ms"
+        "Loaded in 196.72ms"
       ]
     },
     {
@@ -1113,7 +1113,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9452,
+      "elapsed": 9466,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1139,7 +1139,7 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9462,
+      "elapsed": 9665,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1165,17 +1165,17 @@
       "textures": 0,
       "onScreen": 0,
       "fps": 0,
-      "elapsed": 10530,
+      "elapsed": 10552,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource\ntests. These records are not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and\nresource tests. These records are not live TMDB results.",
         "Popular Movies",
         "Ocean Signal 1",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These\nrecords are not live TMDB results.",
         "The Last Observatory 2",
-        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These records\nare not live TMDB results.",
+        "Synthetic offline demo content for native rendering, navigation, layout and resource tests. These\nrecords are not live TMDB results.",
         "Best Comedy movies"
       ]
     },
@@ -1187,11 +1187,11 @@
       "pageLabelCount": 1,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
       "fps": 1,
-      "elapsed": 9404,
+      "elapsed": 9392,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1216,7 +1216,7 @@
         "position": null,
         "duration": null
       },
-      "elapsed": 10478,
+      "elapsed": 10495,
       "warnings": [],
       "failures": [],
       "sampleLabels": [
@@ -1225,8 +1225,8 @@
         "0:00",
         "LIVE",
         "Loading",
-        "1:44 pm",
-        "flush 0.43ms · head 2315 · upd 1/s",
+        "7:58 pm",
+        "flush 0.46ms · head 2170 · upd 1/s",
         "route #/player/1"
       ]
     },
@@ -1238,11 +1238,11 @@
       "pageLabelCount": 0,
       "missing": [],
       "missingColors": [],
-      "memUsed": 43.55,
+      "memUsed": 46.9,
       "textures": 0,
       "onScreen": 0,
-      "fps": 1,
-      "elapsed": 9634,
+      "fps": 2,
+      "elapsed": 9625,
       "warnings": [],
       "failures": [],
       "sampleLabels": []
@@ -1257,7 +1257,7 @@
         "before": "Ocean Signal 1",
         "after": "Ocean Signal 1"
       },
-      "elapsed": 11993
+      "elapsed": 12005
     },
     {
       "name": "Examples portal → tile → Back",
@@ -1266,7 +1266,7 @@
       "detail": {
         "route": "#/textposter"
       },
-      "elapsed": 12458
+      "elapsed": 12472
     },
     {
       "name": "Login keyboard renders",
@@ -1275,24 +1275,24 @@
       "detail": {
         "labels": 3
       },
-      "elapsed": 8420
+      "elapsed": 8436
     },
     {
       "name": "Infinite list D-pad stress",
       "ok": true,
       "failures": [],
       "detail": {
-        "fps": 9,
-        "avg": 8,
+        "fps": 75,
+        "avg": 40,
         "min": 1,
-        "max": 15,
-        "memUsed": 43.55,
+        "max": 75,
+        "memUsed": 46.9,
         "critical": 268,
         "textures": 0,
         "onScreen": 0,
-        "quads": 94
+        "quads": 118
       },
-      "elapsed": 11720
+      "elapsed": 11780
     },
     {
       "name": "Browse horizontal scroll changes mounted posters",
@@ -1303,7 +1303,7 @@
         "after": 16,
         "changed": true
       },
-      "elapsed": 14553
+      "elapsed": 14638
     },
     {
       "name": "Held Right auto-repeats and scrolls",
@@ -1314,7 +1314,7 @@
         "after": 16,
         "changed": true
       },
-      "elapsed": 12416
+      "elapsed": 12426
     },
     {
       "name": "Player pause/play/seek state transitions",
@@ -1346,7 +1346,7 @@
           "duration": null
         }
       },
-      "elapsed": 15077
+      "elapsed": 15053
     },
     {
       "name": "Home exits and relaunch recovers",
@@ -1356,7 +1356,7 @@
         "exited": true,
         "relaunched": true
       },
-      "elapsed": 16901
+      "elapsed": 18836
     }
   ],
   "summary": {

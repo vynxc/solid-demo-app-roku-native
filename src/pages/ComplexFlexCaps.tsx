@@ -9,6 +9,7 @@ const Card = (props: { index: number }) => {
     <View
       width={180}
       height={100}
+      flexShrink={1}
       color={focused() ? "#33333399" : "#333333ff"}
       display="flex"
       flexDirection="column"

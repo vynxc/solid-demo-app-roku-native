@@ -225,9 +225,13 @@ export class RokuEffect {
       this.set('gradientStyle', 'none');
     }
 
-    if (name.indexOf('shadow') !== -1 || props.shadow !== undefined) {
-      gaps.push('shadow effects have no native Effect equivalent');
-      reportGap('shadow');
+    // SolidTV packs the box shadow into the rounded shader as prefixed props:
+    // `shadow-projection` is [x, y, blur, spread]. Roku OS 16's Effect node has
+    // no DropShadow fields (each write returns FieldNotFound), so the renderer
+    // draws the shadow with a pre-blurred Poster behind the node instead
+    // (see RokuNode.updateShadow).
+    if (/shadow/i.test(name) || props['shadow-color'] !== undefined || props.shadow !== undefined) {
+      gaps.push('shadow is drawn by a pre-blurred Poster, not the Effect node');
     }
     if (name === 'holePunch') {
       gaps.push('holePunch has no native Effect equivalent (MaskGroup needed)');

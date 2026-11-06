@@ -15,21 +15,31 @@ only supplies platform services.
   produced dirty updates separately from frame-time headroom.
 - **Z-order.** `zIndex` is applied on insertion and on change; all-zero
   grid/list insertions skip the re-sort.
-- **Text.** Fonts are measured with the native `FontMeasure` API at the exact
-  face size and laid out by the shared line breaker. `Raleway-ExtraBold.ttf`
-  must be present in `pkg/fonts`; missing faces measure 0 and clip auto-width
-  labels. (An MSDF advance-table experiment was reverted because it shifted
-  the Examples portal.)
+- **Text.** Auto-width text is measured with the native `FontMeasure` API;
+  line-break decisions use the same MSDF advances/kerning tables as the web
+  renderer (`font-metrics.ts`), so fixed-width blocks break identically
+  without changing auto-width sizes. Unitless `lineHeight` follows the web's
+  natural line box; the shared app's Roboto metric overrides give
+  `0.9 × fontSize`, Raleway `1.174 × fontSize`. `Raleway-ExtraBold.ttf` must be
+  present in `pkg/fonts`.
 - **Gradients.** Roku's `Effect` gradient is ignored by this firmware.
   Single-axis `colorTop/Bottom`/`colorLeft/Right` use one alpha-ramp Poster
-  over a solid base (smooth, one node); per-corner/diagonal cases use bands.
-  The Gradients demo’s diagonal columns are therefore an approximation.
+  over a solid base (smooth, one node). The corner combinations used by the
+  shared demos have pre-rendered 256×256 RGBA textures generated with the
+  renderer's two-triangle, premultiplied-alpha interpolation; unknown
+  combinations fall back to banded rectangles.
+- **Shadows.** Roku OS 16's `Effect` node has no DropShadow fields (all five
+  writes return `FieldNotFound`). The renderer keeps pre-blurred rounded-rect
+  Posters (`roku-shadow-soft.png`, `roku-shadow-focus.png`) as sibling groups
+  immediately behind the node, mirrors its transform/opacity, and tints the
+  shadow with the shader's `shadow.color`. This reproduces the shared
+  CustomButtons focus glow without an Effect shadow.
 - **Images.** `pkg:/` posters use `scaleToFill`/`scaleToFit` and honor
   `textureOptions.resizeMode` (`contain`, `cover`); SubTextures crop the sprite
   sheet in a clipped group. Poster `loadStatus` is forwarded as the shared
   `loaded` event, with a bounded fallback for cached textures. KTX is not
-  decoded by Poster; the texture-compression demo uses PNG stand-ins and logs
-  `ROKU_TEXTURE_GAP`.
+  decoded by Poster at runtime; the texture-compression demo uses build-time
+  decoded PNG previews and logs `ROKU_TEXTURE_GAP`.
 - **Flush budget.** A frame writes dirty nodes for at most 8 ms and requeues
   the rest on the next tick, keeping input and animation responsive on large
   screens.
@@ -158,11 +168,17 @@ when the Task thread returns (verified on the TCL OS 16 device).
   surfaces if banding is visible.
 - A Poster gradient tint is a black-alpha approximation, not per-channel
   multiply.
-- SceneGraph `Effect` shadows, hole punches and non-circular radial gradients
-  are not equivalent; they log `ROKU_EFFECT_GAP`.
-- Create/destroy fades on preload resources are bypassed; content appears
-  immediately on native. The animator/route-preload interaction is the next
-  framework fix.
+- Per-corner gradients outside the pre-rendered combinations use bands.
+- Shadow rendering has two fixed blur/spread presets (soft and focus); an
+  arbitrary CSS box-shadow is approximated by the nearest preset.
+- Text is drawn with the TTF while the web draws MSDF; line breaks and line
+  boxes now match, but glyph rasterisation is not pixel-identical. A few
+  text/image routes carry documented RMSE allowances.
+- Create/destroy fades are restored with a deferred start and a visibility
+  fallback; the native animator/preload interaction remains a framework
+  workaround.
 - Device matrix is one TCL 50S435 on OS 16.0.4; 4K/HDR and older OS versions
   are untested.
-- The Task-node bridge above is designed but not yet shipped.
+- Dev-channel launch is ~7.6 s; release packaging/code-splitting is the next
+  performance target. The SceneGraph Task bridge is shipped; its BRS command
+  set is deliberately small.

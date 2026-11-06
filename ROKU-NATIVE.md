@@ -12,12 +12,12 @@ rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 | Suite | Result |
 |---|---|
 | Feature matrix | **56/56 routes, 8/8 interactions** (including held-key repeat, scroll, player transitions, Home recovery) |
-| Unit tests | **55/55** |
-| 100-cycle stress | **100/100**, memory 46.9–77.05 MB, textures 0–42 |
-| Navigation performance | Browse flush p95 **2.67 ms**, 57 updates/s; ComplexFlex p95 **2.31 ms** |
-| Launch | dev-channel median/p95 **~7.6 s** (release packaging is still a target) |
+| Unit tests | **62/62** |
+| 100-cycle stress | **100/100**, memory 53.6–80.4 MB, textures 0–42 |
+| Navigation performance | Browse flush p95 **4.11 ms**, 56.9 updates/s; ComplexFlex p95 **2.68 ms** |
+| Launch | dev-channel median/p95 **7.66 / 7.79 s** (release packaging is still a target) |
 | Task thread | `workerTest=1` returns **`worker: worker-ok`** on the TCL OS 16 device |
-| Visual parity | **39/39 comparable static routes pass**; 9 documented known gaps, 5 dynamic, 1 external, 2 capability |
+| Visual parity | **48/48 comparable static routes pass**; 0 known gaps, 5 dynamic, 1 external, 2 capability |
 
 Run everything from `roku-native/` with `ROKU_DEV_CONFIG_PATH` set to the device
 store; the web half of the visual matrix needs
@@ -39,8 +39,9 @@ store; the web half of the visual matrix needs
 
 ## Repository layout
 
-- `src/` — the shared demo UI (pages, components, styles, theme); unchanged
-  apart from the three pre-existing working-tree fixes.
+- `src/` — the shared demo UI (pages, components, styles, theme). The parity
+  work keeps its rendering fixes shared: backdrop handling, restore-on-destroy,
+  deferred create/destroy fades, and initial Flex row scrolling.
 - `roku-native/` — the native host:
   - `src/components/my-first-app.tsx` — host entry; installs browser services,
     loads fonts, sets the renderer factory, imports the shared app, wires keys.
@@ -188,12 +189,12 @@ Normal remote-driven use is unchanged.
   ```
   Reports: `evidence/matrix/matrix-report.{json,md}`; failing captures are in
   `evidence/matrix/failures/`.
-- **Long-run stress** (`test/stress-matrix.mjs`) — 50 cycles of
+- **Long-run stress** (`test/stress-matrix.mjs`) — 100 cycles of
   Browse → Details → Examples → Browse on one app instance, sampling
   memory/FPS/textures.
   ```sh
   ROKU_DEV_CONFIG_PATH=/path/to/device-store.json \
-    node test/stress-matrix.mjs --device <ROKU_IP> --cycles 50
+    node test/stress-matrix.mjs --device <ROKU_IP> --cycles 100
   ```
   Report: `evidence/stress/stress-report.{json,md}`.
 - **Visual parity matrix** (`test/visual-matrix.mjs`) — starts web in
@@ -212,7 +213,9 @@ Normal remote-driven use is unchanged.
   ```
   Report: `evidence/performance/perf-report.{json,md}`.
 - **Unit tests** (`test/unit/`) — text layout (wrap, ellipsis, line-height,
-  vertical alignment, letter spacing) and animation/colour interpolation.
+  vertical alignment, letter spacing), MSDF/web line-box metrics, animation,
+  colours/effects, fixtures, key bridge, video, cooperative queue and the
+  SceneGraph WorkerTask bridge.
   ```sh
   # from the repository root
   node_modules/.bin/vitest run roku-native/test/unit
@@ -225,17 +228,30 @@ the operator only inspects suspicious results. Visual-only pages are also
 checked against expected SceneGraph colours (for example the viewport ball),
 so an intentionally black page is not mistaken for a blank one.
 
-## Known renderer gaps
+## Renderer approximations
 
-Reported, not silently faked: shadows have no native `Effect` equivalent;
-`holePunch`/`radialProgress` need other primitives; per-side border widths
-collapse to the widest side; non-circular radial-gradient radii are
-approximated per axis; a Label cannot take an `Effect`; per-corner colours use
-a two-stop approximation; unknown `SubTexture` sheets log a gap and fall back;
-`letterSpacing` is measured but not drawn; rotated clipping uses the unrotated
-rect. `memoryInfo()` thresholds are approximate (channel limits are real).
-Player video-plane captures are black by design (ECP and headless Chrome);
-verify with `/query/media-player`.
+The visual matrix reports **48/48 static routes passing with no known-gap
+classifications**. The remaining limits are implementation notes, logged where
+they matter:
+
+- Roku OS 16's `Effect` node has no DropShadow fields. Shadows use two
+  pre-blurred Poster presets (soft/focus) tinted with the shader's shadow
+  colour; arbitrary blur/spread values use the nearest preset.
+- Corner gradients use pre-rendered exact textures for the combinations the
+  shared demos use; unknown combinations fall back to bands.
+- Text is drawn with the TTF while the web draws MSDF. Line breaks and line
+  boxes match; glyph rasterisation is not pixel-identical, so a few text/image
+  routes have documented RMSE allowances.
+- KTX is decoded at build time into PNG previews (Poster has no runtime KTX
+  decoder); the texture page reports `ROKU_TEXTURE_GAP`.
+- `holePunch`/`radialProgress` need other primitives; per-side border widths
+  collapse to the widest side; non-circular radial-gradient radii are
+  approximated per axis; a Label cannot take an `Effect`; unknown `SubTexture`
+  sheets log a gap and fall back; `letterSpacing` is measured but not drawn;
+  rotated clipping uses the unrotated rect.
+- `memoryInfo()` thresholds are approximate (channel limits are real).
+  Player video-plane captures are black by design (ECP and headless Chrome);
+  verify with `/query/media-player`.
 
 ## Credits
 

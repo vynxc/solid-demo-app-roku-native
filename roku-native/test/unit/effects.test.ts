@@ -5,10 +5,12 @@ import { describe, expect, it, vi } from "vitest";
 // mapping can be tested off-device.
 vi.mock("@roku-sdk/solid", () => ({
   createElement: () => ({}),
-  setProp: () => {},
+  setProp: (node: any, name: string, value: any) => {
+    node[name] = value;
+  },
 }));
 
-import { toRokuColor } from "../../src/roku/effects";
+import { RokuEffect, toRokuColor } from "../../src/roku/effects";
 
 describe("toRokuColor", () => {
   it("normalises packed numbers to 0xAARRGGBB", () => {
@@ -39,5 +41,24 @@ describe("toRokuColor", () => {
   it("preserves already-formatted 0x strings", () => {
     expect(toRokuColor("0x11223344")).toBe("0x11223344");
     expect(toRokuColor("0X11223344")).toBe("0X11223344");
+  });
+});
+
+describe("RokuEffect shadow mapping", () => {
+  it("does not write unsupported DropShadow fields to the Effect node", () => {
+    const effect = new RokuEffect();
+    const report = effect.apply(
+      "roundedWithBorderAndShadow",
+      {
+        radius: 16,
+        "shadow-color": 0x8b5cf680,
+        "shadow-projection": [0, 12, 24, -6],
+      },
+      260,
+      90,
+    );
+    expect((effect.node as any).type).toBeUndefined();
+    expect((effect.node as any).shadowColor).toBeUndefined();
+    expect(report.gaps.join(" ")).toContain("pre-blurred Poster");
   });
 });

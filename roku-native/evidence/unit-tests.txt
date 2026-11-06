@@ -1,10 +1,10 @@
 
  RUN  v4.1.10 <repo>
 
-·······················································
+······························································
 
- Test Files  8 passed (8)
-      Tests  55 passed (55)
-   Start at  18:11:35
-   Duration  4.10s (transform 159ms, setup 397ms, import 151ms, tests 56ms, environment 2.67s)
+ Test Files  9 passed (9)
+      Tests  62 passed (62)
+   Start at  00:23:34
+   Duration  5.31s (transform 164ms, setup 410ms, import 172ms, tests 61ms, environment 3.68s)
 

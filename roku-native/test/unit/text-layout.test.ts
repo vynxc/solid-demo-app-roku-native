@@ -53,11 +53,28 @@ describe("layoutText", () => {
     expect(out.lines[0].width).toBeLessThanOrEqual(50);
   });
 
-  it("treats lineHeight > 3 as pixels and <= 3 as a multiplier", () => {
+  it("treats lineHeight > 3 as pixels and <= 3 as a natural-linebox multiplier", () => {
     const px = layoutText({ ...base, text: "x", lineHeight: 40 });
     expect(px.lineHeightPx).toBe(40);
-    const mult = layoutText({ ...base, text: "x", lineHeight: 1.5, fontSize: 20 });
+    const mult = layoutText({ ...base, text: "x", lineHeight: 1.5, naturalLineHeight: 20 });
     expect(mult.lineHeightPx).toBe(30);
+    const natural = layoutText({ ...base, text: "x", lineHeight: 0, naturalLineHeight: 24 });
+    expect(natural.lineHeightPx).toBe(24);
+  });
+
+  it("uses measureWrap only for break decisions, not reported widths", () => {
+    const out = layoutText({
+      ...base,
+      text: "aaaa bbbb",
+      maxWidth: 65,
+      contain: "width",
+      measure: (s) => s.length * 5,
+      measureWrap: (s) => s.length * 15,
+    });
+    // The wrap measurement forces both words onto separate lines, while the
+    // reported line width still comes from the TTF measurement.
+    expect(out.lines.map((l) => l.text)).toEqual(["aaaa", "bbbb"]);
+    expect(out.width).toBe(20);
   });
 
   it("centres the block for verticalAlign middle", () => {

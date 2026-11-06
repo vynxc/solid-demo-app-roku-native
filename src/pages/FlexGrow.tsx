@@ -35,9 +35,21 @@ const FlexGrow = () => {
   }
 
   const [columnY, setColumnY] = createSignal(50);
+  let initialScrollDone = false;
   function onFocus(this: ElementNode) {
     this.children[this.selected || 0].setFocus();
     setColumnY(150 + (this.y || 0) * -1);
+  }
+  function onFirstFocus(this: ElementNode) {
+    this.children[this.selected || 0].setFocus();
+    setColumnY(150);
+  }
+  function onFirstLayout(e: { y?: number }) {
+    if (initialScrollDone) return;
+    initialScrollDone = true;
+    // Match the focus handler: the Row has no explicit y in the flex column,
+    // so its style y is 0 and the design target is 150.
+    setColumnY(150);
   }
 
   onMount(() => {
@@ -57,8 +69,8 @@ const FlexGrow = () => {
         style={styles.Column}
       >
         <text style={rowTitle}>Flex Start RTL</text>
-        <Row gap={gap} direction={"rtl"} style={RowStyles} onFocus={onFocus}>
-          <Block flexGrow={1} autofocus color={red} />
+        <Row autofocus gap={gap} direction={"rtl"} style={RowStyles} onFocus={onFirstFocus} onLayout={onFirstLayout}>
+          <Block flexGrow={1} color={red} />
           <Block flexGrow={2} color={darkorange} />
           <Block color={green} />
         </Row>

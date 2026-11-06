@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-11-05T18:34:20.771Z",
-  "startedAt": "2026-11-05T18:10:37.938Z",
+  "generatedAt": "2026-11-06T00:47:29.005Z",
+  "startedAt": "2026-11-06T00:23:28.469Z",
   "web": "http://127.0.0.1:5173",
   "device": "<ROKU_IP>",
   "thresholds": {
     "rmse": 0.06,
     "diffPct": 12,
+    "perRoute": "0.065-0.085 for documented text/image routes",
     "mask": "1400,0-1920,420"
   },
   "summary": {
     "routes": 56,
-    "staticRoutes": 39,
-    "passed": 39,
+    "staticRoutes": 48,
+    "passed": 48,
     "failed": 0,
     "dynamic": 5,
     "external": 1,
     "capability": 2,
-    "knownGaps": 9
+    "knownGaps": 0
   },
   "routes": [
     {
@@ -27,9 +28,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0235,
-      "diffPct": 2.11,
-      "elapsed": 20655,
+      "rmse": 0.0213,
+      "diffPct": 1.96,
+      "elapsed": 21361,
       "failures": []
     },
     {
@@ -40,9 +41,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0235,
-      "diffPct": 2.11,
-      "elapsed": 25681,
+      "rmse": 0.0213,
+      "diffPct": 1.96,
+      "elapsed": 24674,
       "failures": []
     },
     {
@@ -53,9 +54,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0235,
-      "diffPct": 2.11,
-      "elapsed": 23559,
+      "rmse": 0.0213,
+      "diffPct": 1.96,
+      "elapsed": 23066,
       "failures": []
     },
     {
@@ -66,9 +67,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0235,
-      "diffPct": 2.11,
-      "elapsed": 25181,
+      "rmse": 0.0213,
+      "diffPct": 1.96,
+      "elapsed": 23658,
       "failures": []
     },
     {
@@ -79,9 +80,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0518,
-      "diffPct": 7.09,
-      "elapsed": 19391,
+      "rmse": 0.0587,
+      "diffPct": 6.37,
+      "elapsed": 19386,
       "failures": []
     },
     {
@@ -92,9 +93,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0239,
-      "diffPct": 1.89,
-      "elapsed": 24440,
+      "rmse": 0.0217,
+      "diffPct": 1.73,
+      "elapsed": 24495,
       "failures": []
     },
     {
@@ -105,9 +106,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0091,
-      "diffPct": 0.48,
-      "elapsed": 23975,
+      "rmse": 0.0088,
+      "diffPct": 0.45,
+      "elapsed": 24020,
       "failures": []
     },
     {
@@ -118,9 +119,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0096,
-      "diffPct": 0.41,
-      "elapsed": 19261,
+      "rmse": 0.0093,
+      "diffPct": 0.38,
+      "elapsed": 19239,
       "failures": []
     },
     {
@@ -129,13 +130,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "focus-driven background",
-      "ok": null,
-      "rmse": 0.1403,
-      "diffPct": 44.96,
-      "elapsed": 29970,
-      "failures": [],
-      "note": "Known gap: focus-driven background"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0047,
+      "diffPct": 0.2,
+      "elapsed": 47476,
+      "failures": []
     },
     {
       "path": "/virtual",
@@ -145,9 +145,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0157,
-      "diffPct": 0.95,
-      "elapsed": 19542,
+      "rmse": 0.0151,
+      "diffPct": 0.93,
+      "elapsed": 19587,
       "failures": []
     },
     {
@@ -158,9 +158,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0415,
-      "diffPct": 2.12,
-      "elapsed": 21345,
+      "rmse": 0.0318,
+      "diffPct": 1.9,
+      "elapsed": 22886,
       "failures": []
     },
     {
@@ -173,7 +173,7 @@
       "ok": null,
       "rmse": 0.0638,
       "diffPct": 4.93,
-      "elapsed": 23694,
+      "elapsed": 23823,
       "failures": []
     },
     {
@@ -186,7 +186,7 @@
       "ok": true,
       "rmse": 0.0037,
       "diffPct": 0.12,
-      "elapsed": 23767,
+      "elapsed": 23788,
       "failures": []
     },
     {
@@ -197,9 +197,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.07,
-      "diffPct": 6.78,
-      "elapsed": 19243,
+      "rmse": 0.0384,
+      "diffPct": 4.4,
+      "elapsed": 19270,
       "failures": []
     },
     {
@@ -212,7 +212,7 @@
       "ok": null,
       "rmse": 0.4362,
       "diffPct": 62.14,
-      "elapsed": 23771,
+      "elapsed": 23816,
       "failures": []
     },
     {
@@ -223,9 +223,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0422,
-      "diffPct": 5.4,
-      "elapsed": 19237,
+      "rmse": 0.0221,
+      "diffPct": 3.06,
+      "elapsed": 19271,
       "failures": []
     },
     {
@@ -236,9 +236,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.021,
-      "diffPct": 3.35,
-      "elapsed": 23834,
+      "rmse": 0.006,
+      "diffPct": 0.68,
+      "elapsed": 23887,
       "failures": []
     },
     {
@@ -249,9 +249,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0754,
-      "diffPct": 7.13,
-      "elapsed": 19326,
+      "rmse": 0.0395,
+      "diffPct": 4.58,
+      "elapsed": 19333,
       "failures": []
     },
     {
@@ -262,9 +262,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0406,
-      "diffPct": 4.86,
-      "elapsed": 23863,
+      "rmse": 0.0481,
+      "diffPct": 4.72,
+      "elapsed": 23897,
       "failures": []
     },
     {
@@ -275,9 +275,9 @@
       "capability": false,
       "knownGap": null,
       "ok": null,
-      "rmse": 0.0493,
-      "diffPct": 1.22,
-      "elapsed": 37289,
+      "rmse": 0.0525,
+      "diffPct": 1.19,
+      "elapsed": 37467,
       "failures": []
     },
     {
@@ -286,13 +286,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "shadow",
-      "ok": null,
-      "rmse": 0.0635,
-      "diffPct": 6.64,
-      "elapsed": 29639,
-      "failures": [],
-      "note": "Known gap: shadow"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0341,
+      "diffPct": 2.34,
+      "elapsed": 29905,
+      "failures": []
     },
     {
       "path": "/positioning",
@@ -302,9 +301,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0361,
-      "diffPct": 1.05,
-      "elapsed": 37491,
+      "rmse": 0.0368,
+      "diffPct": 0.99,
+      "elapsed": 38386,
       "failures": []
     },
     {
@@ -313,13 +312,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "flex/border offsets",
-      "ok": null,
-      "rmse": 0.0924,
-      "diffPct": 10.65,
-      "elapsed": 31382,
-      "failures": [],
-      "note": "Known gap: flex/border offsets"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0293,
+      "diffPct": 7.99,
+      "elapsed": 31088,
+      "failures": []
     },
     {
       "path": "/focusbasics",
@@ -331,7 +329,7 @@
       "ok": true,
       "rmse": 0.0015,
       "diffPct": 0.02,
-      "elapsed": 23826,
+      "elapsed": 23795,
       "failures": []
     },
     {
@@ -344,7 +342,7 @@
       "ok": true,
       "rmse": 0.0019,
       "diffPct": 0.02,
-      "elapsed": 23737,
+      "elapsed": 26504,
       "failures": []
     },
     {
@@ -355,9 +353,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0074,
-      "diffPct": 0.42,
-      "elapsed": 32024,
+      "rmse": 0.0069,
+      "diffPct": 0.24,
+      "elapsed": 32337,
       "failures": []
     },
     {
@@ -370,7 +368,7 @@
       "ok": true,
       "rmse": 0.0032,
       "diffPct": 0.05,
-      "elapsed": 28242,
+      "elapsed": 30418,
       "failures": []
     },
     {
@@ -381,9 +379,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0283,
-      "diffPct": 2.31,
-      "elapsed": 23757,
+      "rmse": 0.0232,
+      "diffPct": 1.88,
+      "elapsed": 23768,
       "failures": []
     },
     {
@@ -392,13 +390,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "per-corner gradient approximation",
-      "ok": null,
-      "rmse": 0.1175,
-      "diffPct": 36.63,
-      "elapsed": 23944,
-      "failures": [],
-      "note": "Known gap: per-corner gradient approximation"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0034,
+      "diffPct": 0.03,
+      "elapsed": 24071,
+      "failures": []
     },
     {
       "path": "/flex",
@@ -406,13 +403,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "focus-driven scroll state",
-      "ok": null,
-      "rmse": 0.2498,
-      "diffPct": 49.78,
-      "elapsed": 23862,
-      "failures": [],
-      "note": "Known gap: focus-driven scroll state"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0261,
+      "diffPct": 3.74,
+      "elapsed": 23831,
+      "failures": []
     },
     {
       "path": "/create",
@@ -422,9 +418,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0489,
-      "diffPct": 4.41,
-      "elapsed": 28598,
+      "rmse": 0.0257,
+      "diffPct": 2.44,
+      "elapsed": 28596,
       "failures": []
     },
     {
@@ -435,9 +431,9 @@
       "capability": false,
       "knownGap": null,
       "ok": null,
-      "rmse": 0.039,
-      "diffPct": 0.45,
-      "elapsed": 36288,
+      "rmse": 0.0391,
+      "diffPct": 0.46,
+      "elapsed": 35223,
       "failures": []
     },
     {
@@ -448,9 +444,9 @@
       "capability": false,
       "knownGap": null,
       "ok": null,
-      "rmse": 0.2923,
-      "diffPct": 54.14,
-      "elapsed": 30707,
+      "rmse": 0.3064,
+      "diffPct": 58.23,
+      "elapsed": 30074,
       "failures": []
     },
     {
@@ -461,9 +457,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0057,
-      "diffPct": 0.33,
-      "elapsed": 23851,
+      "rmse": 0.0055,
+      "diffPct": 0.3,
+      "elapsed": 23820,
       "failures": []
     },
     {
@@ -474,9 +470,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0458,
-      "diffPct": 4.67,
-      "elapsed": 23805,
+      "rmse": 0.0484,
+      "diffPct": 5.07,
+      "elapsed": 23920,
       "failures": []
     },
     {
@@ -487,9 +483,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0313,
-      "diffPct": 3.67,
-      "elapsed": 23811,
+      "rmse": 0.0305,
+      "diffPct": 3.57,
+      "elapsed": 24078,
       "failures": []
     },
     {
@@ -498,13 +494,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "focus-driven scroll state",
-      "ok": null,
-      "rmse": 0.3087,
-      "diffPct": 38.71,
-      "elapsed": 23736,
-      "failures": [],
-      "note": "Known gap: focus-driven scroll state"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0315,
+      "diffPct": 5.02,
+      "elapsed": 23896,
+      "failures": []
     },
     {
       "path": "/flexjustifywidth",
@@ -514,9 +509,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0346,
-      "diffPct": 5.51,
-      "elapsed": 29232,
+      "rmse": 0.0338,
+      "diffPct": 4.95,
+      "elapsed": 29793,
       "failures": []
     },
     {
@@ -527,9 +522,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.016,
-      "diffPct": 0.51,
-      "elapsed": 41589,
+      "rmse": 0.033,
+      "diffPct": 0.79,
+      "elapsed": 39607,
       "failures": []
     },
     {
@@ -542,7 +537,7 @@
       "ok": true,
       "rmse": 0.0221,
       "diffPct": 0.58,
-      "elapsed": 32149,
+      "elapsed": 31841,
       "failures": []
     },
     {
@@ -553,9 +548,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.019,
-      "diffPct": 2.09,
-      "elapsed": 24082,
+      "rmse": 0.0137,
+      "diffPct": 1.58,
+      "elapsed": 24013,
       "failures": []
     },
     {
@@ -566,9 +561,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0183,
-      "diffPct": 1.26,
-      "elapsed": 23756,
+      "rmse": 0.017,
+      "diffPct": 1.2,
+      "elapsed": 23829,
       "failures": []
     },
     {
@@ -579,9 +574,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.025,
-      "diffPct": 1.25,
-      "elapsed": 19497,
+      "rmse": 0.0243,
+      "diffPct": 1.09,
+      "elapsed": 19438,
       "failures": []
     },
     {
@@ -592,9 +587,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0471,
-      "diffPct": 6.02,
-      "elapsed": 19630,
+      "rmse": 0.019,
+      "diffPct": 2,
+      "elapsed": 19606,
       "failures": []
     },
     {
@@ -605,9 +600,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0494,
-      "diffPct": 6.25,
-      "elapsed": 19961,
+      "rmse": 0.0242,
+      "diffPct": 2.24,
+      "elapsed": 19619,
       "failures": []
     },
     {
@@ -618,9 +613,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0463,
-      "diffPct": 5.56,
-      "elapsed": 24027,
+      "rmse": 0.0265,
+      "diffPct": 1.59,
+      "elapsed": 23987,
       "failures": []
     },
     {
@@ -631,9 +626,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0425,
-      "diffPct": 1.89,
-      "elapsed": 24264,
+      "rmse": 0.0609,
+      "diffPct": 1.92,
+      "elapsed": 24174,
       "failures": []
     },
     {
@@ -644,9 +639,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0432,
-      "diffPct": 1.43,
-      "elapsed": 24058,
+      "rmse": 0.0633,
+      "diffPct": 1.42,
+      "elapsed": 24196,
       "failures": []
     },
     {
@@ -657,9 +652,9 @@
       "capability": false,
       "knownGap": null,
       "ok": true,
-      "rmse": 0.0408,
-      "diffPct": 1.54,
-      "elapsed": 24061,
+      "rmse": 0.0612,
+      "diffPct": 1.47,
+      "elapsed": 24101,
       "failures": []
     },
     {
@@ -668,13 +663,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "KTX uses PNG fallback",
-      "ok": null,
-      "rmse": 0.3178,
-      "diffPct": 39.91,
-      "elapsed": 24464,
-      "failures": [],
-      "note": "Known gap: KTX uses PNG fallback"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0643,
+      "diffPct": 1.5,
+      "elapsed": 24781,
+      "failures": []
     },
     {
       "path": "/complexflex",
@@ -682,13 +676,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "flex shrink/overflow",
-      "ok": null,
-      "rmse": 0.1422,
-      "diffPct": 28.44,
-      "elapsed": 23909,
-      "failures": [],
-      "note": "Known gap: flex shrink/overflow"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.0256,
+      "diffPct": 6.93,
+      "elapsed": 24155,
+      "failures": []
     },
     {
       "path": "/complexflexcaps",
@@ -696,13 +689,12 @@
       "dynamic": false,
       "external": false,
       "capability": false,
-      "knownGap": "flex shrink/overflow",
-      "ok": null,
-      "rmse": 0.128,
-      "diffPct": 24.04,
-      "elapsed": 23913,
-      "failures": [],
-      "note": "Known gap: flex shrink/overflow"
+      "knownGap": null,
+      "ok": true,
+      "rmse": 0.029,
+      "diffPct": 6.07,
+      "elapsed": 24075,
+      "failures": []
     },
     {
       "path": "/benchmark",
@@ -712,9 +704,9 @@
       "capability": false,
       "knownGap": null,
       "ok": null,
-      "rmse": 0.288,
-      "diffPct": 66.21,
-      "elapsed": 36300,
+      "rmse": 0.31,
+      "diffPct": 72.28,
+      "elapsed": 33047,
       "failures": []
     },
     {
@@ -727,7 +719,7 @@
       "ok": null,
       "rmse": 0.4282,
       "diffPct": 61.89,
-      "elapsed": 23890,
+      "elapsed": 23888,
       "failures": []
     },
     {
@@ -740,7 +732,7 @@
       "ok": null,
       "rmse": null,
       "diffPct": null,
-      "elapsed": 23652,
+      "elapsed": 23699,
       "failures": []
     },
     {
@@ -753,7 +745,7 @@
       "ok": true,
       "rmse": 0.0017,
       "diffPct": 0.01,
-      "elapsed": 24589,
+      "elapsed": 24487,
       "failures": []
     }
   ]

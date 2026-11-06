@@ -436,6 +436,7 @@ export function installBrowserServices(): void {
       const next = String(value).charAt(0) === '#' ? String(value) : '#' + String(value);
       if (next === hash) return;
       hash = next;
+      try { (globalThis as any).__rokuRenderer?.setRoute?.(next); } catch (e) { /* renderer not ready */ }
       doc.dispatchEvent(new RokEvent('hashchange'));
     },
     get href() {

@@ -20,6 +20,44 @@ const Destroy = (props) => {
     return true;
   }
 
+  function animateOut(node) {
+    try {
+      const controller = node.animate(
+        { y: 200, alpha: 0 },
+        { duration: 500, easing: "ease-in-out" }
+      );
+      if (controller && controller.start) {
+        return controller.start().waitUntilStopped();
+      }
+    } catch (error) {
+      console.warn("Destroy animateOut failed", error);
+    }
+    return Promise.resolve();
+  }
+
+  function animateIn(node) {
+    node.alpha = 0;
+    node.y = -100;
+    let controller = null;
+    setTimeout(() => {
+      try {
+        controller = node.animate(
+          { y: 0, alpha: 1 },
+          { duration: 500, easing: "ease-in-out" }
+        );
+        controller.start();
+      } catch (error) {
+        console.warn("Destroy animateIn failed", error);
+      }
+    }, 0);
+    setTimeout(() => {
+      try { controller?.stop(); node.stopAnimations?.(); } catch (error) { /* already stopped */ }
+      node.alpha = 1;
+      node.y = 0;
+    }, 800);
+    return Promise.resolve();
+  }
+
   return (
     <view x={300} y={200} onDown={onDown} onUp={onUp}>
       <view
@@ -40,6 +78,8 @@ const Destroy = (props) => {
             autofocus
             item={item}
             title={item.title}
+            onDestroy={animateOut}
+            onCreate={animateIn}
           />
         )}
       </For>

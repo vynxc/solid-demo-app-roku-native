@@ -12,6 +12,7 @@
 import { createElement, insertNode, setProp } from '@roku-sdk/solid';
 import { getFontMeasure, whenFontReady } from '@roku-sdk/rsg-ts/runtime';
 import type { TmNodeRef } from '@roku-sdk/interfaces';
+import { FONT_METRICS, measureMsdf } from './font-metrics';
 
 export const BASE_FONT_SIZE = 32;
 
@@ -130,6 +131,30 @@ export function measureText(fontFamily: string | undefined, fontWeight: number |
   const face = exact !== undefined && exact.ready ? exact : faces.get(uri);
   if (face === undefined || !face.ready) return 0;
   return (cacheWidth(face, text) * fontSize) / face.size;
+}
+
+/**
+ * Web renderer line-box ratio for the fonts the shared app configures.
+ * `src/fonts.ts` overrides Roboto's metrics to ascender 1000 / descender 100 /
+ * unitsPerEm 1000 (bare line height 0.9 x fontSize); Raleway uses its JSON
+ * metrics (940 - (-234)) / 1000. Layout must use these, not Roku's FontMeasure
+ * line box, or multi-line blocks are one line-height too tall.
+ */
+export function webLineHeight(fontFamily: string | undefined, fontWeight: number | string | undefined, fontSize: number): number {
+  const uri = resolveFontUri(fontFamily, fontWeight);
+  if (uri === RALEWAY_BOLD) return 1.174 * fontSize;
+  return 0.9 * fontSize;
+}
+
+/**
+ * Width using the web renderer's MSDF advances, for line-breaking decisions.
+ * Falls back to the native TTF measurement when the face is not in the table.
+ */
+export function measureWrapText(fontFamily: string | undefined, fontWeight: number | string | undefined, fontSize: number, text: string): number {
+  const uri = resolveFontUri(fontFamily, fontWeight);
+  const metrics = FONT_METRICS[uri];
+  if (metrics === undefined) return measureText(fontFamily, fontWeight, fontSize, text);
+  return (measureMsdf(metrics, text) * fontSize) / metrics.size;
 }
 
 export function fontMetrics(fontFamily: string | undefined, fontWeight: number | string | undefined, fontSize: number) {

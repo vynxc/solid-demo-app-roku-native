@@ -1,9 +1,9 @@
-Web v2 production build — 2026-11-05
+Web v2 production build — 2026-11-06
 
 Renderer: @solidtv/renderer 2.0.7 / @solidtv/solid 1.7.1
 Command:  pnpm build
 Env:      NODE_OPTIONS=--max-old-space-size=3072 LEGACY_MINIFY=full
-Result:   pass — ✓ built in 30.45 s (308 modules transformed)
+Result:   pass — ✓ built in 28.67 s
 
 Largest chunks:
   Player       764.34 kB │ gzip: 244.21 kB
@@ -17,4 +17,4 @@ evidence/web-details-1920.png) were taken with a local token.
 
 The earlier 3m02s build and the OOM-kill were measured while the visual
 matrix, Vite, Chrome and device captures were competing for the same 14 GB
-host. With those stopped the same build completes in 30 s.
+host. With those stopped the same build completes in under 30 s.

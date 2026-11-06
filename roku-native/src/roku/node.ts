@@ -11,7 +11,7 @@ import { createElement, insertNode, setProp, tmTransaction } from '@roku-sdk/sol
 import { Events } from './events';
 import { isColorKey, lerpColor } from './animation';
 import { RokuEffect, toRokuColor } from './effects';
-import { fontMetrics, getFontVersion, loadFace, measureText, resolveFontUri } from './fonts';
+import { fontMetrics, getFontVersion, loadFace, measureText, measureWrapText, resolveFontUri, webLineHeight } from './fonts';
 import { layoutText, TextAlign, TextContain, TextLayoutResult, VerticalAlign, WordBreak } from './text-layout';
 
 const APP_W = 1920;
@@ -115,6 +115,18 @@ export class ShaderHandle {
   }
 }
 
+/**
+ * Exact bilinear corner gradients used by the shared demos. Roku has no
+ * arbitrary shader node, so the renderer ships 256x256 RGBA previews for the
+ * corner combinations the app actually uses. Unknown combinations fall back
+ * to the banded approximation.
+ */
+const CORNER_GRADIENT_PNGS: Record<string, string> = {
+  '0x0891B2FF|0x0891B2FF|0x00000000|0xF87171FF': 'pkg:/assets/gradient-corners-0891b2-f87171.png',
+  '0x00000000|0x008000FF|0xFFD700FF|0xFFD700FF': 'pkg:/assets/gradient-corners-008000-ffd700.png',
+  '0x0000FFFF|0xFFFFFFFF|0x0000FFFF|0xFFFFFFFF': 'pkg:/assets/gradient-corners-0000ff-ffffff.png',
+};
+
 export class RokuNode extends Events {
   uid = nextUid++;
   private _isText: boolean;
@@ -134,6 +146,18 @@ export class RokuNode extends Events {
   private _alpha = 1;
   private _color = 0xffffffff;
   private _hasColor = false;
+  // Web corner precedence: explicit corner > colorTop/Bottom > colorLeft/Right
+  // > base color. Keep the sources and recompose, so apply order does not
+  // change the result (Solid applies colorTop before colorRight).
+  private _baseColor: any = 0x00000000;
+  private _topColor: any = undefined;
+  private _bottomColor: any = undefined;
+  private _leftColor: any = undefined;
+  private _rightColor: any = undefined;
+  private _tlColor: any = undefined;
+  private _trColor: any = undefined;
+  private _blColor: any = undefined;
+  private _brColor: any = undefined;
   private _cornerColors = false;
   private _colorTL = 0xffffffff;
   private _colorTR = 0xffffffff;
@@ -187,6 +211,9 @@ export class RokuNode extends Events {
   private _bandKey = '';
   private _gradientOverlay: any = null;
   private _gradientOverlayKey = '';
+  private _shadowGroup: any = null;
+  private _shadowPoster: any = null;
+  private _shadowKey = '';
   private _data: any = null;
   private _textureOptions: any = { resizeMode: { x: 'fill', y: 'fill' } };
   private _placeholderColor = 0;
@@ -211,6 +238,18 @@ export class RokuNode extends Events {
     this.dom = existingRoot || createElement('group');
     const p = props || {};
     this._color = p.color !== undefined ? p.color : 0xffffffff;
+    // A missing corner on a gradient view is transparent on the web. Keep
+    // `_color` white for the Poster blend tint, but use transparent black as
+    // the default for corners that the style did not specify.
+    this._baseColor = p.color !== undefined ? p.color : 0x00000000;
+    this._topColor = p.colorTop;
+    this._bottomColor = p.colorBottom;
+    this._leftColor = p.colorLeft;
+    this._rightColor = p.colorRight;
+    this._tlColor = p.colorTopLeft;
+    this._trColor = p.colorTopRight;
+    this._blColor = p.colorBottomLeft;
+    this._brColor = p.colorBottomRight;
     this._hasColor =
       p.color !== undefined ||
       p.colorTop !== undefined ||
@@ -222,10 +261,7 @@ export class RokuNode extends Events {
       p.colorBottomLeft !== undefined ||
       p.colorBottomRight !== undefined ||
       p.shader !== undefined;
-    this._colorTL = p.colorTopLeft !== undefined ? p.colorTopLeft : p.colorTop !== undefined ? p.colorTop : this._color;
-    this._colorTR = p.colorTopRight !== undefined ? p.colorTopRight : p.colorTop !== undefined ? p.colorTop : this._color;
-    this._colorBL = p.colorBottomLeft !== undefined ? p.colorBottomLeft : p.colorBottom !== undefined ? p.colorBottom : this._color;
-    this._colorBR = p.colorBottomRight !== undefined ? p.colorBottomRight : p.colorBottom !== undefined ? p.colorBottom : this._color;
+    this.recomputeCorners();
     this.applyProps(p);
     if (p.parent) this.parent = p.parent;
     this._initializing = false;
@@ -242,15 +278,15 @@ export class RokuNode extends Events {
           // The parent link itself is applied after the prop loop. Do not let
           // it fall through into the colour case: a RokuNode is not a colour.
           break;
-        case 'color': this._color = value; this._hasColor = true; break;
-        case 'colorTop': this._effectDirty = true; this._colorTL = this._colorTR = value; this._hasColor = true; break;
-        case 'colorBottom': this._effectDirty = true; this._colorBL = this._colorBR = value; this._hasColor = true; break;
-        case 'colorLeft': this._effectDirty = true; this._colorTL = this._colorBL = value; this._hasColor = true; break;
-        case 'colorRight': this._effectDirty = true; this._colorTR = this._colorBR = value; this._hasColor = true; break;
-        case 'colorTopLeft': this._effectDirty = true; this._colorTL = value; this._cornerColors = true; this._hasColor = true; break;
-        case 'colorTopRight': this._effectDirty = true; this._colorTR = value; this._cornerColors = true; this._hasColor = true; break;
-        case 'colorBottomLeft': this._effectDirty = true; this._colorBL = value; this._cornerColors = true; this._hasColor = true; break;
-        case 'colorBottomRight': this._effectDirty = true; this._colorBR = value; this._cornerColors = true; this._hasColor = true; break;
+        case 'color': this._color = value; this._baseColor = value; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorTop': this._effectDirty = true; this._topColor = value; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorBottom': this._effectDirty = true; this._bottomColor = value; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorLeft': this._effectDirty = true; this._leftColor = value; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorRight': this._effectDirty = true; this._rightColor = value; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorTopLeft': this._effectDirty = true; this._tlColor = value; this._cornerColors = true; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorTopRight': this._effectDirty = true; this._trColor = value; this._cornerColors = true; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorBottomLeft': this._effectDirty = true; this._blColor = value; this._cornerColors = true; this.recomputeCorners(); this._hasColor = true; break;
+        case 'colorBottomRight': this._effectDirty = true; this._brColor = value; this._cornerColors = true; this.recomputeCorners(); this._hasColor = true; break;
         case 'w':
           if (this._isText) this._ownW = num(value, 0);
           else this._w = num(value, 0);
@@ -412,24 +448,39 @@ export class RokuNode extends Events {
   get visible() { return this._alpha > 0; }
   set visible(v: boolean) { this.alpha = v ? 1 : 0; }
 
+  private recomputeCorners() {
+    const pick = (first: any, second: any, third: any) =>
+      first !== undefined && first !== null
+        ? first
+        : second !== undefined && second !== null
+          ? second
+          : third !== undefined && third !== null
+            ? third
+            : this._baseColor;
+    this._colorTL = pick(this._tlColor, this._topColor, this._leftColor);
+    this._colorTR = pick(this._trColor, this._topColor, this._rightColor);
+    this._colorBL = pick(this._blColor, this._bottomColor, this._leftColor);
+    this._colorBR = pick(this._brColor, this._bottomColor, this._rightColor);
+  }
+
   get color() { return this._color; }
-  set color(v: number) { this._hasColor = true; this._color = v; this.markVisual(); this.effectDirty(); }
-  get colorTop() { return this._colorTL; }
-  set colorTop(v: number) { this._hasColor = true; this._colorTL = this._colorTR = v; this.markVisual(); this.effectDirty(); }
-  get colorBottom() { return this._colorBL; }
-  set colorBottom(v: number) { this._hasColor = true; this._colorBL = this._colorBR = v; this.markVisual(); this.effectDirty(); }
-  get colorLeft() { return this._colorTL; }
-  set colorLeft(v: number) { this._hasColor = true; this._colorTL = this._colorBL = v; this.markVisual(); this.effectDirty(); }
-  get colorRight() { return this._colorTR; }
-  set colorRight(v: number) { this._hasColor = true; this._colorTR = this._colorBR = v; this.markVisual(); this.effectDirty(); }
-  get colorTopLeft() { return this._colorTL; }
-  set colorTopLeft(v: number) { this._hasColor = true; this._colorTL = v; this._cornerColors = true; this.markVisual(); this.effectDirty(); }
-  get colorTopRight() { return this._colorTR; }
-  set colorTopRight(v: number) { this._hasColor = true; this._colorTR = v; this._cornerColors = true; this.markVisual(); this.effectDirty(); }
-  get colorBottomLeft() { return this._colorBL; }
-  set colorBottomLeft(v: number) { this._hasColor = true; this._colorBL = v; this._cornerColors = true; this.markVisual(); this.effectDirty(); }
-  get colorBottomRight() { return this._colorBR; }
-  set colorBottomRight(v: number) { this._hasColor = true; this._colorBR = v; this._cornerColors = true; this.markVisual(); this.effectDirty(); }
+  set color(v: number) { this._hasColor = true; this._color = v; this._baseColor = v; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorTop() { return this._topColor; }
+  set colorTop(v: number) { this._hasColor = true; this._topColor = v; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorBottom() { return this._bottomColor; }
+  set colorBottom(v: number) { this._hasColor = true; this._bottomColor = v; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorLeft() { return this._leftColor; }
+  set colorLeft(v: number) { this._hasColor = true; this._leftColor = v; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorRight() { return this._rightColor; }
+  set colorRight(v: number) { this._hasColor = true; this._rightColor = v; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorTopLeft() { return this._tlColor; }
+  set colorTopLeft(v: number) { this._hasColor = true; this._tlColor = v; this._cornerColors = true; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorTopRight() { return this._trColor; }
+  set colorTopRight(v: number) { this._hasColor = true; this._trColor = v; this._cornerColors = true; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorBottomLeft() { return this._blColor; }
+  set colorBottomLeft(v: number) { this._hasColor = true; this._blColor = v; this._cornerColors = true; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
+  get colorBottomRight() { return this._brColor; }
+  set colorBottomRight(v: number) { this._hasColor = true; this._brColor = v; this._cornerColors = true; this.recomputeCorners(); this.markVisual(); this.effectDirty(); }
 
   get scale() { return this._scaleX; }
   set scale(v: number) {
@@ -516,10 +567,12 @@ export class RokuNode extends Events {
     // family as an explicit PNG stand-in and report the gap.
     if (/\.ktx(\?|$)/i.test(source)) {
       const id = Number((source.match(/image-(\d+)/) || [])[1] || 1);
-      source = `pkg:/assets/offline/poster-${(id % 8) + 1}.png`;
+      // Poster cannot decode KTX; the build-time decoded RGBA previews keep
+      // the texture-compression demo's actual artwork and load timings.
+      source = `pkg:/assets/ktx-png/image-${id}.png`;
       if (!(globalThis as any).__rokuKtxGap) {
         (globalThis as any).__rokuKtxGap = true;
-        console.warn('ROKU_TEXTURE_GAP KTX is not decoded by Poster; using PNG stand-ins');
+        console.warn('ROKU_TEXTURE_GAP KTX preview uses a build-time decoded PNG');
       }
     }
     const next = normalizeUri(source);
@@ -638,7 +691,8 @@ export class RokuNode extends Events {
     const layout = layoutText({
       text: this._textValue,
       measure: (value: string) => measureText(parsed.family, parsed.weight, this._fontSize, value),
-      naturalLineHeight: metrics.lineHeight,
+      measureWrap: (value: string) => measureWrapText(parsed.family, parsed.weight, this._fontSize, value),
+      naturalLineHeight: webLineHeight(parsed.family, parsed.weight, this._fontSize),
       fontSize: this._fontSize,
       lineHeight: this._lineHeight,
       maxWidth: this._maxWidth,
@@ -773,6 +827,7 @@ export class RokuNode extends Events {
       cursor = cursor.parentNode;
     }
     this.writeGroupIf('opacity', alpha);
+    this.updateShadow();
   }
 
   private writeClip() {
@@ -796,6 +851,7 @@ export class RokuNode extends Events {
 
   private writeVisual() {
     if (!this.visual) return;
+    this.updateShadow();
     const type = (this.visual as any).__type;
     const w = Math.max(0, this.boxW);
     const h = Math.max(0, this.boxH);
@@ -805,11 +861,19 @@ export class RokuNode extends Events {
       const vertical = this._colorTL !== this._colorBL;
       const horizontal = this._colorTL !== this._colorTR;
       const diagonal = vertical && horizontal;
-      // Single-axis gradients use a solid start colour under the alpha-ramp
-      // Poster; diagonal/per-corner gradients keep the band approximation.
-      this.writeIf('color', vertical || horizontal
-        ? (diagonal || this._cornerColors ? '0x00000000' : toRokuColor(this._colorTL, '0x00000000'))
-        : toRokuColor(this._color, '0x00000000'));
+      // Single-axis and diagonal gradients use a solid start colour under the
+      // alpha-ramp Poster; explicit per-corner colours keep the band path.
+      const cornerUri = this.cornerGradientUri();
+      const base = cornerUri
+        ? '0x00000000'
+        : this._cornerColors
+          ? '0x00000000'
+          : diagonal
+            ? toRokuColor(this._colorTL !== this._colorBR ? this._colorTL : this._colorTR, '0x00000000')
+            : vertical || horizontal
+              ? toRokuColor(this._colorTL, '0x00000000')
+              : toRokuColor(this._color, '0x00000000');
+      this.writeIf('color', base);
       return;
     }
     if (type === 'poster') {
@@ -917,6 +981,34 @@ export class RokuNode extends Events {
     return this._effect;
   }
 
+  private cornerGradientUri(): string | null {
+    const key = [this._colorTL, this._colorTR, this._colorBL, this._colorBR]
+      .map((value) => toRokuColor(value, '0x00000000'))
+      .join('|');
+    return CORNER_GRADIENT_PNGS[key] || null;
+  }
+
+  /** Draw a pre-rendered exact corner gradient instead of band rectangles. */
+  private updateCornerOverlay(uri: string) {
+    const w = Math.max(1, this.boxW);
+    const h = Math.max(1, this.boxH);
+    const key = `corner:${uri}:${w}x${h}`;
+    if (!this._gradientOverlay) {
+      this._gradientOverlay = createElement('poster');
+      setProp(this._gradientOverlay, 'loadDisplayMode', 'scaleToFill');
+    }
+    if (this._gradientOverlayKey !== key) {
+      this._gradientOverlayKey = key;
+      setProp(this._gradientOverlay, 'uri', uri);
+      setProp(this._gradientOverlay, 'blendColor', '0xFFFFFFFF');
+      setProp(this._gradientOverlay, 'width', Math.ceil(w));
+      setProp(this._gradientOverlay, 'height', Math.ceil(h));
+      setProp(this._gradientOverlay, 'translation', [0, 0]);
+    }
+    this.clearGradientBands();
+    this.reorderGradientOverlay();
+  }
+
   private clearGradientOverlay() {
     if (!this._gradientOverlay) return;
     try { tmTransaction.removeNode(this.dom, this._gradientOverlay); } catch (e) { /* detached */ }
@@ -938,9 +1030,13 @@ export class RokuNode extends Events {
   private updateGradientOverlay(vertical: boolean, horizontal: boolean, tint: boolean) {
     const w = Math.max(1, this.boxW);
     const h = Math.max(1, this.boxH);
-    const uri = vertical ? 'pkg:/assets/gradient-alpha-v.png' : 'pkg:/assets/gradient-alpha-h.png';
-    const to = vertical ? this._colorBL : this._colorTR;
-    const key = `${tint ? 't' : 'c'}${vertical ? 1 : 0}${horizontal ? 1 : 0}:${w}x${h}:${to}`;
+    const diagonal = vertical && horizontal;
+    const d1 = diagonal && this._colorTL !== this._colorBR;
+    const uri = diagonal
+      ? (d1 ? 'pkg:/assets/gradient-alpha-d1.png' : 'pkg:/assets/gradient-alpha-d2.png')
+      : (vertical ? 'pkg:/assets/gradient-alpha-v.png' : 'pkg:/assets/gradient-alpha-h.png');
+    const to = diagonal ? (d1 ? this._colorBR : this._colorBL) : (vertical ? this._colorBL : this._colorTR);
+    const key = `${tint ? 't' : 'c'}${uri}:${w}x${h}:${to}`;
     if (!this._gradientOverlay) {
       this._gradientOverlay = createElement('poster');
       setProp(this._gradientOverlay, 'loadDisplayMode', 'scaleToFill');
@@ -1034,8 +1130,93 @@ export class RokuNode extends Events {
     this.reorderBands();
   }
 
+  /**
+   * Roku OS 16's Effect node has no DropShadow fields (all five writes return
+   * FieldNotFound). Paint a pre-blurred rounded-rect shadow Poster behind the
+   * node instead, tinted by the shader's shadow colour and scaled to the box.
+   */
+  private clearShadow() {
+    if (!this._shadowGroup) return;
+    const oldParent = this._shadowGroup.parent;
+    try {
+      if (oldParent && oldParent.dom) tmTransaction.removeNode(oldParent.dom, this._shadowGroup);
+      else if (this._parent) tmTransaction.removeNode(this._parent.dom, this._shadowGroup);
+    } catch (e) { /* already detached */ }
+    this._shadowGroup = null;
+    this._shadowPoster = null;
+    this._shadowKey = '';
+  }
+
+  private updateShadow() {
+    const type = this.visual && (this.visual as any).__type;
+    const shaderName = this._shader && this._shader.name;
+    const props = this._shader && this._shader.props;
+    const shadowStyle = props && props.shadow;
+    const shadowColor = shadowStyle && shadowStyle.color !== undefined
+      ? shadowStyle.color
+      : props && props['shadow-color'];
+    const projection = shadowStyle && shadowStyle.projection !== undefined
+      ? shadowStyle.projection
+      : props && props['shadow-projection'];
+    if (
+      type !== 'rect' ||
+      !shaderName ||
+      !/shadow/i.test(shaderName) ||
+      shadowColor === undefined ||
+      projection === undefined ||
+      !this._parent
+    ) {
+      this.clearShadow();
+      return;
+    }
+    const values = Array.isArray(projection) ? projection : [0, 0, 5, 5];
+    const ox = num(values[0], 0);
+    const oy = num(values[1], 0);
+    const blur = Math.max(0, num(values[2], 5));
+    const focused = blur >= 20;
+    const uri = focused ? 'pkg:/assets/roku-shadow-focus.png' : 'pkg:/assets/roku-shadow-soft.png';
+    const pad = focused ? 40 : 20;
+    const w = Math.max(1, Math.ceil(this.boxW + pad * 2));
+    const h = Math.max(1, Math.ceil(this.boxH + pad * 2));
+    const packed = toRokuColor(shadowColor, '0x000000FF');
+    const alpha = parseInt(packed.slice(-2), 16);
+    const tint = packed.slice(0, -2) + 'FF';
+    const key = `${uri}:${w}x${h}:${ox}:${oy}:${packed}:${this._x}:${this._y}:${this._scaleX}:${this._scaleY}:${this._alpha}:${this.boxW}:${this.boxH}`;
+    if (!this._shadowGroup) {
+      this._shadowGroup = createElement('group');
+      this._shadowPoster = createElement('poster');
+      setProp(this._shadowPoster, 'loadDisplayMode', 'scaleToFill');
+      insertNode(this._shadowGroup, this._shadowPoster);
+    }
+    if (this._shadowKey !== key) {
+      this._shadowKey = key;
+      setProp(this._shadowPoster, 'uri', uri);
+      setProp(this._shadowPoster, 'blendColor', tint);
+      setProp(this._shadowPoster, 'opacity', alpha / 255);
+      setProp(this._shadowPoster, 'width', w);
+      setProp(this._shadowPoster, 'height', h);
+      setProp(this._shadowPoster, 'translation', [-pad + ox, -pad + oy]);
+      let tx = this._x - this._mountX * this.boxW;
+      if (this.rtlResolved) tx = this._parent.boxW - this._x - this.boxW - this._mountX * this.boxW;
+      const ty = this._y - this._mountY * this.boxH;
+      setProp(this._shadowGroup, 'translation', [tx, ty]);
+      setProp(this._shadowGroup, 'scale', [this._scaleX, this._scaleY]);
+      setProp(this._shadowGroup, 'rotation', this._rotation);
+      setProp(this._shadowGroup, 'scaleRotateCenter', [this._pivotX * this.boxW, this._pivotY * this.boxH]);
+      setProp(this._shadowGroup, 'opacity', this._alpha);
+    }
+    // A sibling immediately before the node's group is guaranteed to paint
+    // below it, regardless of the node group's internal child order.
+    const oldParent = this._shadowGroup.parent;
+    if (oldParent && oldParent.dom) {
+      try { tmTransaction.removeNode(oldParent.dom, this._shadowGroup); } catch (e) { /* detached */ }
+    }
+    insertNode(this._parent.dom, this._shadowGroup, this.dom);
+  }
+
   private writeEffect() {
     if (!this.visual) return;
+    this.updateShadow();
     if (this._shader && (this.visual as any).__type !== 'label') {
       const effect = this.ensureEffect();
       effect.apply(this._shader.name, this._shader.props, this.boxW, this.boxH);
@@ -1048,10 +1229,12 @@ export class RokuNode extends Events {
     } else if ((this.visual as any).__type === 'rect') {
       const vertical = this._colorTL !== this._colorBL;
       const horizontal = this._colorTL !== this._colorTR;
-      const diagonal = vertical && horizontal;
       if (vertical || horizontal) {
-        if (diagonal || this._cornerColors) {
-          if (this._cornerColors && !(globalThis as any).__rokuCornerGap) {
+        const cornerUri = this.cornerGradientUri();
+        if (cornerUri) {
+          this.updateCornerOverlay(cornerUri);
+        } else if (this._cornerColors) {
+          if (!(globalThis as any).__rokuCornerGap) {
             (globalThis as any).__rokuCornerGap = true;
             console.warn('ROKU_COLOR_GAP per-corner colors use a banded approximation');
           }
@@ -1069,9 +1252,8 @@ export class RokuNode extends Events {
     } else if ((this.visual as any).__type === 'poster') {
       const vertical = this._colorTL !== this._colorBL;
       const horizontal = this._colorTL !== this._colorTR;
-      const diagonal = vertical && horizontal;
       if (vertical || horizontal) {
-        if (diagonal) {
+        if (this._cornerColors) {
           this.clearGradientOverlay();
           this.updateGradientBands(vertical, horizontal, true);
         } else {
@@ -1184,6 +1366,7 @@ export class RokuNode extends Events {
     if (this._imageLoadedTimer !== null) { clearTimeout(this._imageLoadedTimer); this._imageLoadedTimer = null; }
     this.clearGradientBands();
     this.clearGradientOverlay();
+    this.clearShadow();
     if (this._effect) {
       try { tmTransaction.removeNode(this.visual || this.dom, this._effect.node); } catch (e) { /* already detached */ }
       this._effect = null;

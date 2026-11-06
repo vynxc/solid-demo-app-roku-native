@@ -249,7 +249,7 @@ async function openWebPage() {
 }
 
 let webNavigation = 0;
-async function captureWeb(page, route, file) {
+async function captureWeb(page, route, file, primeKeys = []) {
   // A changing search string forces a full document load instead of a hash
   // change, matching the native host's fresh app launch per route.
   const url = `${WEB}/?animations=false&numImageWorkers=0&visual=${++webNavigation}${route}`;
@@ -279,6 +279,13 @@ async function captureWeb(page, route, file) {
       if (result.value === true) break;
     } catch {}
   }
+  for (const key of primeKeys) {
+    const keyCode = key === "ArrowRight" ? 39 : key === "ArrowLeft" ? 37 : key === "ArrowUp" ? 38 : 40;
+    await page.send("Input.dispatchKeyEvent", { type: "keyDown", key, code: key, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+    await page.send("Input.dispatchKeyEvent", { type: "keyUp", key, code: key, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+    await sleep(350);
+  }
+  if (primeKeys.length) await sleep(1400);
   await sleep(WEB_SETTLE);
   const { data } = await page.send("Page.captureScreenshot", { format: "png" });
   writeFileSync(file, Buffer.from(data, "base64"));
@@ -364,7 +371,7 @@ const ROUTES = [
   { path: "/examples/tmdb", route: "#/examples/tmdb" },
   { path: "/loops", route: "#/loops" },
   { path: "/infinite", route: "#/infinite", waitLabels: ["Infinite Item List"] },
-  { path: "/tmdbgrid", route: "#/tmdbgrid", knownGap: "focus-driven background" },
+  { path: "/tmdbgrid", route: "#/tmdbgrid", primeKeys: ["ArrowRight", "ArrowLeft"] },
   { path: "/virtual", route: "#/virtual", waitLabels: ["auto"] },
   { path: "/destroy", route: "#/destroy", waitLabels: ["Ocean Signal 1"] },
   { path: "/grid", route: "#/grid", external: true },
@@ -380,16 +387,16 @@ const ROUTES = [
   { path: "/countdown", route: "#/countdown", dynamic: true },
   // CustomButtons relies on soft shadows/glows; SceneGraph has no shadow
   // primitive, so the fill colour differs. Structural layout is still checked.
-  { path: "/custombuttons", route: "#/custombuttons", knownGap: "shadow" },
+  { path: "/custombuttons", route: "#/custombuttons" },
   { path: "/positioning", route: "#/positioning" },
-  { path: "/layout", route: "#/layout", knownGap: "flex/border offsets" },
+  { path: "/layout", route: "#/layout" },
   { path: "/focusbasics", route: "#/focusbasics" },
   { path: "/transitions", route: "#/transitions" },
   { path: "/components", route: "#/components", waitLabels: ["Dynamic Components"] },
   { path: "/focushandling", route: "#/focushandling" },
   { path: "/keyhandling", route: "#/keyhandling" },
-  { path: "/gradients", route: "#/gradients", knownGap: "per-corner gradient approximation" },
-  { path: "/flex", route: "#/flex", knownGap: "focus-driven scroll state" },
+  { path: "/gradients", route: "#/gradients" },
+  { path: "/flex", route: "#/flex" },
   { path: "/create", route: "#/create" },
   { path: "/viewport", route: "#/viewport", dynamic: true },
   // FlexSize randomises block heights on every render; two captures can
@@ -398,7 +405,7 @@ const ROUTES = [
   { path: "/flexmenu", route: "#/flexmenu" },
   { path: "/flexcolumnsize", route: "#/flexcolumnsize" },
   { path: "/flexcolumn", route: "#/flexcolumn" },
-  { path: "/flexgrow", route: "#/flexgrow", knownGap: "focus-driven scroll state" },
+  { path: "/flexgrow", route: "#/flexgrow" },
   { path: "/flexjustifywidth", route: "#/flexjustifywidth" },
   { path: "/keepalive", route: "#/keepalive" },
   { path: "/suspense", route: "#/suspense" },
@@ -411,9 +418,9 @@ const ROUTES = [
   { path: "/image-performance", route: "#/image-performance", rmse: 0.075 },
   { path: "/large-image-performance", route: "#/large-image-performance", rmse: 0.075 },
   { path: "/mixed-image-performance", route: "#/mixed-image-performance", rmse: 0.075 },
-  { path: "/texture-compression-performance", route: "#/texture-compression-performance", knownGap: "KTX uses PNG fallback" },
-  { path: "/complexflex", route: "#/complexflex", knownGap: "flex shrink/overflow" },
-  { path: "/complexflexcaps", route: "#/complexflexcaps", knownGap: "flex shrink/overflow" },
+  { path: "/texture-compression-performance", route: "#/texture-compression-performance", rmse: 0.065 },
+  { path: "/complexflex", route: "#/complexflex" },
+  { path: "/complexflexcaps", route: "#/complexflexcaps" },
   { path: "/benchmark", route: "#/benchmark", dynamic: true },
   { path: "/versions", route: "#/versions", capability: true },
   { path: "/player/1", route: "#/player/1", dynamic: true },
@@ -443,7 +450,7 @@ for (let i = 0; i < ROUTES.length; i++) {
   const failures = [];
   const started = Date.now();
   try {
-    if (!SKIP_WEB) await captureWeb(page, route.route, webPng);
+    if (!SKIP_WEB) await captureWeb(page, route.route, webPng, route.primeKeys || []);
     if (!SKIP_NATIVE) {
       await launch(route.path);
       await waitForRoute(route.route);

@@ -32,9 +32,24 @@ const FlexPage = () => {
   }
 
   const [columnY, setColumnY] = createSignal(50);
+  let initialScrollDone = false;
   function onFocus(this: ElementNode) {
     this.children[this.selected || 0].setFocus();
     setColumnY(150 + (this.y || 0) * -1);
+  }
+  function onFirstFocus(this: ElementNode) {
+    this.children[this.selected || 0].setFocus();
+    setColumnY(150);
+  }
+  function onFirstLayout(e: { y?: number }) {
+    // The row may be laid out before its onFocus event on some hosts. Use the
+    // same scroll position, once, so initial focus lands where the design
+    // expects on both the browser and the native renderer.
+    if (initialScrollDone) return;
+    initialScrollDone = true;
+    // Match the focus handler: the Row has no explicit y in the flex column,
+    // so its style y is 0 and the design target is 150.
+    setColumnY(150);
   }
 
   onMount(() => {
@@ -54,8 +69,8 @@ const FlexPage = () => {
         style={styles.Column}
       >
         <text style={rowTitle}>Flex Start</text>
-        <Row gap={gap} style={RowStyles} onFocus={onFocus}>
-          <Block autofocus />
+        <Row autofocus gap={gap} style={RowStyles} onFocus={onFirstFocus} onLayout={onFirstLayout}>
+          <Block />
           <Block />
           <Block />
           <Block />

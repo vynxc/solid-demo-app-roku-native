@@ -194,7 +194,7 @@ ROKU_DEV_CONFIG_PATH="/path/to/device-store.json" \
 node_modules/.bin/rk build --local
 ```
 
-Latest: **Type checks passed**, 705,354-byte JS bundle (final fixture/test build).
+Latest: **Type checks passed**, 733,296-byte JS bundle (final fixture/test build).
 
 Deploy the built bundle:
 
@@ -369,11 +369,11 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 
 1. **Automated suite (done, keep running).** `test/feature-matrix.mjs` checks
    all 56 routes + 8 interactions; `test/stress-matrix.mjs` runs the
-   100-cycle endurance pass; `test/unit` has 55 tests; `test/visual-matrix.mjs`
+   100-cycle endurance pass; `test/unit` has 62 tests; `test/visual-matrix.mjs`
    and `test/perf-benchmark.mjs` cover parity and performance. Re-run after every
    renderer change. The web v2 dev server/captures pass at 60 FPS, and the
    production build passes (`NODE_OPTIONS=--max-old-space-size=3072`,
-   `✓ built in 30.45 s`) with a placeholder key; CI runs the unit tests and the
+   `✓ built in 28.67 s`) with a placeholder key; CI runs the unit tests and the
    production build.
 2. **Micro-offsets (1:1 target).** Current measured deltas are small:
    - Browse hero title: native 369 px vs web 370 px (1 px).
@@ -389,15 +389,16 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 4. **Web references** now exist for Browse, Examples, Details and Login.
    `web-player-1920.png` is black because headless Chrome (like ECP) has no
    hardware video plane; compare the Player overlay on the TV directly.
-5. **Startup performance.** Dev-channel launch is ~7.6 s (release packaging,
+5. **Startup performance.** Dev-channel launch is ~7.7 s (release packaging,
    bundle splitting and font/import overlap are the next targets).
 6. **Task/video APIs.** `WorkerTask` + `postRokuTask()` is verified on device;
    the BRS command set currently covers echo/sleep/json/fetch. The typed video
    adapter and cooperative task queue are in `src/roku/`.
-7. **Known visual gaps** (classified by `test/visual-matrix.mjs`): per-corner/
-   diagonal gradients, KTX (PNG fallback), shadows, flex shrink/overflow on
-   ComplexFlex, focus-driven scroll state on Flex/FlexGrow, and the Layout
-   border/margin offset.
+7. **Visual parity.** `test/visual-matrix.mjs` now reports **48/48 comparable
+   static routes** with zero known-gap classifications. Remaining limits are
+   implementation approximations, not route failures: TTF vs MSDF
+   rasterisation, two shadow blur presets, fallback bands for unknown corner
+   combinations, and KTX's build-time PNG preview.
 8. **Device matrix:** one TCL 50S435 / OS 16.0.4; 4K/HDR, older OS versions,
    hardware keyboard text entry and device reboot/recovery remain untested.
 
@@ -473,6 +474,6 @@ curl -s http://<ROKU_IP>:8060/query/media-player
 - Automated feature matrix across all 56 routes + interactions: **passed**
   (`evidence/matrix/matrix-report.md`: 56/56 routes, 8/8 interactions).
 - 100-cycle stress runner + unit tests: **passed**
-  (`evidence/stress/stress-report.md`: 100/100, memory 46.9–77.05 MB; `roku-native/test/unit`: 55/55).
+  (`evidence/stress/stress-report.md`: 100/100, memory 53.6–80.4 MB; `roku-native/test/unit`: 62/62).
 - `VERIFICATION.md` reflects the real result; failed items stay failed until
   they pass.

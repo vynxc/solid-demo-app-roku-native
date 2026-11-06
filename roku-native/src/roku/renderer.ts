@@ -134,6 +134,10 @@ export class SceneGraphRenderer extends Events {
    * its layout with the new metrics (a dirty-driven renderer otherwise never
    * revisits auto-width labels).
    */
+  setRoute(route: string) {
+    if (this.routeLabel) this.routeLabel.text = 'route ' + String(route || '?');
+  }
+
   onFontVersionChanged() {
     if (this.destroyed) return;
     const walk = (node: RokuNode) => {

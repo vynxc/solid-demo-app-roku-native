@@ -73,9 +73,14 @@ export default defineAnchorNode(
       console.log('SOLIDTV_DEMO onMount');
       installBrowserServices();
       try {
-        await loadBundledFonts(nativeRoot);
+        // Start font publication in parallel with the shared app import. The
+        // font-version reflow corrects any first-frame metrics; waiting for
+        // all faces made the dev-channel launch much slower without changing
+        // the final frame.
+        const fontsTask = loadBundledFonts(nativeRoot);
         console.log('SOLIDTV_DEMO importing shared src/index.tsx');
         await import(SOLIDTV_SHARED_ENTRY);
+        void fontsTask;
         console.log('SOLIDTV_DEMO shared app imported');
 
       } catch (error: any) {

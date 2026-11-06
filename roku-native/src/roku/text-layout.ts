@@ -21,6 +21,8 @@ export interface TextLayoutInput {
   text: string;
   /** Width of `text` at `fontSize` in pixels. */
   measure: (text: string) => number;
+  /** Optional web-renderer measurement used only for line-break decisions. */
+  measureWrap?: (text: string) => number;
   /** Font's natural line height at `fontSize`, in pixels. */
   naturalLineHeight: number;
   /** Font size in pixels; CSS line-height multipliers apply to this. */
@@ -105,13 +107,20 @@ export function layoutText(input: TextLayoutInput): TextLayoutResult {
   // contract (the native Label itself still cannot draw the extra advance).
   const measure = (text: string) =>
     measureBase(text) + Math.max(0, text.length - 1) * (input.letterSpacing || 0);
+  const measureWrapBase = input.measureWrap || measureBase;
+  const measureWrap = (text: string) =>
+    measureWrapBase(text) + Math.max(0, text.length - 1) * (input.letterSpacing || 0);
   const natural = input.naturalLineHeight > 0 ? input.naturalLineHeight : input.lineHeight > 3 ? input.lineHeight : 16;
   // The web baseline uses CSS line-height, whose unitless multipliers are
   // relative to the font size. Multiplying the *natural* line box instead
   // makes every multi-line block ~15% taller than the browser.
-  const lineHeightPx = input.lineHeight <= 3
-    ? input.lineHeight * (input.fontSize > 0 ? input.fontSize : natural)
-    : input.lineHeight;
+  // Match the web renderer: unitless lineHeight multiplies the font's
+  // natural line box; zero means the default (also the natural line box).
+  const lineHeightPx = input.lineHeight > 3
+    ? input.lineHeight
+    : input.lineHeight > 0
+      ? input.lineHeight * natural
+      : natural;
   const maxWidth = input.maxWidth > 0 ? input.maxWidth : 0;
   const maxHeight = input.maxHeight > 0 ? input.maxHeight : 0;
 
@@ -143,7 +152,7 @@ export function layoutText(input: TextLayoutInput): TextLayoutResult {
 
     for (let t = 0; t < tokens.length; t++) {
       const token = tokens[t];
-      const tokenWidth = measure(token);
+      const tokenWidth = measureWrap(token);
       const isSpace = /^\s+$/.test(token);
 
       if (isSpace) {
@@ -161,16 +170,16 @@ export function layoutText(input: TextLayoutInput): TextLayoutResult {
       }
 
       const candidate = current + token;
-      const candidateWidth = measure(candidate);
+      const candidateWidth = measureWrap(candidate);
       if (candidateWidth <= maxWidth || current.length === 0) {
         if (candidateWidth > maxWidth && current.length === 0 && input.wordBreak !== 'overflow') {
           // Single word wider than the line: break it into characters.
-          const parts = breakLongWord(token, maxWidth, measure);
+          const parts = breakLongWord(token, maxWidth, measureWrap);
           for (let i = 0; i < parts.length - 1; i++) {
             lines.push({ text: parts[i], width: measure(parts[i]) });
           }
           current = parts[parts.length - 1] || '';
-          currentWidth = measure(current);
+          currentWidth = measureWrap(current);
         } else {
           current = candidate;
           currentWidth = candidateWidth;
@@ -180,7 +189,7 @@ export function layoutText(input: TextLayoutInput): TextLayoutResult {
         current = token;
         currentWidth = tokenWidth;
         if (currentWidth > maxWidth && input.wordBreak !== 'overflow') {
-          const parts = breakLongWord(current, maxWidth, measure);
+          const parts = breakLongWord(current, maxWidth, measureWrap);
           for (let i = 0; i < parts.length - 1; i++) {
             lines.push({ text: parts[i], width: measure(parts[i]) });
           }
@@ -203,7 +212,7 @@ export function layoutText(input: TextLayoutInput): TextLayoutResult {
     // Ensure the ellipsised line actually fits.
     if (truncated && maxWidth > 0) {
       const last = visible[visible.length - 1];
-      while (last.text.length > 0 && measure(last.text) > maxWidth) {
+      while (last.text.length > 0 && measureWrap(last.text) > maxWidth) {
         const cut = last.text.endsWith(input.overflowSuffix)
           ? last.text.slice(0, last.text.length - input.overflowSuffix.length - 1) + input.overflowSuffix
           : last.text.slice(0, -1);
