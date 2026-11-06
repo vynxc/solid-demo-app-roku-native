@@ -5,6 +5,9 @@ SceneGraph 2.0. There is **no WebView, DOM canvas or Roku-specific redesign**:
 the same SolidJS + `@solidtv/solid` pages, components, styles and theme are
 rendered by the host in [`roku-native/`](roku-native/) at 1920×1080.
 
+The RSG 2.0 SDK requires **Roku OS 16.0 or later**; this port targets that
+TypeScript/Hermes runtime and does not claim support on older Roku OS versions.
+
 ![native Browse with live TMDB data and the corrected FPS panel](roku-native/evidence/final-browse-panel.png)
 
 ## Current verification

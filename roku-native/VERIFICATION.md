@@ -210,8 +210,9 @@ Web references: 1920x1080 Chrome captures with live data.
   fallback; the animator/preload interaction remains a framework workaround.
 - Dev-channel launch is ~7.7 s; release packaging/code-splitting is the next
   performance target.
-- Device matrix: one TCL 50S435 / Roku OS 16.0.4. 4K/HDR, older OS versions,
-  hardware keyboard text entry and device reboot/recovery remain untested.
+- Device matrix: one TCL 50S435 / Roku OS 16.0.4. Roku OS 16.0+ is the RSG 2.0
+  SDK minimum, so older OS versions are out of scope. 4K/HDR, hardware keyboard
+  text entry and device reboot/recovery remain untested.
 
 ## Reproduce
 

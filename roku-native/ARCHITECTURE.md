@@ -177,8 +177,8 @@ when the Task thread returns (verified on the TCL OS 16 device).
 - Create/destroy fades are restored with a deferred start and a visibility
   fallback; the native animator/preload interaction remains a framework
   workaround.
-- Device matrix is one TCL 50S435 on OS 16.0.4; 4K/HDR and older OS versions
-  are untested.
+- Device matrix is one TCL 50S435 on OS 16.0.4. Roku OS 16.0+ is the RSG 2.0
+  SDK minimum, so older OS versions are out of scope; 4K/HDR remains untested.
 - Dev-channel route-ready p95 is **7.18 s** (app active median **1.04 s**).
   `--compile-ts` bytecode is refused by this TV without the `rsg_typescript`
   device token; the signed numeric-beta path is not viable for RSG 2.0/TS on

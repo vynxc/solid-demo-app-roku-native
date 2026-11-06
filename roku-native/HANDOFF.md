@@ -405,8 +405,9 @@ curl -s http://<ROKU_IP>:8060/query/media-player
    implementation approximations, not route failures: TTF vs MSDF
    rasterisation, two shadow blur presets, fallback bands for unknown corner
    combinations, and KTX's build-time PNG preview.
-8. **Device matrix:** one TCL 50S435 / OS 16.0.4; 4K/HDR, older OS versions,
-   hardware keyboard text entry and device reboot/recovery remain untested.
+8. **Device matrix:** one TCL 50S435 / OS 16.0.4. Roku OS 16.0+ is the RSG 2.0
+   SDK minimum, so older OS versions are out of scope; 4K/HDR, hardware
+   keyboard text entry and device reboot/recovery remain untested.
 
 ## Known renderer gaps (report, do not hide)
 
